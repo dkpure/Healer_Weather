@@ -32,8 +32,8 @@ public class UIHelper {
 
     /**
      * 设置顶部返回键
-     * **/
-    public static void setLeftBack(final Activity activity){
+     **/
+    public static void setLeftBack(final Activity activity) {
         ImageButton imageButton = (ImageButton) activity.findViewById(R.id.ImageButton1);
         imageButton.setVisibility(View.VISIBLE);
         imageButton.setOnClickListener(new View.OnClickListener() {

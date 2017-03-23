@@ -26,9 +26,9 @@ public abstract class BaseAppFragment extends Fragment {
 
     public int page = 1;
 
-    public int pageCount=20;
+    public int pageCount = 20;
 
-    public boolean isLoadMore=false;
+    public boolean isLoadMore = false;
 
     private VaryViewHelperController mVaryViewHelperController = null;
 
@@ -37,7 +37,7 @@ public abstract class BaseAppFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=getActivity();
+        mContext = getActivity();
         if (isBindEventBusHere()) {
             EventBus.getDefault().register(this);
         }

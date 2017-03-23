@@ -38,9 +38,9 @@ public class SelectCityPresenterImpl implements MainPresenter {
         this.selectCityView = selectCityView;
         this.context = context;
 
-        pinyinComparator=new PinyinComparator();
+        pinyinComparator = new PinyinComparator();
 
-        selectCityInteractor=new SelectCityInteractorImpl();
+        selectCityInteractor = new SelectCityInteractorImpl();
     }
 
     @Override
@@ -51,8 +51,7 @@ public class SelectCityPresenterImpl implements MainPresenter {
     }
 
 
-
-    public void filterData(String filterStr, LinearLayout titleLayout, List<SortModel> SourceDateList,TextView title){
+    public void filterData(String filterStr, LinearLayout titleLayout, List<SortModel> SourceDateList, TextView title) {
         List<SortModel> filterDateList = new ArrayList<SortModel>();
 
         if (TextUtils.isEmpty(filterStr)) {

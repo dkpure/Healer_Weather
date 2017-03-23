@@ -34,8 +34,8 @@ public class SnowThread extends Thread {
         //add scene/actor
         scene.setBg(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_snow_day));
 
-        for(int i=0;i<80;i++){
-            scene.add(new SnowOne(context,i));
+        for (int i = 0; i < 80; i++) {
+            scene.add(new SnowOne(context, i));
         }
 
     }

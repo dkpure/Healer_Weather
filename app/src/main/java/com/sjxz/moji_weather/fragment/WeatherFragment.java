@@ -402,12 +402,12 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
 
     @Override
     public void initialViewData(ShowApiWeather data, List<ShowApiWeatherNormalInner> showApiWeatherNormalInnerList) {
-        NotifyBean notifyBean= weatherPresenter.setTopViewData(data, showApiWeatherNormalInnerList, now_weather, now_temperature, now_direction, now_humidity,
+        NotifyBean notifyBean = weatherPresenter.setTopViewData(data, showApiWeatherNormalInnerList, now_weather, now_temperature, now_direction, now_humidity,
                 today_temperature_range, today_weather, today_weather_pic, tomorrow_temperature_range,
                 tomorrow_weather, tomorrow_weather_pic, air_quality, now_small_temperature, now_pressure
                 , pm2_5, pm10, so2, no2);
-        notifyBean.setCity(getTitle()+"");
-        notifyBeanBundle=notifyBean;
+        notifyBean.setCity(getTitle() + "");
+        notifyBeanBundle = notifyBean;
         //传递广播提醒主界面surfaceview更改数据
         EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_CHANGE_WEATHER, notifyBean));
     }
@@ -416,7 +416,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
     public void onSuccess(ShowApiWeather data) {
         //暂停刷新
         isInitData = true;
-        if(pullRefreshLayout!=null){
+        if (pullRefreshLayout != null) {
             pullRefreshLayout.setRefreshing(false);
         }
         nowWeather = data.getNow().getWeather();
@@ -429,7 +429,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
 
     @Override
     public void onError() {
-        if(pullRefreshLayout!=null){
+        if (pullRefreshLayout != null) {
             pullRefreshLayout.setRefreshing(false);
         }
     }
@@ -480,10 +480,10 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
 //    }
 
 
-    private void changeBgAlpha(){
+    private void changeBgAlpha() {
         //重绘的时候定义背景颜色
         //背景渐变,向下滑动
-        if(MainActivity.instance!=null&&alpha!=0){
+        if (MainActivity.instance != null && alpha != 0) {
             MainActivity.instance.view_bg.getBackground().setAlpha(scrollYTemp / alpha < 0 ? 0 : scrollYTemp / alpha);
         }
 
@@ -496,9 +496,9 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
 
         //解决handler的内存泄漏
         handler.removeCallbacksAndMessages(null);
-        handler=null;
+        handler = null;
 
-        weatherFragment=null;
+        weatherFragment = null;
     }
 
     @Override

@@ -26,8 +26,8 @@ public class StarSunnyNight extends Actor {
     RectF box;
     RectF targetBox;
     Paint paint = new Paint();
-    public int paintAlpha=50;//透明度
-    public boolean isAdd=true;//标识在加
+    public int paintAlpha = 50;//透明度
+    public boolean isAdd = true;//标识在加
 
     protected StarSunnyNight(Context context) {
         super(context);
@@ -60,20 +60,20 @@ public class StarSunnyNight extends Actor {
 //        if (targetBox.right > frame.getWidth()) {
 //            matrix.postTranslate(0, -targetBox.bottom);
 //        }
-        if(isAdd){
-            if(paintAlpha<=254){
-                paintAlpha+=10;
-                if(paintAlpha>255){
-                    paintAlpha=255;
+        if (isAdd) {
+            if (paintAlpha <= 254) {
+                paintAlpha += 10;
+                if (paintAlpha > 255) {
+                    paintAlpha = 255;
                 }
-            }else {
-                isAdd=false;
+            } else {
+                isAdd = false;
             }
-        }else{
-            if(paintAlpha>=50){
-                paintAlpha-=10;
-            }else{
-                isAdd=true;
+        } else {
+            if (paintAlpha >= 50) {
+                paintAlpha -= 10;
+            } else {
+                isAdd = true;
             }
 
         }

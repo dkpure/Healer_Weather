@@ -37,14 +37,14 @@ public class FogDayDrawer extends BaseDrawer {
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if(alpha!=1){
-            paint.setAlpha((int)(alpha*255));
-        }else{
+        if (alpha != 1) {
+            paint.setAlpha((int) (alpha * 255));
+        } else {
             paint.setAlpha(255);
         }
         canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
         for (FogDayHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint,alpha);
+            holder.updateRandom(canvas, holder.matrix, paint, alpha);
         }
         return true;
     }
@@ -60,7 +60,7 @@ public class FogDayDrawer extends BaseDrawer {
         }
     }
 
-    public static class FogDayHolder{
+    public static class FogDayHolder {
         float initPositionX;
         float initPositionY;
         Bitmap frame;
@@ -68,7 +68,7 @@ public class FogDayDrawer extends BaseDrawer {
         RectF targetBox;
         int width;
         int position = 0;
-        protected Matrix matrix ;
+        protected Matrix matrix;
         public int[] bitmaps = {
                 R.drawable.sand_1,
                 R.drawable.sand_2,
@@ -78,15 +78,16 @@ public class FogDayDrawer extends BaseDrawer {
                 R.drawable.sand_6,
                 R.drawable.sand_7,
         };
+
         public FogDayHolder(Context context, int width, int height, Matrix matrix, int i) {
             super();
             this.position = i;
             this.width = width;
-            this.matrix=matrix;
+            this.matrix = matrix;
             box = new RectF();
             targetBox = new RectF();
-            initPositionX = width * 0.15F*position;
-            initPositionY = height * 1.0F*0.166f*position;
+            initPositionX = width * 0.15F * position;
+            initPositionY = height * 1.0F * 0.166f * position;
             frame = BitmapFactory.decodeResource(context.getResources(), bitmaps[position]);
             box.set(0, 0, frame.getWidth(), frame.getHeight());
             matrix.reset();
@@ -104,12 +105,12 @@ public class FogDayDrawer extends BaseDrawer {
                 matrix.postTranslate(0, -targetBox.top * 30f);
             }
             //绘制
-            if(alpha<1){
+            if (alpha < 1) {
                 //说明是还在渐变
-                paint.setAlpha((int) (alpha*255));
-            }else if(alpha==1){
+                paint.setAlpha((int) (alpha * 255));
+            } else if (alpha == 1) {
                 //不做任何操作'
-                if(paint.getAlpha()!=255){
+                if (paint.getAlpha() != 255) {
                     paint.setAlpha(255);
                 }
             }

@@ -22,7 +22,7 @@ public class MyLayoutManager extends LinearLayoutManager {
     @Override
     public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
         View view = recycler.getViewForPosition(0);
-        if(view != null){
+        if (view != null) {
             measureChild(view, widthSpec, heightSpec);
             int measuredWidth = View.MeasureSpec.getSize(widthSpec);
             int measuredHeight = view.getMeasuredHeight();

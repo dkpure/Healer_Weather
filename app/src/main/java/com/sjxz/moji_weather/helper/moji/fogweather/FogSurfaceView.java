@@ -53,7 +53,7 @@ public class FogSurfaceView extends SurfaceView implements SurfaceHolder.Callbac
             fogThread.setWidth(width);
             fogThread.setHeight(height);
             fogThread.start();
-        }else{
+        } else {
             fogThread.getRenderHandler().sendEmptyMessage(2);
         }
     }

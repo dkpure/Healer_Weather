@@ -39,14 +39,14 @@ public class SunnyNightDrawer extends BaseDrawer {
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if(alpha!=1){
-            paint.setAlpha((int)(alpha*255));
-        }else{
+        if (alpha != 1) {
+            paint.setAlpha((int) (alpha * 255));
+        } else {
             paint.setAlpha(255);
         }
         canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
         for (final SunnyNightHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint,alpha);
+            holder.updateRandom(canvas, holder.matrix, paint, alpha);
         }
         return true;
     }
@@ -88,10 +88,11 @@ public class SunnyNightDrawer extends BaseDrawer {
         public int paintAlpha = 255;//透明度
         private int number_of_times = 6;
         public int paintStarAlpha = 0;
+
         public SunnyNightHolder(Context context, int width, int height, Matrix matrix, Matrix matrixStar, Paint paint
                 , Paint paintStar, int i) {
             super();
-            this.context=context;
+            this.context = context;
             this.paint1 = paint;
             this.paintStar = paintStar;
             this.position = i;
@@ -136,7 +137,7 @@ public class SunnyNightDrawer extends BaseDrawer {
                 matrixStar.reset();
                 matrixStar.setScale(2f, 2f);
                 matrixStar.mapRect(starTargetBox, starBox);
-                matrixStar.setTranslate(width - height / 4 - targetBox.bottom -77, height / 4 );
+                matrixStar.setTranslate(width - height / 4 - targetBox.bottom - 77, height / 4);
                 paintStar.setAlpha(0);
             } else if (i == 1 || i == 2 || i == 3) {
                 matrix.setScale(2f, 2f);
@@ -165,18 +166,18 @@ public class SunnyNightDrawer extends BaseDrawer {
                     }
                 }
                 if (number_of_times == 5) {
-                    if(targetBox.top > height/8&&targetBox.top < height/4){
-                        if(!isOver){
-                            if(paintAlpha-20>0){
-                                paintAlpha-=20;
-                            }else{
-                                paintAlpha=0;
-                                isStar=true;
-                                isAdd=true;
-                                isOver=true;//代表结束一次循环操作
-                                Message msg=Message.obtain();
-                                msg.obj=this;
-                                msg.what=1;
+                    if (targetBox.top > height / 8 && targetBox.top < height / 4) {
+                        if (!isOver) {
+                            if (paintAlpha - 20 > 0) {
+                                paintAlpha -= 20;
+                            } else {
+                                paintAlpha = 0;
+                                isStar = true;
+                                isAdd = true;
+                                isOver = true;//代表结束一次循环操作
+                                Message msg = Message.obtain();
+                                msg.obj = this;
+                                msg.what = 1;
                                 handler1.sendMessage(msg);
                             }
                             paint1.setAlpha(paintAlpha);
@@ -267,10 +268,10 @@ public class SunnyNightDrawer extends BaseDrawer {
                 paint1.setAlpha(paintAlpha);
             }
 
-            if(alphabg<1){
+            if (alphabg < 1) {
                 //说明是还在渐变
-                paint1.setAlpha((int) (alphabg*255));
-            }else if(alphabg==1){
+                paint1.setAlpha((int) (alphabg * 255));
+            } else if (alphabg == 1) {
                 //不做任何操作'
 //                if(paint1.getAlpha()!=255){
 //                    paint1.setAlpha(255);
@@ -281,45 +282,44 @@ public class SunnyNightDrawer extends BaseDrawer {
             canvas.drawBitmap(frame, matrix, paint1);
         }
 
-        public void updateStar(){
-            if(isAdd){
-                if(paintStarAlpha+50<=254){
-                    paintStarAlpha+=50;
-                }else {
-                    paintStarAlpha=255;
-                    isAdd=false;
+        public void updateStar() {
+            if (isAdd) {
+                if (paintStarAlpha + 50 <= 254) {
+                    paintStarAlpha += 50;
+                } else {
+                    paintStarAlpha = 255;
+                    isAdd = false;
                 }
-            }else{
-                if(paintStarAlpha-50>0){
-                    paintStarAlpha-=50;
-                }else{
-                    paintStarAlpha=0;
-                    isStar=false;
+            } else {
+                if (paintStarAlpha - 50 > 0) {
+                    paintStarAlpha -= 50;
+                } else {
+                    paintStarAlpha = 0;
+                    isStar = false;
                 }
 
             }
 
             paintStar.setAlpha(paintStarAlpha);
 
-            if(isStar){
-                Message msg=Message.obtain();
-                msg.obj=this;
-                msg.what=1;
-                handler1.sendMessageDelayed(msg,100);
+            if (isStar) {
+                Message msg = Message.obtain();
+                msg.obj = this;
+                msg.what = 1;
+                handler1.sendMessageDelayed(msg, 100);
             }
         }
-
 
 
     }
 
 
-    public static Handler handler1=new Handler(){
+    public static Handler handler1 = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 1:
-                    SunnyNightHolder s= (SunnyNightHolder) msg.obj;
+                    SunnyNightHolder s = (SunnyNightHolder) msg.obj;
                     s.updateStar();
                     break;
 

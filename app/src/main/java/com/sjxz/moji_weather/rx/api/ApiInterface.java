@@ -20,7 +20,7 @@ public interface ApiInterface {
 
     /**
      * 天气预报 (根据地名)
-     服务商： 易源接口
+     * 服务商： 易源接口
      */
     String WEATHER_URL = "/showapi_open_bus/weather_showapi/address";
 }

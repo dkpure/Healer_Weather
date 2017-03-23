@@ -17,11 +17,11 @@ public abstract class RefreshDrawable extends Drawable implements Drawable.Callb
         mRefreshLayout = layout;
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return mRefreshLayout != null ? mRefreshLayout.getContext() : null;
     }
 
-    public PullRefreshLayout getRefreshLayout(){
+    public PullRefreshLayout getRefreshLayout() {
         return mRefreshLayout;
     }
 
@@ -35,7 +35,7 @@ public abstract class RefreshDrawable extends Drawable implements Drawable.Callb
 
     /**
      * callback回调是用于重绘界面，注册，移除，固定书写方式invalidateDrawable,scheduleDrawable,unscheduleDrawable
-     * */
+     */
     @Override
     public void invalidateDrawable(Drawable who) {
         final Callback callback = getCallback();

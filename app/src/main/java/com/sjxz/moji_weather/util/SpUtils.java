@@ -226,8 +226,6 @@ public class SpUtils {
     }
 
 
-
-
     /**
      * 保存List对象集合
      * @param context
@@ -250,9 +248,9 @@ public class SpUtils {
     /**
      * 获取本地List持久化数据
      *
+     * @return
      * @paramcontext
      * @paramkey
-     * @return
      *//*
     public static List<?> getListObj(Context context , String key ){
 		List<Object> list = new ArrayList<>();
@@ -289,7 +287,7 @@ public class SpUtils {
     @SuppressWarnings("unchecked")
     public static List<Object> getListString(String string) throws StreamCorruptedException, IOException,
             ClassNotFoundException {
-        byte[] mobileBytes = Base64.decode(string.getBytes(),Base64.DEFAULT);
+        byte[] mobileBytes = Base64.decode(string.getBytes(), Base64.DEFAULT);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(mobileBytes);
         ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
         List SceneList = (List) objectInputStream.readObject();
@@ -299,15 +297,16 @@ public class SpUtils {
 
     /**
      * 保存list 数据
+     *
      * @param context
      * @param list
      * @param key
      */
-    public static void setListObj(Context context , List list , String key){
+    public static void setListObj(Context context, List list, String key) {
         Editor editor = getSp(context).edit();
         try {
             String str = setListString(list);
-            editor.putString(key , str);
+            editor.putString(key, str);
             editor.commit();
         } catch (IOException e) {
             e.printStackTrace();
@@ -316,16 +315,17 @@ public class SpUtils {
 
     /**
      * 获取保存的list对象
+     *
      * @param context
      * @param key
      * @return
      */
-    public static List getListObj(Context context , String key){
+    public static List getListObj(Context context, String key) {
         List list = new ArrayList();
-        String str = getSp(context).getString(key , "");
+        String str = getSp(context).getString(key, "");
         try {
             list = getListString(str);
-            return list ;
+            return list;
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -333,7 +333,6 @@ public class SpUtils {
         }
         return null;
     }
-
 
 
     /**

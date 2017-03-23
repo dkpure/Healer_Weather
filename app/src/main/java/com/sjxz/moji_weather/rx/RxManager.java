@@ -55,7 +55,7 @@ public class RxManager {
                 .map(new Func1<ShowApiResponse<T>, T>() {
                     @Override
                     public T call(ShowApiResponse<T> httpResult) {
-                        if (httpResult.getShowapi_res_error()=="200"?true:false) {
+                        if (httpResult.getShowapi_res_error() == "200" ? true : false) {
                             throw new ApiException();
                         }
                         return httpResult.getShowapi_res_body();

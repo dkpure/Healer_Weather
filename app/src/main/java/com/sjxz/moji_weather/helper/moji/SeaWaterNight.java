@@ -26,7 +26,7 @@ public class SeaWaterNight extends Actor {
     RectF box;
     RectF targetBox;
     Paint paint = new Paint();
-    public int paintAlpha=50;//透明度
+    public int paintAlpha = 50;//透明度
 
     public SeaWaterNight(Context context) {
         super(context);
@@ -56,32 +56,31 @@ public class SeaWaterNight extends Actor {
         //边界处理--不断移动中，将box（当前）的坐标赋值给targetBox
         matrix.mapRect(targetBox, box);
         //当距离过半的时候就是停止重新来过
-        if (targetBox.right > width*2/3) {
-            matrix.postTranslate(targetBox.left*3/2,0 );
+        if (targetBox.right > width * 2 / 3) {
+            matrix.postTranslate(targetBox.left * 3 / 2, 0);
         }
 
         //渐变透明
         //获取移动的距离---宽度---width*2/3
         //前1/3从模糊到清晰，后1/3从清晰到消失
-        if(targetBox.right>0&&targetBox.right < (width*2/3-120)){
+        if (targetBox.right > 0 && targetBox.right < (width * 2 / 3 - 120)) {
 
-            if(targetBox.right-frame.getWidth()>0&&targetBox.right-frame.getWidth()<255){
+            if (targetBox.right - frame.getWidth() > 0 && targetBox.right - frame.getWidth() < 255) {
                 //移动的距离
-                paintAlpha=(int)(targetBox.right-frame.getWidth())%255;
-            }else if(targetBox.right-frame.getWidth()>255){
-                paintAlpha=255;
-            }else{
+                paintAlpha = (int) (targetBox.right - frame.getWidth()) % 255;
+            } else if (targetBox.right - frame.getWidth() > 255) {
+                paintAlpha = 255;
+            } else {
                 //未负数的时候就是重置
-                paintAlpha=0;
+                paintAlpha = 0;
             }
 
 
+        } else if (targetBox.right > 0 && targetBox.right < width * 2 / 3) {
+            if ((int) (255 - (targetBox.right - frame.getWidth()) % 255) > 200) {
 
-        }else if(targetBox.right>0&&targetBox.right < width*2/3){
-            if((int)(255-(targetBox.right-frame.getWidth())%255)>200){
-
-            }else{
-                paintAlpha=(int)(255-(targetBox.right-frame.getWidth())%255);
+            } else {
+                paintAlpha = (int) (255 - (targetBox.right - frame.getWidth()) % 255);
             }
 
         }

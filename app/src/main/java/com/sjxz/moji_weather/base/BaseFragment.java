@@ -69,11 +69,11 @@ public abstract class BaseFragment extends BaseAppFragment implements BaseView {
 
     protected void initialRecyclerViewGridHorizontal(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2,GridLayoutManager.HORIZONTAL,false));
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false));
     }
 
-    protected void initialRecyclerViewStagger(RecyclerView recyclerView){
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+    protected void initialRecyclerViewStagger(RecyclerView recyclerView) {
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
     }
 
     protected void initialXRecyclerView(XRefreshView xRefreshView) {
@@ -86,13 +86,13 @@ public abstract class BaseFragment extends BaseAppFragment implements BaseView {
 
     /**
      * 网络请求公共
-     * */
-    protected  void noDataCommon(XRefreshView xRefreshView,int page){
+     */
+    protected void noDataCommon(XRefreshView xRefreshView, int page) {
         xRefreshView.setPullLoadEnable(false);//设置不允许上拉加载
-        xRefreshView.setPullRefreshEnable(page==1?false:true);//设置默认允许下拉刷新
+        xRefreshView.setPullRefreshEnable(page == 1 ? false : true);//设置默认允许下拉刷新
     }
 
-    protected void finishHttpCommon(XRefreshView xRefreshView){
+    protected void finishHttpCommon(XRefreshView xRefreshView) {
         xRefreshView.stopRefresh();
         xRefreshView.stopLoadMore();
     }

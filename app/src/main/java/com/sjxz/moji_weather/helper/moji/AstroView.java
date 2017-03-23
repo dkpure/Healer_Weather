@@ -62,30 +62,31 @@ public class AstroView extends View {
         super(context, attrs);
         density = context.getResources().getDisplayMetrics().density;
 
-        dashPathEffect = new DashPathEffect(new float[] { density * 3, density * 3 }, 1);
+        dashPathEffect = new DashPathEffect(new float[]{density * 3, density * 3}, 1);
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(density);
         paint.setTextAlign(Paint.Align.CENTER);
 //		setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-        if(isInEditMode()){
+        if (isInEditMode()) {
             return;
         }
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        if(now==null){
-            return ;
+        if (now == null) {
+            return;
         }
         paint.setColor(getResources().getColor(R.color.white));
-        float textSize=paint.getTextSize();
+        float textSize = paint.getTextSize();
         String[] day_sun_night;
-        if(now.getSun_begin_end()==null){
-            day_sun_night=new String[2];
-            day_sun_night[0]="06:00";
-            day_sun_night[1]="18:00";
-        }else{
-            day_sun_night=now.getSun_begin_end().split("\\|");
+        if (now.getSun_begin_end() == null) {
+            day_sun_night = new String[2];
+            day_sun_night[0] = "06:00";
+            day_sun_night[1] = "18:00";
+        } else {
+            day_sun_night = now.getSun_begin_end().split("\\|");
         }
 
         try {

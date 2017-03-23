@@ -54,7 +54,7 @@ public class OvercastSurfaceView extends SurfaceView implements SurfaceHolder.Ca
             overcastThread.setWidth(width);
             overcastThread.setHeight(height);
             overcastThread.start();
-        }else{
+        } else {
             overcastThread.getRenderHandler().sendEmptyMessage(2);
         }
     }
@@ -64,7 +64,7 @@ public class OvercastSurfaceView extends SurfaceView implements SurfaceHolder.Ca
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.i("=renderThread!=null="+getMeasuredWidth());
+        LogUtils.i("=renderThread!=null=" + getMeasuredWidth());
         width = getMeasuredWidth();
         height = getMeasuredHeight();
 

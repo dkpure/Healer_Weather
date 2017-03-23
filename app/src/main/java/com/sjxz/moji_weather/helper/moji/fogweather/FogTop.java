@@ -29,14 +29,14 @@ public class FogTop extends Actor {
     float initX;
     float initY;
 
-    int position=0;
+    int position = 0;
 
     public FogTop(Context context, int i) {
         super(context);
         box = new RectF();
         targetBox = new RectF();
         paint.setAntiAlias(true);
-        position=i;
+        position = i;
     }
 
     public int[] bitmaps = {
@@ -55,9 +55,9 @@ public class FogTop extends Actor {
         //逻辑处理
         //初始化
         if (!isInit) {
-            initPositionX = width * 0.15F*position;
+            initPositionX = width * 0.15F * position;
 //            initPositionY = height * 0.69F;
-            initPositionY = height * 1.0F*0.166f*position;
+            initPositionY = height * 1.0F * 0.166f * position;
             frame = BitmapFactory.decodeResource(context.getResources(), bitmaps[position]);
             box.set(0, 0, frame.getWidth(), frame.getHeight());
             matrix.reset();

@@ -51,8 +51,8 @@ public class CloudBelow extends Actor {
             matrix.setScale(2f, 2f);
             matrix.mapRect(targetBox, box);
             matrix.postTranslate(initPositionX - targetBox.width() / 2, initPositionY - targetBox.height() / 2);
-            initX=initPositionX - targetBox.width() / 2;
-            initY=initPositionY - targetBox.height() / 2;
+            initX = initPositionX - targetBox.width() / 2;
+            initY = initPositionY - targetBox.height() / 2;
             isInit = true;
             return;
         }
@@ -61,9 +61,9 @@ public class CloudBelow extends Actor {
         matrix.postTranslate(0, -1.5F);
         //边界处理
         matrix.mapRect(targetBox, box);
-        if (-targetBox.bottom >frame.getHeight()) {
-            LogUtils.i("当前的数据[="+-targetBox.top*1.5f);
-            matrix.postTranslate(0, -targetBox.top*1.5f);
+        if (-targetBox.bottom > frame.getHeight()) {
+            LogUtils.i("当前的数据[=" + -targetBox.top * 1.5f);
+            matrix.postTranslate(0, -targetBox.top * 1.5f);
         }
         //绘制
         canvas.drawBitmap(frame, matrix, paint);

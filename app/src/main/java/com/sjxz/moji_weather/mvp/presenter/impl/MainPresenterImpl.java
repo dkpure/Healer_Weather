@@ -18,7 +18,7 @@ import com.sjxz.moji_weather.mvp.view.MainView;
  * Created by xz on 2017/2/8.
  * Role:
  */
-public class MainPresenterImpl implements MainPresenter{
+public class MainPresenterImpl implements MainPresenter {
 
     private Context context;
 
@@ -35,7 +35,7 @@ public class MainPresenterImpl implements MainPresenter{
         this.mainView = mainView;//在Activity中实例化数据
         this.context = context;
 
-        mainInteractor= new MainInteractorImpl();
+        mainInteractor = new MainInteractorImpl();
     }
 
     @Override
@@ -65,10 +65,10 @@ public class MainPresenterImpl implements MainPresenter{
     }
 
     //用于bind数据的connect
-    private ServiceConnection mConnect=new ServiceConnection() {
+    private ServiceConnection mConnect = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            weatherService=((WeatherService.LocalBinder)service).getService();
+            weatherService = ((WeatherService.LocalBinder) service).getService();
             mainView.initNotify(weatherService);
         }
 

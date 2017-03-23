@@ -14,7 +14,7 @@ public abstract class BaseDrawer {
 
 
     public enum Type {
-        CLEAR_D, RAIN_D, FOG_D, SNOW_D, CLOUDY_D,OVERCAST,CLEAR_N,SNOW_N,CLOUDY_N,OVERCAST_N,DEFAULT
+        CLEAR_D, RAIN_D, FOG_D, SNOW_D, CLOUDY_D, OVERCAST, CLEAR_N, SNOW_N, CLOUDY_N, OVERCAST_N, DEFAULT
     }
 
 
@@ -23,23 +23,23 @@ public abstract class BaseDrawer {
             case CLEAR_D:
                 return new SunnyDrawer(context);
             case RAIN_D:
-                return new RainDayDrawer(context,false);
+                return new RainDayDrawer(context, false);
             case FOG_D:
-                return new FogDayDrawer(context,false);
+                return new FogDayDrawer(context, false);
             case SNOW_D:
-                return new SnowDayDrawer(context,false);
+                return new SnowDayDrawer(context, false);
             case CLOUDY_D:
-                return new CloudyDayDrawer(context,false);
+                return new CloudyDayDrawer(context, false);
             case OVERCAST:
-                return new OvercastDayDrawer(context,false);
+                return new OvercastDayDrawer(context, false);
             case CLEAR_N:
-                return new SunnyNightDrawer(context,true);
+                return new SunnyNightDrawer(context, true);
             case SNOW_N:
-                return new SnowNightDrawer(context,true);
+                return new SnowNightDrawer(context, true);
             case CLOUDY_N:
-                return new CloudyNightDrawer(context,true);
+                return new CloudyNightDrawer(context, true);
             case OVERCAST_N:
-                return new OvercastNightDrawer(context,true);
+                return new OvercastNightDrawer(context, true);
             case DEFAULT:
             default:
                 return new SunnyDrawer(context);
@@ -59,7 +59,6 @@ public abstract class BaseDrawer {
         this.desity = context.getResources().getDisplayMetrics().density;
         this.isNight = isNight;
     }
-
 
 
     /**
@@ -84,7 +83,7 @@ public abstract class BaseDrawer {
     // needDrawNextFrame
 
     protected void setSize(int width, int height) {
-        if(this.width != width && this.height != height){
+        if (this.width != width && this.height != height) {
             this.width = width;
             this.height = height;
             if (this.skyDrawable != null) {
@@ -95,7 +94,7 @@ public abstract class BaseDrawer {
     }
 
 
-    public static int convertAlphaColor(float percent,final int originalColor) {
+    public static int convertAlphaColor(float percent, final int originalColor) {
         int newAlpha = (int) (percent * 255) & 0xFF;
         return (newAlpha << 24) | (originalColor & 0xFFFFFF);
     }

@@ -40,7 +40,7 @@ public class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 //        WIND_D, WIND_N, RAIN_SNOW_D, RAIN_SNOW_N, UNKNOWN_D, UNKNOWN_N
 //    }
     public enum Type {
-        CLEAR_D, RAIN_D, SNOW_D, FOG_D, CLOUDY_D,OVERCAST,CLEAR_N,SNOW_N,CLOUDY_N,OVERCAST_N
+        CLEAR_D, RAIN_D, SNOW_D, FOG_D, CLOUDY_D, OVERCAST, CLEAR_N, SNOW_N, CLOUDY_N, OVERCAST_N
     }
 
     private SurfaceHolder surfaceHolder;
@@ -135,20 +135,20 @@ public class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 if (getRenderHandler() != null) {
                     getRenderHandler().sendEmptyMessage(2);
                 }
-                return ;
+                return;
             case CLOUDY_N:
                 scene.setBg(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_cloud_night));
 
                 scene.add(new CloudRight(context));
                 scene.add(new CloudLeft(context));
 
-                for(int i=1;i<8;i++){
-                    if(i<3){
-                        scene.add(new StarRandomCloudNight(context,i,i));
-                    }else if(i<6){
-                        scene.add(new StarRandomCloudNight(context,9-i,(i+1)/2));
-                    }else {
-                        scene.add(new StarRandomCloudNight(context,i+1,i-5));
+                for (int i = 1; i < 8; i++) {
+                    if (i < 3) {
+                        scene.add(new StarRandomCloudNight(context, i, i));
+                    } else if (i < 6) {
+                        scene.add(new StarRandomCloudNight(context, 9 - i, (i + 1) / 2));
+                    } else {
+                        scene.add(new StarRandomCloudNight(context, i + 1, i - 5));
                     }
 
                 }
@@ -156,7 +156,7 @@ public class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callba
                 if (getRenderHandler() != null) {
                     getRenderHandler().sendEmptyMessage(2);
                 }
-                return ;
+                return;
             case OVERCAST_N:
                 scene.setBg(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_overcast_night));
                 if (getRenderHandler() != null) {
@@ -304,7 +304,7 @@ public class BaseSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     /**
      * 使用线程绘制界面
-     * */
+     */
 //    private DrawThread1 mDrawThread1;
 
     private class DrawThread1 extends Thread {

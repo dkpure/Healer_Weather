@@ -13,8 +13,8 @@ import java.util.List;
 public interface CityInteractor {
     List<String> getCityList(Context context);
 
-    void deleteCity(Context context,String cityName);
+    void deleteCity(Context context, String cityName);
 
-    void addCity(Context context,String cityName);
+    void addCity(Context context, String cityName);
 }
 

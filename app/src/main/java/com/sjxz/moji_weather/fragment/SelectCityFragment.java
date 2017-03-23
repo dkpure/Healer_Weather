@@ -34,7 +34,7 @@ import de.greenrobot.event.EventBus;
  * Created by xz on 2017/3/7.
  * Role:选择城市
  */
-public class SelectCityFragment  extends BaseFragment implements SelectCityView, TextWatcher {
+public class SelectCityFragment extends BaseFragment implements SelectCityView, TextWatcher {
 
 
     @Bind(R.id.filter_edit)
@@ -84,9 +84,9 @@ public class SelectCityFragment  extends BaseFragment implements SelectCityView,
     @Override
     protected void initViewsAndEvents() {
 
-        UIHelper.setTitle(getActivity(),"添加城市");
+        UIHelper.setTitle(getActivity(), "添加城市");
 
-        selectCityPresenter=new SelectCityPresenterImpl(this,getActivity());
+        selectCityPresenter = new SelectCityPresenterImpl(this, getActivity());
         selectCityPresenter.initialMain();
 
         initData();
@@ -117,8 +117,8 @@ public class SelectCityFragment  extends BaseFragment implements SelectCityView,
                 //这里要利用adapter.getItem(position)来获取当前position所对应的对象
 //                Toast.makeText(getActivity(), ((SortModel) adapter.getItem(position)).getName() + "=" + position, Toast.LENGTH_SHORT).show();
 
-                    //添加该城市的名称，数据更新
-                EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_ADD_CITY,((SortModel) adapter.getItem(position)).getName()));
+                //添加该城市的名称，数据更新
+                EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_ADD_CITY, ((SortModel) adapter.getItem(position)).getName()));
                 getActivity().finish();
             }
         });
@@ -202,7 +202,7 @@ public class SelectCityFragment  extends BaseFragment implements SelectCityView,
 
     @Override
     public void initialAllCityData(List<SortModel> list) {
-        SourceDateList=list;
+        SourceDateList = list;
         Collections.sort(SourceDateList, selectCityPresenter.pinyinComparator);
         adapter = new SortAdapter(getActivity(), SourceDateList);
         sortListView.setAdapter(adapter);
@@ -220,7 +220,7 @@ public class SelectCityFragment  extends BaseFragment implements SelectCityView,
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        selectCityPresenter.filterData(s.toString(),title_layout,SourceDateList,title);
+        selectCityPresenter.filterData(s.toString(), title_layout, SourceDateList, title);
     }
 
     @Override

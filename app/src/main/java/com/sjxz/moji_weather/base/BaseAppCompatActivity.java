@@ -43,40 +43,40 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         if (toggleOverridePendingTransition()) {
             switch (getOverridePendingTransitionType()) {
                 case LEFT:
-                    overridePendingTransition(R.anim.left_in,R.anim.left_out);
+                    overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     break;
                 case RIGHT:
-                    overridePendingTransition(R.anim.right_in,R.anim.right_out);
+                    overridePendingTransition(R.anim.right_in, R.anim.right_out);
                     break;
                 case TOP:
-                    overridePendingTransition(R.anim.top_in,R.anim.top_out);
+                    overridePendingTransition(R.anim.top_in, R.anim.top_out);
                     break;
                 case BOTTOM:
-                    overridePendingTransition(R.anim.bottom_in,R.anim.bottom_out);
+                    overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out);
                     break;
                 case SCALE:
-                    overridePendingTransition(R.anim.scale_in,R.anim.scale_out);
+                    overridePendingTransition(R.anim.scale_in, R.anim.scale_out);
                     break;
                 case FADE:
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     break;
             }
         }
         super.onCreate(savedInstanceState);
 
-        if(isBindEventBus()){
+        if (isBindEventBus()) {
             EventBus.getDefault().register(this);
         }
 
         setTranslucentStatus(isApplyStatusBarTranslucency());
 
-        mContext=this;
+        mContext = this;
 
         BaseAppManager.getInstance().addActivity(this);
 
-        if(getContentViewLayoutID()!=0){
+        if (getContentViewLayoutID() != 0) {
             setContentView(getContentViewLayoutID());
-        }else{
+        } else {
             throw new IllegalArgumentException("You must return a  contentView layout resource Id");
         }
 
@@ -102,22 +102,22 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
         if (toggleOverridePendingTransition()) {
             switch (getOverridePendingTransitionType()) {
                 case LEFT:
-                    overridePendingTransition(R.anim.left_in,R.anim.left_out);
+                    overridePendingTransition(R.anim.left_in, R.anim.left_out);
                     break;
                 case RIGHT:
-                    overridePendingTransition(R.anim.right_in,R.anim.right_out);
+                    overridePendingTransition(R.anim.right_in, R.anim.right_out);
                     break;
                 case TOP:
-                    overridePendingTransition(R.anim.top_in,R.anim.top_out);
+                    overridePendingTransition(R.anim.top_in, R.anim.top_out);
                     break;
                 case BOTTOM:
-                    overridePendingTransition(R.anim.bottom_in,R.anim.bottom_out);
+                    overridePendingTransition(R.anim.bottom_in, R.anim.bottom_out);
                     break;
                 case SCALE:
-                    overridePendingTransition(R.anim.scale_in,R.anim.scale_out);
+                    overridePendingTransition(R.anim.scale_in, R.anim.scale_out);
                     break;
                 case FADE:
-                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     break;
             }
         }
@@ -136,51 +136,52 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     /**
      * activity的跳转
-     * */
-    protected void readyGo(Class<?> clazz){
-        Intent intent=new Intent(this,clazz);
+     */
+    protected void readyGo(Class<?> clazz) {
+        Intent intent = new Intent(this, clazz);
         startActivity(intent);
     }
 
-    protected void readyGoWithData(Class<?> clazz,Bundle bundle){
-        Intent intent=new Intent(this,clazz);
-        if(bundle!=null){
+    protected void readyGoWithData(Class<?> clazz, Bundle bundle) {
+        Intent intent = new Intent(this, clazz);
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
         startActivity(intent);
     }
 
-    protected void readyGoThenKill(Class<?> clazz){
-        Intent intent=new Intent(this,clazz);
+    protected void readyGoThenKill(Class<?> clazz) {
+        Intent intent = new Intent(this, clazz);
         startActivity(intent);
         finish();
     }
 
-    protected void readyGoWithDataThenKill(Class<?> clazz,Bundle bundle){
-        Intent intent=new Intent(this,clazz);
-        if(bundle!=null){
+    protected void readyGoWithDataThenKill(Class<?> clazz, Bundle bundle) {
+        Intent intent = new Intent(this, clazz);
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
         startActivity(intent);
         finish();
     }
 
-    protected void readyGoWaitResult(Class<?> clazz,int requestCode){
-        Intent intent=new Intent(this,clazz);
-        startActivityForResult(intent,requestCode);
+    protected void readyGoWaitResult(Class<?> clazz, int requestCode) {
+        Intent intent = new Intent(this, clazz);
+        startActivityForResult(intent, requestCode);
     }
 
-    protected void readyGoWithDataWaitResult(Class<?> clazz,Bundle bundle,int requestCode){
-        Intent intent=new Intent(this,clazz);
-        if(bundle!=null){
+    protected void readyGoWithDataWaitResult(Class<?> clazz, Bundle bundle, int requestCode) {
+        Intent intent = new Intent(this, clazz);
+        if (bundle != null) {
             intent.putExtras(bundle);
         }
-        startActivityForResult(intent,requestCode);
+        startActivityForResult(intent, requestCode);
     }
 
     /**
      * 显示正在加载中
-     *基于getLoadingTargetView()不为空的情况
+     * 基于getLoadingTargetView()不为空的情况
+     *
      * @param toggle
      */
     protected void toggleShowLoading(boolean toggle, String msg) {
@@ -228,9 +229,11 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             mVaryViewHelperController.restore();
         }
     }
+
     /**
      * use SytemBarTintManager
-     *  顶部电量行的背景颜色设置
+     * 顶部电量行的背景颜色设置
+     *
      * @param tintDrawable
      */
     protected void setSystemBarTintDrawable(Drawable tintDrawable) {
@@ -250,8 +253,9 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
 
     /**
      * set status bar translucency
-     *透明状态栏--->顶部电池栏
+     * 透明状态栏--->顶部电池栏
      * a |= b;==>a = a|b
+     *
      * @param on
      */
     protected void setTranslucentStatus(boolean on) {
@@ -275,40 +279,42 @@ public abstract class BaseAppCompatActivity extends AppCompatActivity {
             onEventComming(eventCenter);
         }
     }
+
     /**
      * 广播接受数据继承类实现相关操作
      *
      * @param eventCenter
      */
     protected abstract void onEventComming(EventCenter eventCenter);
+
     /**
      * activity进入退出是否需要动画设置
-     * */
+     */
     protected abstract boolean toggleOverridePendingTransition();
 
     /**
      * activity动画选择器
-     * */
+     */
     protected abstract TransitionMode getOverridePendingTransitionType();
 
     /**
      * 界面是否注册监听器
-     * */
+     */
     protected abstract boolean isBindEventBus();
 
     /**
      * 是否将导航栏透明化
-     * */
+     */
     protected abstract boolean isApplyStatusBarTranslucency();
 
     /**
-     *设置当前布局
-     * */
+     * 设置当前布局
+     */
     protected abstract int getContentViewLayoutID();
 
     /**
      * 实现数据赋值
-     * */
+     */
     protected abstract void initViewsAndEvents();
 
     /**

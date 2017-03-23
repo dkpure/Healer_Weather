@@ -38,14 +38,14 @@ public class RainDayDrawer extends BaseDrawer {
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if(alpha!=1){
-            paint.setAlpha((int)(alpha*255));
-        }else{
+        if (alpha != 1) {
+            paint.setAlpha((int) (alpha * 255));
+        } else {
             paint.setAlpha(255);
         }
         canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
         for (RainDayHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint,alpha);
+            holder.updateRandom(canvas, holder.matrix, paint, alpha);
         }
 
         //渐变实现,取消渐变功能
@@ -65,7 +65,7 @@ public class RainDayDrawer extends BaseDrawer {
         }
     }
 
-    public static class RainDayHolder{
+    public static class RainDayHolder {
         float initPositionX;
         float initPositionY;
         Bitmap frame;
@@ -74,9 +74,9 @@ public class RainDayDrawer extends BaseDrawer {
         int width;
         int height;
         int position = 0;
-        protected Matrix matrix ;
+        protected Matrix matrix;
         int randomInt;
-        Random random=new Random();
+        Random random = new Random();
 
         public int[] bitmaps = {
                 R.drawable.raindrop_l,
@@ -97,8 +97,8 @@ public class RainDayDrawer extends BaseDrawer {
             super();
             this.position = i;
             this.width = width;
-            this.height=height;
-            this.matrix=matrix;
+            this.height = height;
+            this.matrix = matrix;
             box = new RectF();
             targetBox = new RectF();
             if (i == 0) {
@@ -109,18 +109,18 @@ public class RainDayDrawer extends BaseDrawer {
                 initPositionX = width * 0.758F;
                 initPositionY = height * 0.11F;
                 frame = BitmapFactory.decodeResource(context.getResources(), R.mipmap.moderate_rain_cloud1);
-            }else{
-                randomInt=random.nextInt(80);
-                initPositionX = width * 0.15F*(position%12==0?1:position%12);
-                initPositionY = height * 1.0F*0.05f*(randomInt%20==0?1:randomInt%20);
-                frame = BitmapFactory.decodeResource(context.getResources(),bitmaps[randomInt%12]);
+            } else {
+                randomInt = random.nextInt(80);
+                initPositionX = width * 0.15F * (position % 12 == 0 ? 1 : position % 12);
+                initPositionY = height * 1.0F * 0.05f * (randomInt % 20 == 0 ? 1 : randomInt % 20);
+                frame = BitmapFactory.decodeResource(context.getResources(), bitmaps[randomInt % 12]);
             }
 
             box.set(0, 0, frame.getWidth(), frame.getHeight());
             matrix.reset();
             if (i == 0 || i == 1) {
                 matrix.setScale(2f, 2f);
-            }else {
+            } else {
                 matrix.setScale(6f, 6f);
                 matrix.setRotate(-20f);
             }
@@ -139,7 +139,7 @@ public class RainDayDrawer extends BaseDrawer {
                 if (targetBox.left > width) {
                     matrix.postTranslate(-targetBox.right, 0);
                 }
-            }else{
+            } else {
                 matrix.postTranslate(10f, 30f);
                 //边界处理
                 matrix.mapRect(targetBox, box);
@@ -152,12 +152,12 @@ public class RainDayDrawer extends BaseDrawer {
             }
 
             //绘制
-            if(alpha<1){
+            if (alpha < 1) {
                 //说明是还在渐变
-                paint.setAlpha((int) (alpha*255));
-            }else if(alpha==1){
+                paint.setAlpha((int) (alpha * 255));
+            } else if (alpha == 1) {
                 //不做任何操作'
-                if(paint.getAlpha()!=255){
+                if (paint.getAlpha() != 255) {
                     paint.setAlpha(255);
                 }
             }

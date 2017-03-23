@@ -7,5 +7,5 @@ package com.sjxz.moji_weather.view;
  * Role:
  */
 public interface ScrollViewLisenter {
-    void onScrollChanged(MyScrollView scrollView ,int x,int y,int oldx ,int oldy);
+    void onScrollChanged(MyScrollView scrollView, int x, int y, int oldx, int oldy);
 }

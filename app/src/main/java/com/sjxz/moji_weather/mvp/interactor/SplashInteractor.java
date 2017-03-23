@@ -13,22 +13,22 @@ public interface SplashInteractor {
 
     /**
      * 获取背景图片
-     * */
+     */
     int getBackgroundImageResId();
 
     /**
      * 获取当前的版本数据
-     * */
+     */
     String getCopyRight(Context context);
 
     /**
      * 获取当前的版本号
-     * */
+     */
     String getVersionName(Context context);
 
     /**
      * 获取当前的动画
-     * */
+     */
     Animation getBackgroundImageAnimation(Context context);
 
 }

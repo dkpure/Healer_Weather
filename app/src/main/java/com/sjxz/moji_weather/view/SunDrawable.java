@@ -17,7 +17,7 @@ public class SunDrawable extends RefreshDrawable {
     float mPercent;
     final float mMaxAngle = 180f; //wangbin change (float) (180f * .85);
     final float mRadius;// = dp2px(6);// dp2px(12);
-//    final float mLineLength = (float) (Math.PI / 180 * mMaxAngle * mRadius);
+    //    final float mLineLength = (float) (Math.PI / 180 * mMaxAngle * mRadius);
 //    final float mLineWidth = dp2px(2);// dp2px(3);
 //    final float mLightRadius = dp2px(11);
     final Paint mPaint = new Paint();
@@ -34,7 +34,7 @@ public class SunDrawable extends RefreshDrawable {
         mPaint.setStrokeWidth(dp2px(2));//宽度
         mPaint.setStyle(Paint.Style.STROKE);//设置画笔样式
         mPaint.setColor(0xffffffff);//设置画笔颜色
-        
+
         mRadius = dp2px(6);//设置半径
     }
 
@@ -126,44 +126,44 @@ public class SunDrawable extends RefreshDrawable {
 //
 //        } else {
 
-            float percent =mPercent;// (mPercent - .5f) / .5f;下拉距离百分比
-            // left
+        float percent = mPercent;// (mPercent - .5f) / .5f;下拉距离百分比
+        // left
 //            float leftX = mCenterX - mRadius;
 //            float leftY = mCenterY;
 
 //            canvas.drawLine(leftX, leftY, leftX, leftY + mLineLength - mLineLength * percent, mPaint);
-            //float left, float top, float right, float bottom
-            RectF oval = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);//画圆
+        //float left, float top, float right, float bottom
+        RectF oval = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);//画圆
 
-            canvas.drawArc(oval, 180, mMaxAngle * percent, false, mPaint);//画180-360的圆弧
+        canvas.drawArc(oval, 180, mMaxAngle * percent, false, mPaint);//画180-360的圆弧
 
-            // right
+        // right
 //            float rightX = mCenterX + mRadius;
 //            float rightY = mCenterY;
 
 //            canvas.drawLine(rightX, rightY, rightX, rightY - mLineLength + mLineLength * percent, mPaint);
 
-            canvas.drawArc(oval, 0, mMaxAngle * percent, false, mPaint);//画0-180的圆弧 mMaxAngle * percent是扫过的角度
-            final int light_count = 8;
-            mPaint.setAlpha((int) (255f * percent));//刻度和下拉百分比渐变功能
-            for(int i = 0 ; i< light_count;i++){// 画刻度
-            	double radians = Math.toRadians(i * (360 / light_count));
-    			float x1 = (float) (Math.cos(radians) * mRadius * 1.6f);
-    			float y1 = (float) (Math.sin(radians) * mRadius * 1.6f);
-    			float x2 = x1 * (1f + 0.4f * percent);// 0.7*0.857=0.6 也就是说刻度盘占 0.6~0.7的部分
-    			float y2 = y1 * (1f + 0.4f * percent);
-    			canvas.drawLine(mCenterX + x1, y1, mCenterX + x2, y2, mPaint);
-            }
-            mPaint.setAlpha(255);
-            // arrow
+        canvas.drawArc(oval, 0, mMaxAngle * percent, false, mPaint);//画0-180的圆弧 mMaxAngle * percent是扫过的角度
+        final int light_count = 8;
+        mPaint.setAlpha((int) (255f * percent));//刻度和下拉百分比渐变功能
+        for (int i = 0; i < light_count; i++) {// 画刻度
+            double radians = Math.toRadians(i * (360 / light_count));
+            float x1 = (float) (Math.cos(radians) * mRadius * 1.6f);
+            float y1 = (float) (Math.sin(radians) * mRadius * 1.6f);
+            float x2 = x1 * (1f + 0.4f * percent);// 0.7*0.857=0.6 也就是说刻度盘占 0.6~0.7的部分
+            float y2 = y1 * (1f + 0.4f * percent);
+            canvas.drawLine(mCenterX + x1, y1, mCenterX + x2, y2, mPaint);
+        }
+        mPaint.setAlpha(255);
+        // arrow
 //            canvas.save();
 
 //            canvas.rotate(mMaxAngle * percent, mCenterX, mCenterY);
 
-            // left arrow
+        // left arrow
 //            canvas.drawLine(leftX, leftY, leftX - mArrowXSpace, leftY + mArrowYSpace, mPaint);
 
-            // right arrow
+        // right arrow
 //            canvas.drawLine(rightX, rightY, rightX + mArrowXSpace, rightY - mArrowYSpace, mPaint);
 
 //            canvas.restore();

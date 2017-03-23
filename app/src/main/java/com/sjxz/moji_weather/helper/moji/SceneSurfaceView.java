@@ -54,7 +54,7 @@ public class SceneSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             renderThread.setWidth(width);
             renderThread.setHeight(height);
             renderThread.start();
-        }else{
+        } else {
             renderThread.getRenderHandler().sendEmptyMessage(2);
         }
     }
@@ -64,7 +64,7 @@ public class SceneSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.i("=renderThread!=null="+getMeasuredWidth());
+        LogUtils.i("=renderThread!=null=" + getMeasuredWidth());
         width = getMeasuredWidth();
         height = getMeasuredHeight();
 

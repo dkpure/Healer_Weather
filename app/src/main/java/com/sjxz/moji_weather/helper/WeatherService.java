@@ -74,11 +74,11 @@ public class WeatherService extends Service {
 
         PendingIntent contentIntent = PendingIntent.getActivity(context.getApplicationContext(), 0, new Intent(context.getApplicationContext(), MainActivity.class), 0);
 
-        if(mNotificationManager==null){
+        if (mNotificationManager == null) {
             mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         }
 
-        if(mBuilder==null){
+        if (mBuilder == null) {
             mBuilder = new NotificationCompat.Builder(this);
         }
 
@@ -100,7 +100,7 @@ public class WeatherService extends Service {
         //自定义样式的标题栏
 
 
-        if(mRemoteViews==null){
+        if (mRemoteViews == null) {
             mRemoteViews = new RemoteViews(getPackageName(), R.layout.notify_view);
 
             mRemoteViews.setInt(R.id.tv_now_tmp, "setTextColor", Utils.isDarkNotificationTheme(context) == true ? Color.WHITE : Color.BLACK);

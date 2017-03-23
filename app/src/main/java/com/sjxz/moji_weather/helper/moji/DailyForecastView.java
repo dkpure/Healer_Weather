@@ -177,37 +177,37 @@ public class DailyForecastView extends View {
             int CircleMaxYPre = 0;
             if (length >= 2 && i >= 1) {
                 if ((datas[i - 1].tmp_max - d.tmp_max) > 3) {
-                    CircleMaxY = 7*Math.abs(datas[i - 1].tmp_max - d.tmp_max)/3;
-                }else if(-(datas[i - 1].tmp_max - d.tmp_max)>3){
-                    CircleMaxY=-7*Math.abs(datas[i - 1].tmp_max - d.tmp_max)/3;
+                    CircleMaxY = 7 * Math.abs(datas[i - 1].tmp_max - d.tmp_max) / 3;
+                } else if (-(datas[i - 1].tmp_max - d.tmp_max) > 3) {
+                    CircleMaxY = -7 * Math.abs(datas[i - 1].tmp_max - d.tmp_max) / 3;
                 }
                 if (length > i + 1) {
                     if ((d.tmp_max - datas[i + 1].tmp_max) > 3) {
-                        CircleMaxYPre = -4*Math.abs(d.tmp_max - datas[i + 1].tmp_max)/3;
-                    }else if(-(d.tmp_max - datas[i + 1].tmp_max) > 3){
-                        CircleMaxYPre = 4*Math.abs(d.tmp_max - datas[i + 1].tmp_max)/3;
+                        CircleMaxYPre = -4 * Math.abs(d.tmp_max - datas[i + 1].tmp_max) / 3;
+                    } else if (-(d.tmp_max - datas[i + 1].tmp_max) > 3) {
+                        CircleMaxYPre = 4 * Math.abs(d.tmp_max - datas[i + 1].tmp_max) / 3;
                     }
                 }
             }
 
             //上方地址
-            canvas.drawText(d.tmp_max + "°", x[i], yMax[i] - textSize + textOffset+(CircleMaxY>0||CircleMaxYPre>0?-16:0), paint);// - textSize
-            canvas.drawText(Utils.prettyDate(d.date)+"", x[i], textSize + textOffset, paint);//日期d.date.substring(5)
+            canvas.drawText(d.tmp_max + "°", x[i], yMax[i] - textSize + textOffset + (CircleMaxY > 0 || CircleMaxYPre > 0 ? -16 : 0), paint);// - textSize
+            canvas.drawText(Utils.prettyDate(d.date) + "", x[i], textSize + textOffset, paint);//日期d.date.substring(5)
             canvas.drawText(d.monthandday + "", x[i], textSize * 2.5f + textOffset, paint);//“晴"
-            canvas.drawText(d.day_weather+"", x[i], textSize * 4f + textOffset, paint);//微风
+            canvas.drawText(d.day_weather + "", x[i], textSize * 4f + textOffset, paint);//微风
             canvas.drawBitmap(Utils.big(checkDayWeather(d.day_weather), 80, 80), x[i] - 40, textSize * 5f + textOffset, paint);
 
 
             //下方数据
             canvas.drawText(d.tmp_min + "°", x[i], yMin[i] + textSize + textOffset, paint);
             canvas.drawBitmap(Utils.big(checkNightWeather(d.night_weather), 80, 80), x[i] - 40, textSize * 20.5f + textOffset, paint);
-            canvas.drawText(d.night_weather+"", x[i], textSize * 24f + textOffset, paint);//日期d.date.substring(5)
+            canvas.drawText(d.night_weather + "", x[i], textSize * 24f + textOffset, paint);//日期d.date.substring(5)
             canvas.drawText(d.wind_sc + "", x[i], textSize * 25.5f + textOffset, paint);//“晴"
-            canvas.drawText(d.cloud_power+"", x[i], textSize * 27f + textOffset, paint);//微风
+            canvas.drawText(d.cloud_power + "", x[i], textSize * 27f + textOffset, paint);//微风
 
             //圆点
 
-            canvas.drawCircle(x[i], yMax[i]-CircleMaxYPre-CircleMaxY, 10, paint);
+            canvas.drawCircle(x[i], yMax[i] - CircleMaxYPre - CircleMaxY, 10, paint);
             canvas.drawCircle(x[i], yMin[i], 10, paint);
         }
 
@@ -223,14 +223,13 @@ public class DailyForecastView extends View {
     }
 
     /**
-     *
      * R.drawable.w0, R.drawable.w2,
-     R.drawable.w1, R.drawable.w7, R.drawable.w8,
-     R.drawable.w6, R.drawable.w45, R.drawable.w14, R.drawable.w13,
-
-     R.drawable.w30,
-     R.drawable.w31, R.drawable.w34,
-     * */
+     * R.drawable.w1, R.drawable.w7, R.drawable.w8,
+     * R.drawable.w6, R.drawable.w45, R.drawable.w14, R.drawable.w13,
+     * <p>
+     * R.drawable.w30,
+     * R.drawable.w31, R.drawable.w34,
+     */
     public Bitmap checkDayWeather(String weather) {
 
         switch (weather) {
@@ -315,7 +314,7 @@ public class DailyForecastView extends View {
                 data.tmp_max = max;
                 data.tmp_min = min;
                 data.date = forecast.getWeekday();
-                data.wind_sc = forecast.getCloud_direction().equals("无持续风向")?"无风向":forecast.getCloud_direction();
+                data.wind_sc = forecast.getCloud_direction().equals("无持续风向") ? "无风向" : forecast.getCloud_direction();
                 data.cond_txt_d = forecast.getDay_weather();
                 data.monthandday = forecast.getDate();
                 data.day_weather = forecast.getDay_weather();

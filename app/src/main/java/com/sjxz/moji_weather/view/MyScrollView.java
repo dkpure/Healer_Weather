@@ -4,8 +4,6 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
-import com.sjxz.moji_weather.fragment.WeatherFragment;
-
 /**
  * @author WYH_Healer
  * @email 3425934925@qq.com
@@ -31,7 +29,6 @@ public class MyScrollView extends ScrollView {
     }
 
 
-
     public void setScrollViewLisenter(ScrollViewLisenter scrollViewLisenter) {
         this.scrollViewLisenter = scrollViewLisenter;
     }
@@ -44,7 +41,6 @@ public class MyScrollView extends ScrollView {
         }
 
     }
-
 
 
 }

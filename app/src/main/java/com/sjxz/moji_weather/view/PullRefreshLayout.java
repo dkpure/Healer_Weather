@@ -133,8 +133,8 @@ public class PullRefreshLayout extends ViewGroup {
 //        }
 //        mRefreshDrawable.setColorSchemeColors(mColorSchemeColors);
 //        mRefreshView.setImageDrawable(mRefreshDrawable);
-    	mRefreshDrawable = new SunDrawable(getContext(), this);
-    	mRefreshView.setImageDrawable(mRefreshDrawable);
+        mRefreshDrawable = new SunDrawable(getContext(), this);
+        mRefreshView.setImageDrawable(mRefreshDrawable);
     }
 
     public void setRefreshDrawable(RefreshDrawable drawable) {

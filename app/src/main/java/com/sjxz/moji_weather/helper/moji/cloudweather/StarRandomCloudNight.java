@@ -27,21 +27,22 @@ public class StarRandomCloudNight extends Actor {
     RectF box;
     RectF targetBox;
     Paint paint = new Paint();
-    public int paintAlpha=50;//透明度
-    public boolean isAdd=true;//标识在加
+    public int paintAlpha = 50;//透明度
+    public boolean isAdd = true;//标识在加
 
     private int randomWidth;
     private int randomHeight;
-    private int addInt=0;
+    private int addInt = 0;
+
     //宽度1-9；高度1-3；
     public StarRandomCloudNight(Context context, int randomWidth, int randomHeight) {
         super(context);
         box = new RectF();
         targetBox = new RectF();
-        this.randomHeight=randomHeight;
-        this.randomWidth=randomWidth;
+        this.randomHeight = randomHeight;
+        this.randomWidth = randomWidth;
         paint.setAntiAlias(true);
-        addInt=randomWidth+5;
+        addInt = randomWidth + 5;
     }
 
     @Override
@@ -50,9 +51,9 @@ public class StarRandomCloudNight extends Actor {
         //初始化
         if (!isInit) {
             Log.d("weather", "cloud init");
-            initPositionX = width * randomWidth/10F;
+            initPositionX = width * randomWidth / 10F;
 //            initPositionY = height * 0.69F;
-            initPositionY = height * randomHeight/10F;
+            initPositionY = height * randomHeight / 10F;
             frame = BitmapFactory.decodeResource(context.getResources(), R.drawable.sunny_night_star_l);
             box.set(0, 0, frame.getWidth(), frame.getHeight());
             matrix.reset();
@@ -68,20 +69,20 @@ public class StarRandomCloudNight extends Actor {
 //        if (targetBox.right > frame.getWidth()) {
 //            matrix.postTranslate(0, -targetBox.bottom);
 //        }
-        if(isAdd){
-            if(paintAlpha<=254){
-                paintAlpha+=addInt;
-                if(paintAlpha>255){
-                    paintAlpha=255;
+        if (isAdd) {
+            if (paintAlpha <= 254) {
+                paintAlpha += addInt;
+                if (paintAlpha > 255) {
+                    paintAlpha = 255;
                 }
-            }else {
-                isAdd=false;
+            } else {
+                isAdd = false;
             }
-        }else{
-            if(paintAlpha>=50){
-                paintAlpha-=addInt;
-            }else{
-                isAdd=true;
+        } else {
+            if (paintAlpha >= 50) {
+                paintAlpha -= addInt;
+            } else {
+                isAdd = true;
             }
 
         }

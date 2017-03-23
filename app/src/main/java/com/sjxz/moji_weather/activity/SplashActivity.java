@@ -90,8 +90,8 @@ public class SplashActivity extends BaseActivity implements SplashView {
         countdwonview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(countdwonview.timer!=null){
-                    if(countdwonview.animator!=null){
+                if (countdwonview.timer != null) {
+                    if (countdwonview.animator != null) {
                         countdwonview.animator.cancel();
                         splash_image.clearAnimation();
                     }
@@ -128,7 +128,6 @@ public class SplashActivity extends BaseActivity implements SplashView {
     public void readToMain() {
         readyGoThenKill(MainActivity.class);
     }
-
 
 
     @Override

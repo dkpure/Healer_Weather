@@ -21,7 +21,7 @@ import com.sjxz.moji_weather.helper.moji.Scene;
  */
 public class FogThread extends Thread {
 
-    public static FogThread instance=null;
+    public static FogThread instance = null;
     private Context context;
     private SurfaceHolder surfaceHolder;
     private RenderHandler renderHandler;
@@ -29,15 +29,15 @@ public class FogThread extends Thread {
     public boolean isHomeCheck = false;
 
     public FogThread(SurfaceHolder surfaceHolder, Context context) {
-        instance=this;
+        instance = this;
         this.context = context;
         this.surfaceHolder = surfaceHolder;
         scene = new Scene(context);
         //add scene/actor
         scene.setBg(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_fog_and_haze));
 
-        for(int i=0;i<7;i++){
-            scene.add(new FogTop(context,i));
+        for (int i = 0; i < 7; i++) {
+            scene.add(new FogTop(context, i));
         }
 
 

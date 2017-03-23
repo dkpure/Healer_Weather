@@ -165,7 +165,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
-                        android:background="@color/alpha_35_black"
+                        android:background="@color/alpha_15_black"
                         android:orientation="horizontal">
 
                         <RelativeLayout
@@ -254,7 +254,7 @@
                     android:id="@+id/ll_bottom_message"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/alpha_35_black"
+                    android:background="@color/alpha_15_black"
                     android:orientation="vertical">
 
                     <View
@@ -349,28 +349,28 @@
                                 android:layout_height="wrap_content"
                                 android:padding="3dp"
                                 android:text="PM2.5[入肺颗粒物]"
-                                android:textColor="@color/alpha_15_white" />
+                                android:textColor="@color/alpha_50_white" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="3dp"
                                 android:text="PM10[可吸入颗粒物]"
-                                android:textColor="@color/alpha_15_white" />
+                                android:textColor="@color/alpha_50_white" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="3dp"
                                 android:text="SO₂[二氧化硫]"
-                                android:textColor="@color/alpha_15_white" />
+                                android:textColor="@color/alpha_50_white" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:padding="3dp"
                                 android:text="NO₂[二氧化氮]"
-                                android:textColor="@color/alpha_15_white" />
+                                android:textColor="@color/alpha_50_white" />
 
                         </LinearLayout>
 

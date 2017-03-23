@@ -14,7 +14,7 @@ import java.util.List;
  * Created by xz on 2016/11/22.
  * Role:界面的数据操作
  */
-public interface RxWeatherView extends IBaseView{
+public interface RxWeatherView extends IBaseView {
 
     void onSuccess(ShowApiWeather data);//网络请求成功
 

@@ -20,15 +20,15 @@ public class SplashInteractorImpl implements SplashInteractor {
 
     @Override
     public int getBackgroundImageResId() {
-        int resId=0;
-        Calendar calendar=Calendar.getInstance();
+        int resId = 0;
+        Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        if(hour>=6&&hour<=12){
-            resId= R.mipmap.morning;
-        }else if(hour>12&& hour <= 18){
-            resId=R.mipmap.afternoon;
-        }else{
-            resId=R.mipmap.night;
+        if (hour >= 6 && hour <= 12) {
+            resId = R.mipmap.morning;
+        } else if (hour > 12 && hour <= 18) {
+            resId = R.mipmap.afternoon;
+        } else {
+            resId = R.mipmap.night;
         }
         return resId;
     }
@@ -40,13 +40,13 @@ public class SplashInteractorImpl implements SplashInteractor {
 
     @Override
     public String getVersionName(Context context) {
-        String versionName=null;
+        String versionName = null;
         try {
-            versionName=context.getPackageManager().getPackageInfo(context.getPackageName(),0).versionName;
+            versionName = context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        return String.format(context.getResources().getString(R.string.splash_version),versionName);
+        return String.format(context.getResources().getString(R.string.splash_version), versionName);
     }
 
     @Override

@@ -79,7 +79,7 @@ public class ShowApiWeather {
 
     public CityInfo cityInfo;
 
-    public List<AlarmList> alarmList ;
+    public List<AlarmList> alarmList;
 
     public Now now;
 
@@ -87,23 +87,27 @@ public class ShowApiWeather {
 
     private int ret_code;
 
-    public void setTime(String time){
+    public void setTime(String time) {
         this.time = time;
     }
-    public String getTime(){
+
+    public String getTime() {
         return this.time;
     }
-    public void setRet_code(int ret_code){
+
+    public void setRet_code(int ret_code) {
         this.ret_code = ret_code;
     }
-    public int getRet_code(){
+
+    public int getRet_code() {
         return this.ret_code;
     }
 
-    public void setNow(Now now){
+    public void setNow(Now now) {
         this.now = now;
     }
-    public Now getNow(){
+
+    public Now getNow() {
         return this.now;
     }
 
@@ -115,14 +119,13 @@ public class ShowApiWeather {
         this.cityInfo = cityInfo;
     }
 
-    public void setAlarmList(List<AlarmList> alarmList){
+    public void setAlarmList(List<AlarmList> alarmList) {
         this.alarmList = alarmList;
     }
-    public List<AlarmList> getAlarmList(){
+
+    public List<AlarmList> getAlarmList() {
         return this.alarmList;
     }
-
-
 
 
 //    public ShowApiWeatherNormalInner f1;//后一天的天气预报

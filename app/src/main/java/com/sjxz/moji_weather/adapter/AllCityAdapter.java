@@ -29,7 +29,7 @@ public class AllCityAdapter extends BaseRecyclerAdapter {
         this.context = context;
     }
 
-    public class AllCityHolder extends RecyclerView.ViewHolder{
+    public class AllCityHolder extends RecyclerView.ViewHolder {
 
         TextView city_name;
 
@@ -38,12 +38,11 @@ public class AllCityAdapter extends BaseRecyclerAdapter {
         ImageView more_message;
 
 
-
         public AllCityHolder(View itemView) {
             super(itemView);
-            city_name=(TextView)itemView.findViewById(R.id.city_name);
-            delete_city=(TextView)itemView.findViewById(R.id.delete_city);
-            more_message=(ImageView) itemView.findViewById(R.id.more_message);
+            city_name = (TextView) itemView.findViewById(R.id.city_name);
+            delete_city = (TextView) itemView.findViewById(R.id.delete_city);
+            more_message = (ImageView) itemView.findViewById(R.id.more_message);
         }
     }
 
@@ -55,27 +54,27 @@ public class AllCityAdapter extends BaseRecyclerAdapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position, boolean isItem) {
 
-        final AllCityHolder holder=(AllCityHolder)viewHolder;
+        final AllCityHolder holder = (AllCityHolder) viewHolder;
 
-        final String cityName= (String) getDatas().get(position);
+        final String cityName = (String) getDatas().get(position);
         holder.delete_city.setVisibility(View.GONE);
         holder.city_name.setText(cityName);
         holder.more_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    holder.delete_city.setVisibility( holder.delete_city.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+                holder.delete_city.setVisibility(holder.delete_city.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
             }
         });
         holder.delete_city.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //移除该城市传递数据
-                if(getDatas().size()>1){
+                if (getDatas().size() > 1) {
                     getDatas().remove(position);
                     notifyDataSetChanged();
                 }
 
-                EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_DELETE_CITY,cityName));
+                EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_DELETE_CITY, cityName));
             }
         });
     }

@@ -10,6 +10,6 @@ public interface Presenter {
 
     /**
      * 用于首次初始化
-     * */
+     */
     void initialzation();
 }

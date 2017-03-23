@@ -27,16 +27,16 @@ public class SplashPresenterImpl implements Presenter {
         this.context = context;
         this.splashView = splashView;
 
-        splashInteractor=new SplashInteractorImpl();
+        splashInteractor = new SplashInteractorImpl();
     }
 
     @Override
     public void initialzation() {
         splashView.initialzationViews(splashInteractor.getVersionName(context)
-                ,splashInteractor.getCopyRight(context)
-                ,splashInteractor.getBackgroundImageResId());
+                , splashInteractor.getCopyRight(context)
+                , splashInteractor.getBackgroundImageResId());
 
-        Animation animation=splashInteractor.getBackgroundImageAnimation(context);
+        Animation animation = splashInteractor.getBackgroundImageAnimation(context);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override

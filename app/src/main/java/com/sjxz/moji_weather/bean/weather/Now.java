@@ -28,64 +28,83 @@ public class Now {
 
     private String temperature;
 
-    public void setAqiDetail(AqiDetail aqiDetail){
+    public void setAqiDetail(AqiDetail aqiDetail) {
         this.aqiDetail = aqiDetail;
     }
-    public AqiDetail getAqiDetail(){
+
+    public AqiDetail getAqiDetail() {
         return this.aqiDetail;
     }
-    public void setWeather_code(String weather_code){
+
+    public void setWeather_code(String weather_code) {
         this.weather_code = weather_code;
     }
-    public String getWeather_code(){
+
+    public String getWeather_code() {
         return this.weather_code;
     }
-    public void setWind_direction(String wind_direction){
+
+    public void setWind_direction(String wind_direction) {
         this.wind_direction = wind_direction;
     }
-    public String getWind_direction(){
+
+    public String getWind_direction() {
         return this.wind_direction;
     }
-    public void setTemperature_time(String temperature_time){
+
+    public void setTemperature_time(String temperature_time) {
         this.temperature_time = temperature_time;
     }
-    public String getTemperature_time(){
+
+    public String getTemperature_time() {
         return this.temperature_time;
     }
-    public void setWind_power(String wind_power){
+
+    public void setWind_power(String wind_power) {
         this.wind_power = wind_power;
     }
-    public String getWind_power(){
+
+    public String getWind_power() {
         return this.wind_power;
     }
-    public void setAqi(int aqi){
+
+    public void setAqi(int aqi) {
         this.aqi = aqi;
     }
-    public int getAqi(){
+
+    public int getAqi() {
         return this.aqi;
     }
-    public void setSd(String sd){
+
+    public void setSd(String sd) {
         this.sd = sd;
     }
-    public String getSd(){
+
+    public String getSd() {
         return this.sd;
     }
-    public void setWeather_pic(String weather_pic){
+
+    public void setWeather_pic(String weather_pic) {
         this.weather_pic = weather_pic;
     }
-    public String getWeather_pic(){
+
+    public String getWeather_pic() {
         return this.weather_pic;
     }
-    public void setWeather(String weather){
+
+    public void setWeather(String weather) {
         this.weather = weather;
     }
-    public String getWeather(){
+
+    public String getWeather() {
         return this.weather;
     }
-    public void setTemperature(String temperature){
+
+    public void setTemperature(String temperature) {
         this.temperature = temperature;
     }
-    public String getTemperature(){
+
+    public String getTemperature() {
         return this.temperature;
     }
 }

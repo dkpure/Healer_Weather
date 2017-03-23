@@ -19,7 +19,7 @@ public interface MainInteractor {
 
     /**
      * 获取当天的日期
-     * */
+     */
     String getTodayTime();
 
 }

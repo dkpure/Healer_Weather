@@ -6,7 +6,7 @@ package com.sjxz.moji_weather.helper;
  * Created by xz on 2016/9/19.
  * Role:
  */
-public class EventCenter <T> {
+public class EventCenter<T> {
 
     /**
      * reserved data

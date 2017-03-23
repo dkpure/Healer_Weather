@@ -8,7 +8,7 @@ import android.view.animation.Interpolator;
 
 
 public class MxxEdgeEffect {
-   // private static final String TAG = "MxxEdgeEffect";
+    // private static final String TAG = "MxxEdgeEffect";
 
     // Time it will take the effect to fully recede in ms  后退动画的时间（从松手到恢复原状）
     private static final int RECEDE_TIME = 200;// 1000;
@@ -43,12 +43,12 @@ public class MxxEdgeEffect {
 //    private static final int MIN_WIDTH = 300;
 //    private final int mMinWidth;
 
-//    private float mEdgeAlpha;
+    //    private float mEdgeAlpha;
 //    private float mEdgeScaleY;
 //    private float mGlowAlpha;
     private float mGlowScaleY;
 
-//    private float mEdgeAlphaStart;
+    //    private float mEdgeAlphaStart;
 //    private float mEdgeAlphaFinish;
 //    private float mEdgeScaleYStart;
 //    private float mEdgeScaleYFinish;
@@ -84,7 +84,7 @@ public class MxxEdgeEffect {
     private int mState = STATE_IDLE;
 
     private float mPullDistance;
-    
+
 //    private final Rect mBounds = new Rect();
 
 //    private final int mEdgeHeight;
@@ -94,6 +94,7 @@ public class MxxEdgeEffect {
 
     /**
      * Construct a new EdgeEffect with a theme appropriate for the provided context.
+     *
      * @param context Context used to provide theming and resource information for the EdgeEffect
      */
     public MxxEdgeEffect(Context context) {
@@ -107,7 +108,7 @@ public class MxxEdgeEffect {
 //        mMinWidth = (int) (res.getDisplayMetrics().density * MIN_WIDTH + 0.5f);
         mInterpolator = new DecelerateInterpolator();
     }
-    
+
     public boolean isFinished() {
         return mState == STATE_IDLE;
     }
@@ -154,12 +155,12 @@ public class MxxEdgeEffect {
         }
 
         // Do not allow glow to get larger than MAX_GLOW_HEIGHT.
-        mGlowScaleYFinish = mGlowScaleY = mGlowScaleYStart =  Math.max( 0, mGlowScaleY + glowChange * PULL_DISTANCE_GLOW_FACTOR);
+        mGlowScaleYFinish = mGlowScaleY = mGlowScaleYStart = Math.max(0, mGlowScaleY + glowChange * PULL_DISTANCE_GLOW_FACTOR);
 
 //        mEdgeAlphaFinish = mEdgeAlpha;
 //        mEdgeScaleYFinish = mEdgeScaleY;
 //        mGlowAlphaFinish = mGlowAlpha;
-        
+
         return true;
     }
 
@@ -177,18 +178,18 @@ public class MxxEdgeEffect {
         }
 
         mState = STATE_RECEDE;
-        
+
         mGlowScaleYStart = mGlowScaleY;
 
         mGlowScaleYFinish = 0.f;
 
         mStartTime = AnimationUtils.currentAnimationTimeMillis();
         mDuration = RECEDE_TIME;
-        
+
         return isFinished();
     }
 
-   
+
     public void onAbsorb(int velocity) {
         mState = STATE_ABSORB;
         velocity = Math.min(Math.max(MIN_VELOCITY, Math.abs(velocity)), MAX_VELOCITY);
@@ -223,17 +224,16 @@ public class MxxEdgeEffect {
     }
 
 
-    
     public boolean draw(Canvas canvas) {
         update();
-        if (mState == STATE_RECEDE && mGlowScaleY == 0 ) {
+        if (mState == STATE_RECEDE && mGlowScaleY == 0) {
             mState = STATE_IDLE;
         }
         return mState != STATE_IDLE;
     }
-    
-    public float getTranslateDiatance(){
-    	return mGlowScaleY;
+
+    public float getTranslateDiatance() {
+        return mGlowScaleY;
 //    	return (int) Math.min(
 //                mGlowHeight * mGlowScaleY * mGlowHeight / mGlowWidth * 0.6f,
 //                mGlowHeight * MAX_GLOW_HEIGHT);

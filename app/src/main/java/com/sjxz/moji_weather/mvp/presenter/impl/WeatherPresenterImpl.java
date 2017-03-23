@@ -78,9 +78,9 @@ public class WeatherPresenterImpl extends BasePresenter<RxWeatherView> {
      * 获取当前数据填充
      */
     public NotifyBean setTopViewData(ShowApiWeather data, List<ShowApiWeatherNormalInner> dataList, TextView now_weather, TextView now_temperature, TextView now_direction, TextView now_humidity,
-                               TextView today_temperature_range, TextView today_weather, ImageView today_weather_pic, TextView tomorrow_temperature_range,
-                               TextView tomorrow_weather, ImageView tomorrow_weather_pic, TextView air_quality, TextView now_small_temperature,
-                               TextView now_pressure, TextView pm2_5, TextView pm10, TextView so2, TextView no2) {
+                                     TextView today_temperature_range, TextView today_weather, ImageView today_weather_pic, TextView tomorrow_temperature_range,
+                                     TextView tomorrow_weather, ImageView tomorrow_weather_pic, TextView air_quality, TextView now_small_temperature,
+                                     TextView now_pressure, TextView pm2_5, TextView pm10, TextView so2, TextView no2) {
         if (null != data.getNow() && null != data.getNow().getAqiDetail()) {
             air_quality.setText(data.getNow().getAqiDetail().getAqi() + " " + data.getNow().getAqiDetail().getQuality());
         }

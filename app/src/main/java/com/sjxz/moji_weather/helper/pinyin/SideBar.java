@@ -23,9 +23,9 @@ public class SideBar extends View {
 
     private OnTouchingLetterChangedListener onTouchingLetterChangedListener;
 
-    public static String[] b = { "A", "B", "C", "D", "E", "F", "G", "H", "I",
+    public static String[] b = {"A", "B", "C", "D", "E", "F", "G", "H", "I",
             "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V",
-            "W", "X", "Y", "Z", "#" };
+            "W", "X", "Y", "Z", "#"};
     private int choose = -1;// ѡ�е�
     private Paint paint = new Paint();
 
@@ -117,7 +117,6 @@ public class SideBar extends View {
     }
 
     /**
-     *
      * @param onTouchingLetterChangedListener
      */
     public void setOnTouchingLetterChangedListener(
@@ -126,9 +125,7 @@ public class SideBar extends View {
     }
 
     /**
-     *
      * @author coder
-     *
      */
     public interface OnTouchingLetterChangedListener {
         public void onTouchingLetterChanged(String s);

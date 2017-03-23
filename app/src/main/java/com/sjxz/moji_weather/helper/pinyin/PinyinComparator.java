@@ -10,7 +10,7 @@ import java.util.Comparator;
  * Created by xz on 2017/3/7.
  * Role:比较器，排序
  */
-public class PinyinComparator  implements Comparator<SortModel> {
+public class PinyinComparator implements Comparator<SortModel> {
 
     public int compare(SortModel o1, SortModel o2) {
         if (o1.getSortLetters().equals("@")

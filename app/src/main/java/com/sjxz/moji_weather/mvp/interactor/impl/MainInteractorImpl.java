@@ -27,14 +27,14 @@ public class MainInteractorImpl implements MainInteractor {
     @Override
     public List<String> initialCity(Context context) {
 
-        List<String> list=SpUtils.getListObj(context, Constants.CITY_NAME);
+        List<String> list = SpUtils.getListObj(context, Constants.CITY_NAME);
 
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             return list;
         }
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         list.add("杭州市");
-        SpUtils.setListObj(context,list,Constants.CITY_NAME);
+        SpUtils.setListObj(context, list, Constants.CITY_NAME);
         return list;
     }
 
@@ -45,13 +45,17 @@ public class MainInteractorImpl implements MainInteractor {
         alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                ((Activity)context).getWindow().setBackgroundDrawable(
-				 new ColorDrawable(Color.BLACK));
+                ((Activity) context).getWindow().setBackgroundDrawable(
+                        new ColorDrawable(Color.BLACK));
             }
+
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
+
             @Override
-            public void onAnimationEnd(Animation animation) {}
+            public void onAnimationEnd(Animation animation) {
+            }
         });
 
         return alphaAnimation;

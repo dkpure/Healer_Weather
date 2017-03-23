@@ -14,14 +14,14 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
  * Role:
  */
 public class HanZiToPinYin {
-    public static String toPinYin(char hanzi){
+    public static String toPinYin(char hanzi) {
         HanyuPinyinOutputFormat hanyuPinyin = new HanyuPinyinOutputFormat();
         hanyuPinyin.setCaseType(HanyuPinyinCaseType.LOWERCASE);
         hanyuPinyin.setToneType(HanyuPinyinToneType.WITH_TONE_MARK);
         hanyuPinyin.setVCharType(HanyuPinyinVCharType.WITH_U_UNICODE);
-        String[] pinyinArray=null;
+        String[] pinyinArray = null;
         try {
-            if(hanzi>=0x4e00 && hanzi<=0x9fa5){
+            if (hanzi >= 0x4e00 && hanzi <= 0x9fa5) {
                 pinyinArray = PinyinHelper.toHanyuPinyinStringArray(hanzi, hanyuPinyin);
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {

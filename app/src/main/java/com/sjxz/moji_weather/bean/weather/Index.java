@@ -25,58 +25,75 @@ public class Index {
 
     private Wash_car wash_car;
 
-    public void setBeauty(Beauty beauty){
+    public void setBeauty(Beauty beauty) {
         this.beauty = beauty;
     }
-    public Beauty getBeauty(){
+
+    public Beauty getBeauty() {
         return this.beauty;
     }
-    public void setClothes(Clothes clothes){
+
+    public void setClothes(Clothes clothes) {
         this.clothes = clothes;
     }
-    public Clothes getClothes(){
+
+    public Clothes getClothes() {
         return this.clothes;
     }
-    public void setCold(Cold cold){
+
+    public void setCold(Cold cold) {
         this.cold = cold;
     }
-    public Cold getCold(){
+
+    public Cold getCold() {
         return this.cold;
     }
-    public void setComfort(Comfort comfort){
+
+    public void setComfort(Comfort comfort) {
         this.comfort = comfort;
     }
-    public Comfort getComfort(){
+
+    public Comfort getComfort() {
         return this.comfort;
     }
-    public void setGlass(Glass glass){
+
+    public void setGlass(Glass glass) {
         this.glass = glass;
     }
-    public Glass getGlass(){
+
+    public Glass getGlass() {
         return this.glass;
     }
-    public void setSports(Sports sports){
+
+    public void setSports(Sports sports) {
         this.sports = sports;
     }
-    public Sports getSports(){
+
+    public Sports getSports() {
         return this.sports;
     }
-    public void setTravel(Travel travel){
+
+    public void setTravel(Travel travel) {
         this.travel = travel;
     }
-    public Travel getTravel(){
+
+    public Travel getTravel() {
         return this.travel;
     }
-    public void setUv(Uv uv){
+
+    public void setUv(Uv uv) {
         this.uv = uv;
     }
-    public Uv getUv(){
+
+    public Uv getUv() {
         return this.uv;
     }
-    public void setWash_car(Wash_car wash_car){
+
+    public void setWash_car(Wash_car wash_car) {
         this.wash_car = wash_car;
     }
-    public Wash_car getWash_car(){
+
+    public Wash_car getWash_car() {
         return this.wash_car;
     }
 }

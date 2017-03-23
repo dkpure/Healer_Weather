@@ -25,7 +25,7 @@ public class ClearEditText extends EditText implements
 
     /**
      * ����ɾ����ť������
-     * */
+     */
     private Drawable mClearDrawable;
 
     public ClearEditText(Context context) {
@@ -59,7 +59,7 @@ public class ClearEditText extends EditText implements
 
     /**
      * 点击事件截取
-     * */
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (getCompoundDrawables()[2] != null) {
@@ -77,8 +77,8 @@ public class ClearEditText extends EditText implements
     }
 
     /**
-     *监听是否获取焦点
-     * */
+     * 监听是否获取焦点
+     */
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (hasFocus) {
@@ -89,8 +89,8 @@ public class ClearEditText extends EditText implements
     }
 
     /**
-     *设置icon
-     * */
+     * 设置icon
+     */
     protected void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0],
@@ -98,8 +98,8 @@ public class ClearEditText extends EditText implements
     }
 
     /**
-     *监听字符串数据
-     * */
+     * 监听字符串数据
+     */
     @Override
     public void onTextChanged(CharSequence s, int start, int count,
                               int after) {
@@ -118,12 +118,12 @@ public class ClearEditText extends EditText implements
     }
 
 
-    public void setShakeAnimation(){
+    public void setShakeAnimation() {
         this.setAnimation(shakeAnimation(5));
     }
 
 
-    public static Animation shakeAnimation(int counts){
+    public static Animation shakeAnimation(int counts) {
         Animation translateAnimation = new TranslateAnimation(0, 10, 0, 0);
         translateAnimation.setInterpolator(new CycleInterpolator(counts));
         translateAnimation.setDuration(1000);

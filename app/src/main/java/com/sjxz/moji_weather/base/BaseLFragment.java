@@ -19,11 +19,11 @@ public abstract class BaseLFragment extends BaseLazyFragment implements BaseView
 
     public abstract String getTitle();
 
-    public Handler handler=new Handler();
+    public Handler handler = new Handler();
 
-    public boolean isLoadMore=false;
+    public boolean isLoadMore = false;
 
-    public int page=1;
+    public int page = 1;
 
     @Override
     public void showError(String msg) {
@@ -51,7 +51,6 @@ public abstract class BaseLFragment extends BaseLazyFragment implements BaseView
     }
 
 
-
     /**
      * 抽取RecyclerView的初始化方法
      */
@@ -69,14 +68,15 @@ public abstract class BaseLFragment extends BaseLazyFragment implements BaseView
     }
 
 
-
     protected void initialRecyclerViewGrid(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
     }
+
     public StaggeredGridLayoutManager layoutManager;
-    protected void initialRecyclerViewStagger(RecyclerView recyclerView){
-        layoutManager=  new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+
+    protected void initialRecyclerViewStagger(RecyclerView recyclerView) {
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(layoutManager);
     }
@@ -90,17 +90,18 @@ public abstract class BaseLFragment extends BaseLazyFragment implements BaseView
 
     protected void initialRecyclerViewGridHorizontal(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2,GridLayoutManager.HORIZONTAL,false));
-    }
-    /**
-     * 网络请求公共
-     * */
-    protected  void noDataCommon(XRefreshView xRefreshView,int page){
-        xRefreshView.setPullLoadEnable(false);//设置不允许上拉加载
-        xRefreshView.setPullRefreshEnable(page==1?false:true);//设置默认允许下拉刷新
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.HORIZONTAL, false));
     }
 
-    protected void finishHttpCommon(XRefreshView xRefreshView){
+    /**
+     * 网络请求公共
+     */
+    protected void noDataCommon(XRefreshView xRefreshView, int page) {
+        xRefreshView.setPullLoadEnable(false);//设置不允许上拉加载
+        xRefreshView.setPullRefreshEnable(page == 1 ? false : true);//设置默认允许下拉刷新
+    }
+
+    protected void finishHttpCommon(XRefreshView xRefreshView) {
         hideLoading();
         xRefreshView.stopRefresh();
         xRefreshView.stopLoadMore();

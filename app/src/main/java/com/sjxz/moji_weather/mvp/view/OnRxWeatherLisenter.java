@@ -8,6 +8,6 @@ import com.sjxz.moji_weather.bean.weather.ShowApiWeather;
  * Created by xz on 2017/2/9.
  * Role:专门用于接收数据返回类型
  */
-public interface OnRxWeatherLisenter extends IBaseView{
+public interface OnRxWeatherLisenter extends IBaseView {
     void onSuccess(ShowApiWeather data);//网络请求成功
 }

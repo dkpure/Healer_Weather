@@ -53,7 +53,7 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             snowThread.setWidth(width);
             snowThread.setHeight(height);
             snowThread.start();
-        }else{
+        } else {
             snowThread.getRenderHandler().sendEmptyMessage(2);
         }
     }
@@ -63,7 +63,7 @@ public class SnowSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.i("=renderThread!=null="+getMeasuredWidth());
+        LogUtils.i("=renderThread!=null=" + getMeasuredWidth());
         width = getMeasuredWidth();
         height = getMeasuredHeight();
         if (snowThread != null) {

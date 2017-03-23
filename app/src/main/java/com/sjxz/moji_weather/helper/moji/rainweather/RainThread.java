@@ -35,8 +35,8 @@ public class RainThread extends Thread {
         scene.setBg(BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_moderate_rain_day));
         scene.add(new RainCloudLeft(context));
         scene.add(new RainCloudRight(context));
-        for(int i=0;i<80;i++){
-            scene.add(new RainStatus(context,i));
+        for (int i = 0; i < 80; i++) {
+            scene.add(new RainStatus(context, i));
         }
 
     }

@@ -52,13 +52,13 @@ public abstract class MxxFragmentPagerAdapter extends PagerAdapter {
 //            if (DEBUG) Log.v(TAG, "Attaching item #" + itemId + ": f=" + fragment);
 //            mCurTransaction.attach(fragment);
             Fragment getFragment = getItem(position);
-            if(fragment != getFragment){
+            if (fragment != getFragment) {
                 mCurTransaction.remove(fragment);
                 fragment = getFragment;
                 mCurTransaction.add(container.getId(), fragment,
                         makeFragmentName(container.getId(), itemId));
                 if (DEBUG) Log.v(TAG, "Remove old item #" + itemId + ": f=" + fragment);
-            }else{
+            } else {
                 if (DEBUG) Log.v(TAG, "Attaching item #" + itemId + ": f=" + fragment);
                 mCurTransaction.attach(fragment);
             }
@@ -82,13 +82,13 @@ public abstract class MxxFragmentPagerAdapter extends PagerAdapter {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
         if (DEBUG) Log.v(TAG, "Detaching item #" + getItemId(position) + ": f=" + object
-                + " v=" + ((Fragment)object).getView());
-        mCurTransaction.detach((Fragment)object);
+                + " v=" + ((Fragment) object).getView());
+        mCurTransaction.detach((Fragment) object);
     }
 
     @Override
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
-        Fragment fragment = (Fragment)object;
+        Fragment fragment = (Fragment) object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
                 mCurrentPrimaryItem.setMenuVisibility(false);
@@ -113,7 +113,7 @@ public abstract class MxxFragmentPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return ((Fragment)object).getView() == view;
+        return ((Fragment) object).getView() == view;
     }
 
     @Override
@@ -127,7 +127,7 @@ public abstract class MxxFragmentPagerAdapter extends PagerAdapter {
 
     /**
      * Return a unique identifier for the item at the given position.
-     *
+     * <p>
      * <p>The default implementation returns the given position.
      * Subclasses should override this method if the positions of items can change.</p>
      *

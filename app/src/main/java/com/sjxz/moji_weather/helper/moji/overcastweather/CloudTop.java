@@ -17,7 +17,7 @@ import com.sjxz.moji_weather.helper.moji.Actor;
  * Created by xz on 2016/11/25.
  * Role:
  */
-public class CloudTop  extends Actor {
+public class CloudTop extends Actor {
 
     float initPositionX;
     float initPositionY;
@@ -50,8 +50,8 @@ public class CloudTop  extends Actor {
             matrix.setScale(2f, 2f);
             matrix.mapRect(targetBox, box);
             matrix.postTranslate(initPositionX - targetBox.width() / 2, initPositionY - targetBox.height() / 2);
-            initX=initPositionX - targetBox.width() / 2;
-            initY=initPositionY - targetBox.height() / 2;
+            initX = initPositionX - targetBox.width() / 2;
+            initY = initPositionY - targetBox.height() / 2;
             isInit = true;
             return;
         }
@@ -60,8 +60,8 @@ public class CloudTop  extends Actor {
         matrix.postTranslate(0, -1.5F);
         //边界处理
         matrix.mapRect(targetBox, box);
-        if (-targetBox.bottom > height/6) {
-            matrix.postTranslate(0, -targetBox.top*1.2f);
+        if (-targetBox.bottom > height / 6) {
+            matrix.postTranslate(0, -targetBox.top * 1.2f);
         }
         //绘制
         canvas.drawBitmap(frame, matrix, paint);

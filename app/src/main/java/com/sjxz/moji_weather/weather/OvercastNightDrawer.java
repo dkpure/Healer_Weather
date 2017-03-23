@@ -36,9 +36,9 @@ public class OvercastNightDrawer extends BaseDrawer {
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if(alpha!=1){
-            paint.setAlpha((int)(alpha*255));
-        }else{
+        if (alpha != 1) {
+            paint.setAlpha((int) (alpha * 255));
+        } else {
             paint.setAlpha(255);
         }
         canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
@@ -59,7 +59,7 @@ public class OvercastNightDrawer extends BaseDrawer {
         }
     }
 
-    public static class OvercastDayHolder{
+    public static class OvercastDayHolder {
         float initPositionX;
         float initPositionY;
         Bitmap frame;
@@ -67,13 +67,13 @@ public class OvercastNightDrawer extends BaseDrawer {
         RectF targetBox;
         int width;
         int position = 0;
-        protected Matrix matrix ;
+        protected Matrix matrix;
 
         public OvercastDayHolder(Context context, int width, int height, Matrix matrix, int i) {
             super();
             this.position = i;
             this.width = width;
-            this.matrix=matrix;
+            this.matrix = matrix;
             box = new RectF();
             targetBox = new RectF();
 

@@ -30,16 +30,17 @@ public class RainStatus extends Actor {
     float initX;
     float initY;
 
-    int position=0;
+    int position = 0;
     int randomInt;
-    Random random=new Random();
+    Random random = new Random();
+
     public RainStatus(Context context, int i) {
         super(context);
         box = new RectF();
         targetBox = new RectF();
         paint.setAntiAlias(true);
-        position=i;
-        randomInt=random.nextInt(80);
+        position = i;
+        randomInt = random.nextInt(80);
     }
 
     public int[] bitmaps = {
@@ -63,10 +64,10 @@ public class RainStatus extends Actor {
         //逻辑处理
         //初始化
         if (!isInit) {
-            initPositionX = width * 0.15F*(position%12==0?1:position%12);
+            initPositionX = width * 0.15F * (position % 12 == 0 ? 1 : position % 12);
 //            initPositionY = height * 0.69F;
-            initPositionY = height * 1.0F*0.05f*(randomInt%20==0?1:randomInt%20);
-            frame = BitmapFactory.decodeResource(context.getResources(),bitmaps[randomInt%12]);
+            initPositionY = height * 1.0F * 0.05f * (randomInt % 20 == 0 ? 1 : randomInt % 20);
+            frame = BitmapFactory.decodeResource(context.getResources(), bitmaps[randomInt % 12]);
             box.set(0, 0, frame.getWidth(), frame.getHeight());
             matrix.reset();
             matrix.setScale(6f, 6f);

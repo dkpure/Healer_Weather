@@ -32,7 +32,7 @@ public class CircularProgressBar extends ProgressBar {
 
     }
 
-    private void initMeasure(Context context, AttributeSet attrs, int defStyle){
+    private void initMeasure(Context context, AttributeSet attrs, int defStyle) {
         if (isInEditMode()) {
             setIndeterminateDrawable(new CircularProgressDrawable.Builder(context, true).build());
             return;

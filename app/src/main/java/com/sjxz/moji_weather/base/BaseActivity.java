@@ -107,9 +107,9 @@ public abstract class BaseActivity extends BaseAppCompatActivity implements Base
 
     public StaggeredGridLayoutManager layoutManager;
 
-    protected void initialRecyclerViewStagger(RecyclerView recyclerView){
+    protected void initialRecyclerViewStagger(RecyclerView recyclerView) {
         recyclerView.setHasFixedSize(true);
-        layoutManager=  new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(layoutManager);
     }
@@ -192,15 +192,16 @@ public abstract class BaseActivity extends BaseAppCompatActivity implements Base
         contentFragment = startFragment;
         transaction.commitAllowingStateLoss();
     }
+
     /**
      * 网络请求公共
-     * */
-    protected  void noDataCommon(XRefreshView xRefreshView,int page){
+     */
+    protected void noDataCommon(XRefreshView xRefreshView, int page) {
         xRefreshView.setPullLoadEnable(false);//设置不允许上拉加载
-        xRefreshView.setPullRefreshEnable(page==1?false:true);//设置默认允许下拉刷新
+        xRefreshView.setPullRefreshEnable(page == 1 ? false : true);//设置默认允许下拉刷新
     }
 
-    protected void finishHttpCommon(XRefreshView xRefreshView){
+    protected void finishHttpCommon(XRefreshView xRefreshView) {
         xRefreshView.stopRefresh();
         xRefreshView.stopLoadMore();
     }

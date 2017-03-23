@@ -15,25 +15,25 @@ public class BaseAppManager {
 
     private static BaseAppManager instance;
 
-    private List<Activity> mActivities=new LinkedList<>();
+    private List<Activity> mActivities = new LinkedList<>();
 
     public BaseAppManager() {
     }
 
-    public static BaseAppManager getInstance(){
-        if(null==instance){
-            synchronized (BaseAppManager.class){
-                instance=new BaseAppManager();
+    public static BaseAppManager getInstance() {
+        if (null == instance) {
+            synchronized (BaseAppManager.class) {
+                instance = new BaseAppManager();
             }
         }
         return instance;
     }
 
-    public int size (){
+    public int size() {
         return mActivities.size();
     }
 
-    public synchronized  void addActivity(Activity activity){
+    public synchronized void addActivity(Activity activity) {
         mActivities.add(activity);
     }
 

@@ -19,40 +19,51 @@ public class AlarmList {
 
     private String city;
 
-    public void setSignalLevel(String signalLevel){
+    public void setSignalLevel(String signalLevel) {
         this.signalLevel = signalLevel;
     }
-    public String getSignalLevel(){
+
+    public String getSignalLevel() {
         return this.signalLevel;
     }
-    public void setIssueContent(String issueContent){
+
+    public void setIssueContent(String issueContent) {
         this.issueContent = issueContent;
     }
-    public String getIssueContent(){
+
+    public String getIssueContent() {
         return this.issueContent;
     }
-    public void setIssueTime(String issueTime){
+
+    public void setIssueTime(String issueTime) {
         this.issueTime = issueTime;
     }
-    public String getIssueTime(){
+
+    public String getIssueTime() {
         return this.issueTime;
     }
-    public void setProvince(String province){
+
+    public void setProvince(String province) {
         this.province = province;
     }
-    public String getProvince(){
+
+    public String getProvince() {
         return this.province;
     }
-    public void setSignalType(String signalType){
+
+    public void setSignalType(String signalType) {
         this.signalType = signalType;
     }
-    public String getSignalType(){
+
+    public String getSignalType() {
         return this.signalType;
     }
-    public void setCity(String city){
+
+    public void setCity(String city) {
         this.city = city;
     }
-    public String getCity(){
+
+    public String getCity() {
         return this.city;
     }
 

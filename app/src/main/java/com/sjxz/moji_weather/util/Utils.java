@@ -185,7 +185,8 @@ public class Utils {
 
     /**
      * 将时间戳转为代表"距现在多久之前"的字符串
-     * @param timeStr   时间戳
+     *
+     * @param timeStr 时间戳
      * @return
      */
     public static String getStandardDate(String timeStr) {
@@ -193,14 +194,14 @@ public class Utils {
         StringBuffer sb = new StringBuffer();
 
         long t = Long.parseLong(timeStr);
-        long time = System.currentTimeMillis() - (t*1000);
-        long mill = (long) Math.ceil(time /1000);//秒前
+        long time = System.currentTimeMillis() - (t * 1000);
+        long mill = (long) Math.ceil(time / 1000);//秒前
 
-        long minute = (long) Math.ceil(time/60/1000.0f);// 分钟前
+        long minute = (long) Math.ceil(time / 60 / 1000.0f);// 分钟前
 
-        long hour = (long) Math.ceil(time/60/60/1000.0f);// 小时
+        long hour = (long) Math.ceil(time / 60 / 60 / 1000.0f);// 小时
 
-        long day = (long) Math.ceil(time/24/60/60/1000.0f);// 天前
+        long day = (long) Math.ceil(time / 24 / 60 / 60 / 1000.0f);// 天前
 
         if (day - 1 > 0) {
             sb.append(day + "天");
@@ -232,7 +233,6 @@ public class Utils {
     }
 
 
-
     public static String getTotalCacheSize(Context context) throws Exception {
         long cacheSize = getFolderSize(context.getCacheDir());
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
@@ -240,6 +240,7 @@ public class Utils {
         }
         return getFormatSize(cacheSize);
     }
+
     // 获取文件
     //Context.getExternalFilesDir() --> SDCard/Android/data/你的应用的包名/files/ 目录，一般放一些长时间保存的数据
     //Context.getExternalCacheDir() --> SDCard/Android/data/你的应用包名/cache/目录，一般存放临时缓存数据
@@ -301,7 +302,7 @@ public class Utils {
 
     /**
      * 测试状态栏高度
-     * */
+     */
     public static int getStatusBarHeight(Context context) {
         int result = 0;
         int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -310,6 +311,7 @@ public class Utils {
         }
         return result;
     }
+
     /**
      * 转换日期2015-11-05为今天、明天、昨天，或者是星期几
      *
@@ -378,12 +380,11 @@ public class Utils {
         return date;
     }
 
-    public static Bitmap big(Bitmap b,float x,float y)
-    {
-        int w=b.getWidth();
-        int h=b.getHeight();
-        float sx=(float)x/w;//要强制转换，不转换我的在这总是死掉。
-        float sy=(float)y/h;
+    public static Bitmap big(Bitmap b, float x, float y) {
+        int w = b.getWidth();
+        int h = b.getHeight();
+        float sx = (float) x / w;//要强制转换，不转换我的在这总是死掉。
+        float sy = (float) y / h;
         Matrix matrix = new Matrix();
         matrix.postScale(sx, sy); // 长和宽放大缩小的比例
         Bitmap resizeBmp = Bitmap.createBitmap(b, 0, 0, w,
@@ -395,7 +396,6 @@ public class Utils {
         Paint.FontMetrics fontMetrics = paint.getFontMetrics();
         return -(fontMetrics.bottom - fontMetrics.top) / 2f - fontMetrics.top;
     }
-
 
 
     public static String formatDuration(int duration) {
@@ -433,7 +433,6 @@ public class Utils {
     }
 
 
-
     //根据不同的手机适配通知栏的颜色
 
     public static boolean isDarkNotificationTheme(Context context) {
@@ -442,46 +441,46 @@ public class Utils {
 
     /**
      * 获取通知栏颜色
+     *
      * @param context
      * @return
      */
     public static int getNotificationColor(Context context) {
-        NotificationCompat.Builder builder=new NotificationCompat.Builder(context);
-        Notification notification=builder.build();
-        int layoutId=notification.contentView.getLayoutId();
-        ViewGroup viewGroup= (ViewGroup) LayoutInflater.from(context).inflate(layoutId, null, false);
-        if (viewGroup.findViewById(android.R.id.title)!=null) {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+        Notification notification = builder.build();
+        int layoutId = notification.contentView.getLayoutId();
+        ViewGroup viewGroup = (ViewGroup) LayoutInflater.from(context).inflate(layoutId, null, false);
+        if (viewGroup.findViewById(android.R.id.title) != null) {
             return ((TextView) viewGroup.findViewById(android.R.id.title)).getCurrentTextColor();
         }
         return findColor(viewGroup);
     }
 
     private static boolean isSimilarColor(int baseColor, int color) {
-        int simpleBaseColor=baseColor|0xff000000;
-        int simpleColor=color|0xff000000;
-        int baseRed= Color.red(simpleBaseColor)-Color.red(simpleColor);
-        int baseGreen=Color.green(simpleBaseColor)-Color.green(simpleColor);
-        int baseBlue=Color.blue(simpleBaseColor)-Color.blue(simpleColor);
-        double value=Math.sqrt(baseRed*baseRed+baseGreen*baseGreen+baseBlue*baseBlue);
-        if (value<180.0) {
+        int simpleBaseColor = baseColor | 0xff000000;
+        int simpleColor = color | 0xff000000;
+        int baseRed = Color.red(simpleBaseColor) - Color.red(simpleColor);
+        int baseGreen = Color.green(simpleBaseColor) - Color.green(simpleColor);
+        int baseBlue = Color.blue(simpleBaseColor) - Color.blue(simpleColor);
+        double value = Math.sqrt(baseRed * baseRed + baseGreen * baseGreen + baseBlue * baseBlue);
+        if (value < 180.0) {
             return true;
         }
         return false;
     }
 
     private static int findColor(ViewGroup viewGroupSource) {
-        int color=Color.TRANSPARENT;
-        LinkedList<ViewGroup> viewGroups=new LinkedList<>();
+        int color = Color.TRANSPARENT;
+        LinkedList<ViewGroup> viewGroups = new LinkedList<>();
         viewGroups.add(viewGroupSource);
-        while (viewGroups.size()>0) {
-            ViewGroup viewGroup1=viewGroups.getFirst();
+        while (viewGroups.size() > 0) {
+            ViewGroup viewGroup1 = viewGroups.getFirst();
             for (int i = 0; i < viewGroup1.getChildCount(); i++) {
                 if (viewGroup1.getChildAt(i) instanceof ViewGroup) {
                     viewGroups.add((ViewGroup) viewGroup1.getChildAt(i));
-                }
-                else if (viewGroup1.getChildAt(i) instanceof TextView) {
-                    if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor()!=-1) {
-                        color=((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
+                } else if (viewGroup1.getChildAt(i) instanceof TextView) {
+                    if (((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor() != -1) {
+                        color = ((TextView) viewGroup1.getChildAt(i)).getCurrentTextColor();
                     }
                 }
             }
@@ -497,10 +496,10 @@ public class Utils {
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.processName.equals(context.getPackageName())) {
                 if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    LogUtilss.i("后台"+appProcess.processName);
+                    LogUtilss.i("后台" + appProcess.processName);
                     return true;
-                }else{
-                    LogUtilss.i("前台"+ appProcess.processName);
+                } else {
+                    LogUtilss.i("前台" + appProcess.processName);
                     return false;
                 }
             }

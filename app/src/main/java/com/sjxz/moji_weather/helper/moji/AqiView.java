@@ -28,7 +28,7 @@ public class AqiView extends View {
         super(context, attrs);
         density = context.getResources().getDisplayMetrics().density;
         textPaint.setTextAlign(Paint.Align.CENTER);
-        if(isInEditMode()){
+        if (isInEditMode()) {
             return;
         }
     }
@@ -105,7 +105,7 @@ public class AqiView extends View {
     }
 
     public void setData(AqiDetail aqi) {
-        if (aqi != null ) {
+        if (aqi != null) {
             this.aqiCity = aqi;
             invalidate();
         }

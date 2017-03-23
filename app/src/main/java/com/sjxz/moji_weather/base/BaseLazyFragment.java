@@ -30,10 +30,11 @@ public abstract class BaseLazyFragment extends Fragment {
 
     protected Context mContext = null;
     private boolean isPrepared;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mContext=getActivity();
+        mContext = getActivity();
         if (isBindEventBusHere()) {
             EventBus.getDefault().register(this);
         }
@@ -80,8 +81,10 @@ public abstract class BaseLazyFragment extends Fragment {
             EventBus.getDefault().unregister(this);
         }
     }
+
     private boolean isFirstVisible = true;
     private boolean isFirstInvisible = true;
+
     //实现fragment懒加载模式
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -238,6 +241,7 @@ public abstract class BaseLazyFragment extends Fragment {
             onEventComming(eventCenter);
         }
     }
+
     protected abstract void onFirstUserVisible();
 
     private synchronized void initPrepare() {

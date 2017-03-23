@@ -26,7 +26,7 @@ public class Scene {
     private Bitmap bg;
     private List<Actor> actors = new ArrayList<Actor>();
     private Paint paint;
-    public static boolean isIterator=true;
+    public static boolean isIterator = true;
 
     public Scene(Context context) {
         this.context = context;
@@ -42,23 +42,23 @@ public class Scene {
         actors.add(actor);
     }
 
-    public void clear(){
-        if(!isIterator){
+    public void clear() {
+        if (!isIterator) {
             //说明是已经停止遍历了
             LogUtils.i("停止遍历");
             actors.clear();
-            isIterator=true;
+            isIterator = true;
         }
 
     }
 
     public void draw(Canvas canvas) {
-        if(bg!=null){
+        if (bg != null) {
             canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
         }
-        if(actors!=null&&actors.size()!=0){
+        if (actors != null && actors.size() != 0) {
             for (Actor actor : actors) {
-                actor.draw(canvas,width,height);
+                actor.draw(canvas, width, height);
             }
         }
 

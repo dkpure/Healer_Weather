@@ -97,9 +97,9 @@ public class WeatherLifeAdapter extends BaseRecyclerAdapter {
                 break;
         }
 
-        if(item.getTitle()!=null){
+        if (item.getTitle() != null) {
             holder.life_title.setText(item.getTitle());
-        }else{
+        } else {
             holder.life_title.setText("暂缺");
         }
 

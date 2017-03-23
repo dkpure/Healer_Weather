@@ -23,7 +23,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     private List<SortModel> list = null;
     private Context mContext;
 
-    public SortAdapter(Context context, List<SortModel> list ) {
+    public SortAdapter(Context context, List<SortModel> list) {
         this.mContext = context;
         this.list = list;
     }
@@ -31,7 +31,7 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
     /**
      * @param list
      */
-    public void updateListView(List<SortModel> list){
+    public void updateListView(List<SortModel> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -68,10 +68,10 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
 
         viewHolder.tvLetter.setOnClickListener(null);
 
-        if(position == getPositionForSection(section)){
+        if (position == getPositionForSection(section)) {
             viewHolder.tvLetter.setVisibility(View.VISIBLE);
             viewHolder.tvLetter.setText(mContent.getSortLetters());
-        }else{
+        } else {
             viewHolder.tvLetter.setVisibility(View.GONE);
         }
 
@@ -80,7 +80,6 @@ public class SortAdapter extends BaseAdapter implements SectionIndexer {
         return view;
 
     }
-
 
 
     final static class ViewHolder {

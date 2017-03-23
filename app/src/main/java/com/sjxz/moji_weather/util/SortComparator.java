@@ -14,12 +14,11 @@ public class SortComparator implements Comparator {
     @Override
     public int compare(Object lhs, Object rhs) {
 
-        ShowApiWeatherNormalInner a=(ShowApiWeatherNormalInner)lhs;
+        ShowApiWeatherNormalInner a = (ShowApiWeatherNormalInner) lhs;
 
-        ShowApiWeatherNormalInner b=(ShowApiWeatherNormalInner)rhs;
+        ShowApiWeatherNormalInner b = (ShowApiWeatherNormalInner) rhs;
 
 
-
-        return Integer.parseInt(a.getDay())-Integer.parseInt(b.getDay());
+        return Integer.parseInt(a.getDay()) - Integer.parseInt(b.getDay());
     }
 }

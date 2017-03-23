@@ -36,16 +36,16 @@ public class PopularSunnyNight extends Actor {
     float initX;
     float initY;
 
-    public int paintAlpha=255;//透明度
+    public int paintAlpha = 255;//透明度
 
-    public int paintStarAlpha=0;
+    public int paintStarAlpha = 0;
 
-    private int number_of_times=6;
+    private int number_of_times = 6;
     private Canvas canvas;
 
-    public boolean isStar=false;//星星的渐变标识
-    public boolean isAdd=true;//渐变标识
-    public boolean isOver=false;
+    public boolean isStar = false;//星星的渐变标识
+    public boolean isAdd = true;//渐变标识
+    public boolean isOver = false;
     protected Matrix matrixStar = new Matrix();
 
     public PopularSunnyNight(Context context) {
@@ -54,14 +54,12 @@ public class PopularSunnyNight extends Actor {
         targetBox = new RectF();
 
         //星星坐标
-        starBox=new RectF();
-        starTargetBox=new RectF();
+        starBox = new RectF();
+        starTargetBox = new RectF();
 
         paintStar.setAntiAlias(true);
         paint.setAntiAlias(true);
     }
-
-
 
 
     @Override
@@ -69,8 +67,8 @@ public class PopularSunnyNight extends Actor {
         //逻辑处理
         //初始化
         if (!isInit) {
-            this.canvas=canvas;
-            initPositionX = width *1F;
+            this.canvas = canvas;
+            initPositionX = width * 1F;
 //            initPositionY = height * 0.69F;
             initPositionY = height * 0.0F;
             frame = BitmapFactory.decodeResource(context.getResources(), R.drawable.sunny_night_shooting_start);
@@ -79,8 +77,8 @@ public class PopularSunnyNight extends Actor {
             matrix.setScale(2f, 2f);
             matrix.setRotate(45f);
             matrix.mapRect(targetBox, box);
-            matrix.postTranslate(initPositionX , initPositionY - targetBox.height());
-            initX = initPositionX + targetBox.width() /2;
+            matrix.postTranslate(initPositionX, initPositionY - targetBox.height());
+            initX = initPositionX + targetBox.width() / 2;
             initY = initPositionY - targetBox.height() / 2;
 
             //星星初始化
@@ -90,7 +88,7 @@ public class PopularSunnyNight extends Actor {
             matrixStar.reset();
             matrixStar.setScale(2f, 2f);
             matrixStar.mapRect(starTargetBox, starBox);
-            matrixStar.setTranslate(  width- height/4-targetBox.bottom , height/4);
+            matrixStar.setTranslate(width - height / 4 - targetBox.bottom, height / 4);
             isInit = true;
             paintStar.setAlpha(0);
             return;
@@ -99,29 +97,29 @@ public class PopularSunnyNight extends Actor {
         matrix.postTranslate(-10f, 10f);
         //边界处理
         matrix.mapRect(targetBox, box);
-        if (targetBox.top > height/4) {
+        if (targetBox.top > height / 4) {
             //回退
             //消失.出现星闪一下,消失
-            matrix.postTranslate(initX-targetBox.right, -targetBox.bottom);
+            matrix.postTranslate(initX - targetBox.right, -targetBox.bottom);
 
             number_of_times--;
-            if(number_of_times==0){
-                number_of_times=6;
-                isOver=false;
+            if (number_of_times == 0) {
+                number_of_times = 6;
+                isOver = false;
             }
         }
-        if(number_of_times==5){
-            if(targetBox.top > height/8&&targetBox.top < height/4){
-                if(!isOver){
+        if (number_of_times == 5) {
+            if (targetBox.top > height / 8 && targetBox.top < height / 4) {
+                if (!isOver) {
                     handler.sendEmptyMessage(0);
                 }
 
 
-            }else{
-                paintAlpha=255;
+            } else {
+                paintAlpha = 255;
                 paint.setAlpha(255);
             }
-        }else{
+        } else {
 
             paint.setAlpha(0);
         }
@@ -131,49 +129,49 @@ public class PopularSunnyNight extends Actor {
         canvas.drawBitmap(star, matrixStar, paintStar);
     }
 
-    Handler handler = new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
 
                     //流行渐变
 
-                    if(paintAlpha-20>0){
-                        paintAlpha-=20;
-                    }else{
-                        paintAlpha=0;
-                        isStar=true;
-                        isAdd=true;
-                        isOver=true;//代表结束一次循环操作
-                    handler.sendEmptyMessage(1);
+                    if (paintAlpha - 20 > 0) {
+                        paintAlpha -= 20;
+                    } else {
+                        paintAlpha = 0;
+                        isStar = true;
+                        isAdd = true;
+                        isOver = true;//代表结束一次循环操作
+                        handler.sendEmptyMessage(1);
                     }
                     paint.setAlpha(paintAlpha);
                     break;
 
                 case 1:
                     //星星渐变
-                   //不用移动渐变死循环
-                        if(isAdd){
-                            if(paintStarAlpha+50<=254){
-                                paintStarAlpha+=50;
-                            }else {
-                                paintStarAlpha=255;
-                                isAdd=false;
-                            }
-                        }else{
-                            if(paintStarAlpha-50>0){
-                                paintStarAlpha-=50;
-                            }else{
-                                paintStarAlpha=0;
-                                isStar=false;
-                            }
-
+                    //不用移动渐变死循环
+                    if (isAdd) {
+                        if (paintStarAlpha + 50 <= 254) {
+                            paintStarAlpha += 50;
+                        } else {
+                            paintStarAlpha = 255;
+                            isAdd = false;
+                        }
+                    } else {
+                        if (paintStarAlpha - 50 > 0) {
+                            paintStarAlpha -= 50;
+                        } else {
+                            paintStarAlpha = 0;
+                            isStar = false;
                         }
 
-                        paintStar.setAlpha(paintStarAlpha);
-                    if(isStar){
-                        handler.sendEmptyMessageDelayed(1,100);
+                    }
+
+                    paintStar.setAlpha(paintStarAlpha);
+                    if (isStar) {
+                        handler.sendEmptyMessageDelayed(1, 100);
                     }
 
 

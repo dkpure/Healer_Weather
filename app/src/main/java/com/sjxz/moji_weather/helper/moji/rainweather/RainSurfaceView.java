@@ -54,7 +54,7 @@ public class RainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
             rainThread.setWidth(width);
             rainThread.setHeight(height);
             rainThread.start();
-        }else{
+        } else {
             rainThread.getRenderHandler().sendEmptyMessage(2);
         }
     }
@@ -64,7 +64,7 @@ public class RainSurfaceView extends SurfaceView implements SurfaceHolder.Callba
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        LogUtils.i("=renderThread!=null="+getMeasuredWidth());
+        LogUtils.i("=renderThread!=null=" + getMeasuredWidth());
         width = getMeasuredWidth();
         height = getMeasuredHeight();
 

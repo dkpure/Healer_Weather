@@ -35,12 +35,11 @@ public class WeatherInteractorImpl implements WeatherInteractor {
     public Observable<ShowApiResponse<ShowApiWeather>> getWeatherListData(String area, String needMoreDay, String needIndex,
                                                                           String needAlarm, String need3HourForcast) {
 
-        WeatherService weatherService= NetManager.getInstance().create(WeatherService.class);
+        WeatherService weatherService = NetManager.getInstance().create(WeatherService.class);
 
-        return weatherService.getWeatherData( area,  needMoreDay,  needIndex,
-                 needAlarm,  need3HourForcast);
+        return weatherService.getWeatherData(area, needMoreDay, needIndex,
+                needAlarm, need3HourForcast);
     }
-
 
 
     @Override
@@ -53,8 +52,8 @@ public class WeatherInteractorImpl implements WeatherInteractor {
 
 
     @Override
-    public void getWeatherData( String area, String needMoreDay, String needIndex, String needAlarm, String need3HourForcast, final OnRxWeatherLisenter onRxWeatherLisenter) {
-         RxManager.getInstance().doSubscribe2(getWeatherListData(
+    public void getWeatherData(String area, String needMoreDay, String needIndex, String needAlarm, String need3HourForcast, final OnRxWeatherLisenter onRxWeatherLisenter) {
+        RxManager.getInstance().doSubscribe2(getWeatherListData(
                 area, needMoreDay, needIndex,
                 needAlarm, need3HourForcast
         ), new RxSubscriber<ShowApiWeather>(true) {
@@ -74,8 +73,8 @@ public class WeatherInteractorImpl implements WeatherInteractor {
     }
 
 
-
     WeatherBaseLifeBean weatherBaseLifeBean;
+
     @Override
     public List<WeatherBaseLifeBean> getRecyclerData(List<ShowApiWeatherNormalInner> dataList) {
         List<WeatherBaseLifeBean> lifeBeen = new ArrayList<>();
@@ -181,14 +180,14 @@ public class WeatherInteractorImpl implements WeatherInteractor {
     }
 
 
-
     List<ShowApiWeatherNormalInner> weatherList;//按时间分配好List数据
+
     @Override
     public List<ShowApiWeatherNormalInner> getListDayWeather(ShowApiWeather data) {
         //说明第二次还是自动
         if (weatherList != null) {
-            if(weatherList.get(0).getCityName().contains(data.getCityInfo().getC5())||data.getCityInfo().getC5().contains(weatherList.get(0).getCityName())
-                    ||weatherList.get(0).getCityName().equals(data.getCityInfo().getC5())){
+            if (weatherList.get(0).getCityName().contains(data.getCityInfo().getC5()) || data.getCityInfo().getC5().contains(weatherList.get(0).getCityName())
+                    || weatherList.get(0).getCityName().equals(data.getCityInfo().getC5())) {
                 //如果当前的市是和存储的地址数据一致就返回已经存储的数据
                 return weatherList;
             }
@@ -205,7 +204,7 @@ public class WeatherInteractorImpl implements WeatherInteractor {
             weatherList.add(data.getF5());
             weatherList.add(data.getF6());
             weatherList.add(data.getF7());
-            for(ShowApiWeatherNormalInner showApiWeatherNormalInner : weatherList){
+            for (ShowApiWeatherNormalInner showApiWeatherNormalInner : weatherList) {
                 showApiWeatherNormalInner.setCityName(data.getCityInfo().getC5());
             }
 

@@ -45,7 +45,7 @@ public class CountDownView extends View {
 
     //设置画布圆形背景
     private Paint backgroundPaint;
-    public  ValueAnimator animator;
+    public ValueAnimator animator;
 
     public CountDownView(Context context) {
         super(context);
@@ -64,12 +64,12 @@ public class CountDownView extends View {
         setPaint();
     }
 
-    private void initStyle(AttributeSet attrs){
+    private void initStyle(AttributeSet attrs) {
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CountDownProgress);
         int indexCount = typedArray.getIndexCount();
-        for(int i=0;i<indexCount;i++){
+        for (int i = 0; i < indexCount; i++) {
             int attr = typedArray.getIndex(i);
-            switch (attr){
+            switch (attr) {
                 case R.styleable.CountDownProgress_default_circle_solide_color:
                     defaultCircleSolideColor = typedArray.getColor(attr, defaultCircleSolideColor);
                     break;
@@ -137,7 +137,7 @@ public class CountDownView extends View {
         textPaint.setColor(textColor);
         textPaint.setTextSize(textSize);
 
-        backgroundPaint=new Paint();
+        backgroundPaint = new Paint();
         backgroundPaint.setAntiAlias(true);//抗锯齿
         backgroundPaint.setDither(true);//防抖动
         backgroundPaint.setStyle(Paint.Style.FILL);
@@ -159,13 +159,13 @@ public class CountDownView extends View {
         canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCriclePaint);
         //画进度圆弧
         //currentAngle = getProgress()*1.0f/getMax()*360;recf适用于划出一块绘制的区域mStartSweepValue是开始的位置
-        canvas.drawArc(new RectF(0, 0, defaultCircleRadius*2, defaultCircleRadius*2),mStartSweepValue, 360*currentAngle,false,progressPaint);
+        canvas.drawArc(new RectF(0, 0, defaultCircleRadius * 2, defaultCircleRadius * 2), mStartSweepValue, 360 * currentAngle, false, progressPaint);
         //画中间文字
         //   String text = getProgress()+"%";
         //获取文字的长度的方法
         float textWidth = textPaint.measureText(textDesc);
         float textHeight = (textPaint.descent() + textPaint.ascent()) / 2;
-        canvas.drawText(textDesc, defaultCircleRadius - textWidth/2, defaultCircleRadius - textHeight, textPaint);
+        canvas.drawText(textDesc, defaultCircleRadius - textWidth / 2, defaultCircleRadius - textHeight, textPaint);
 
         canvas.restore();
 
@@ -173,6 +173,7 @@ public class CountDownView extends View {
 
     /**
      * 如果该View布局的宽高开发者没有精确的告诉，则需要进行测量，如果给出了精确的宽高则我们就不管了
+     *
      * @param widthMeasureSpec
      * @param heightMeasureSpec
      */
@@ -184,12 +185,12 @@ public class CountDownView extends View {
         int heightSize;
         int strokeWidth = Math.max(defaultCircleStrokeWidth, progressWidth);
         //精确指定宽高
-        if(widthMode != MeasureSpec.EXACTLY){
-            widthSize = getPaddingLeft() + defaultCircleRadius*2 + strokeWidth + getPaddingRight();
+        if (widthMode != MeasureSpec.EXACTLY) {
+            widthSize = getPaddingLeft() + defaultCircleRadius * 2 + strokeWidth + getPaddingRight();
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
         }
-        if(heightMode != MeasureSpec.EXACTLY){
-            heightSize = getPaddingTop() + defaultCircleRadius*2 + strokeWidth + getPaddingBottom();
+        if (heightMode != MeasureSpec.EXACTLY) {
+            heightSize = getPaddingTop() + defaultCircleRadius * 2 + strokeWidth + getPaddingBottom();
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         }
 
@@ -197,11 +198,11 @@ public class CountDownView extends View {
     }
 
     //属性动画
-    public void startCountDownTime(final OnCountdownFinishListener countdownFinishListener){
+    public void startCountDownTime(final OnCountdownFinishListener countdownFinishListener) {
         setClickable(true);
         animator = ValueAnimator.ofFloat(0, 1.0f);
         //动画时长，让进度条在CountDown时间内正好从0-360走完，这里由于用的是CountDownTimer定时器，倒计时要想减到0则总时长需要多加1000毫秒，所以这里时间也跟着+1000ms
-        animator.setDuration(countdownTime );//+ 1000
+        animator.setDuration(countdownTime);//+ 1000
         animator.setInterpolator(new LinearInterpolator());//匀速
         animator.setRepeatCount(0);//表示不循环，-1表示无限循环
         //值从0-1.0F 的动画，动画时长为countdownTime，ValueAnimator没有跟任何的控件相关联，那也正好说明ValueAnimator只是对值做动画运算，而不是针对控件的，我们需要监听ValueAnimator的动画过程来自己对控件做操作
@@ -230,12 +231,12 @@ public class CountDownView extends View {
             @Override
             public void onAnimationEnd(Animator animation) {
                 //倒计时结束的时候，需要通过自定义接口通知UI去处理其他业务逻辑
-                if(countdownFinishListener != null){
+                if (countdownFinishListener != null) {
                     countdownFinishListener.countdownFinished();
                 }
-                if(countdownTime > 0){
+                if (countdownTime > 0) {
                     setClickable(true);
-                }else{
+                } else {
                     setClickable(false);
                 }
             }
@@ -256,18 +257,19 @@ public class CountDownView extends View {
     public CountDownTimer timer;
 
     //倒计时的方法
-    private void countdownMethod(){
-        timer= new CountDownTimer(countdownTime+1000, 1000) {
+    private void countdownMethod() {
+        timer = new CountDownTimer(countdownTime + 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 //         Log.e("time",countdownTime+"");
-                countdownTime = countdownTime-1000;
-                textDesc = "跳过("+((countdownTime/1000)) + ")";
+                countdownTime = countdownTime - 1000;
+                textDesc = "跳过(" + ((countdownTime / 1000)) + ")";
 
                 //countdownTime = countdownTime-1000;
                 //刷新view
                 invalidate();
             }
+
             @Override
             public void onFinish() {
                 //textDesc = 0 + "″";
@@ -277,12 +279,13 @@ public class CountDownView extends View {
             }
         }.start();
     }
-    public void setCountdownTime(long countdownTime){
+
+    public void setCountdownTime(long countdownTime) {
         this.countdownTime = countdownTime;
         textDesc = countdownTime / 1000 + "″";
     }
 
-    public interface OnCountdownFinishListener{
+    public interface OnCountdownFinishListener {
         void countdownFinished();
     }
 
