@@ -38,7 +38,7 @@ import com.sjxz.moji_weather.util.Constants;
 import com.sjxz.moji_weather.util.Utils;
 import com.sjxz.moji_weather.view.MyScrollView;
 import com.sjxz.moji_weather.view.PullRefreshLayout;
-import com.sjxz.moji_weather.view.ScrollViewLisenter;
+import com.sjxz.moji_weather.view.ScrollViewListener;
 import com.sjxz.moji_weather.weather.BaseDrawer;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ import de.greenrobot.event.EventBus;
  * Created by xz on 2017/2/7.
  * Role:结合Viewpager的懒加载，避免数据错乱
  */
-public class WeatherFragment extends BaseLFragment implements RxWeatherView, View.OnClickListener, ScrollViewLisenter {
+public class WeatherFragment extends BaseLFragment implements RxWeatherView, View.OnClickListener, ScrollViewListener {
 
     public static WeatherFragment weatherFragment;
 
@@ -290,7 +290,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
         //使用懒加载
         //        postRefresh();
 
-        myscrollview.setScrollViewLisenter(this);
+        myscrollview.setScrollViewListener(this);
     }
 
 

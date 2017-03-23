@@ -23,6 +23,7 @@ import com.sjxz.moji_weather.helper.WeatherService;
 import com.sjxz.moji_weather.mvp.presenter.impl.MainPresenterImpl;
 import com.sjxz.moji_weather.mvp.view.MainView;
 import com.sjxz.moji_weather.util.Constants;
+import com.sjxz.moji_weather.util.UiBenchMark;
 import com.sjxz.moji_weather.weather.BaseDrawer;
 import com.sjxz.moji_weather.weather.DynamicWeatherView;
 
@@ -358,17 +359,19 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     protected void onPause() {
         super.onPause();
+        UiBenchMark.mark("weatherView.onPause");
         weatherView.onPause();
+        UiBenchMark.dump("weatherView.onPause");
     }
 
     @Override
     protected void onDestroy() {
         mainPresenter.unbindPlaybackService();
         instance = null;
+        UiBenchMark.mark("weatherView.onDestroy");
         weatherView.onDestroy();
+        UiBenchMark.dump("weatherView.onDestroy");
         super.onDestroy();
-
-
     }
 
     @Override

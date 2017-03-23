@@ -23,19 +23,19 @@ import com.sjxz.moji_weather.R;
  */
 public class CountDownView extends View {
 
-    private static int defaultCircleSolideColor = Color.BLUE;
+    private static int defaultCircleSolidColor = Color.BLUE;
     private static int defaultCircleStrokeColor = Color.WHITE;//最底层的颜色
     private static int defaultCircleStrokeWidth = 10;
     private static int defaultCircleRadius = 60;
     private static int progressColor = Color.GRAY;//进度条的颜色
     private static int progressWidth = 11;//>defaultCircleStrokeWidth
-    private static int smallCircleSolideColor = Color.BLACK;
+    private static int smallCircleSolidColor = Color.BLACK;
     private static int smallCircleStrokeColor = Color.WHITE;
     private static float smallCircleStrokeWidth = 8;
     private static float smallCircleRadius = 30;
     private static int textColor = Color.WHITE;//BLACK
     private static float textSize = 30;
-    private static Paint defaultCriclePaint;
+    private static Paint defaultCirclePaint;
     private static Paint progressPaint;
     private static Paint textPaint;
     private static float currentAngle;
@@ -71,7 +71,7 @@ public class CountDownView extends View {
             int attr = typedArray.getIndex(i);
             switch (attr) {
                 case R.styleable.CountDownProgress_default_circle_solide_color:
-                    defaultCircleSolideColor = typedArray.getColor(attr, defaultCircleSolideColor);
+                    defaultCircleSolidColor = typedArray.getColor(attr, defaultCircleSolidColor);
                     break;
                 case R.styleable.CountDownProgress_default_circle_stroke_color:
                     defaultCircleStrokeColor = typedArray.getColor(attr, defaultCircleStrokeColor);
@@ -89,7 +89,7 @@ public class CountDownView extends View {
                     progressWidth = (int) typedArray.getDimension(attr, progressWidth);
                     break;
                 case R.styleable.CountDownProgress_small_circle_solide_color:
-                    smallCircleSolideColor = typedArray.getColor(attr, smallCircleSolideColor);
+                    smallCircleSolidColor = typedArray.getColor(attr, smallCircleSolidColor);
                     break;
                 case R.styleable.CountDownProgress_small_circle_stroke_color:
                     smallCircleStrokeColor = typedArray.getColor(attr, smallCircleStrokeColor);
@@ -114,12 +114,12 @@ public class CountDownView extends View {
 
     private void setPaint() {
         //默认圆
-        defaultCriclePaint = new Paint();
-        defaultCriclePaint.setAntiAlias(true);//抗锯齿
-        defaultCriclePaint.setDither(true);//防抖动
-        defaultCriclePaint.setStyle(Paint.Style.STROKE);
-        defaultCriclePaint.setStrokeWidth(defaultCircleStrokeWidth);
-        defaultCriclePaint.setColor(defaultCircleStrokeColor);//这里先画边框的颜色，后续再添加画笔画实心的颜色
+        defaultCirclePaint = new Paint();
+        defaultCirclePaint.setAntiAlias(true);//抗锯齿
+        defaultCirclePaint.setDither(true);//防抖动
+        defaultCirclePaint.setStyle(Paint.Style.STROKE);
+        defaultCirclePaint.setStrokeWidth(defaultCircleStrokeWidth);
+        defaultCirclePaint.setColor(defaultCircleStrokeColor);//这里先画边框的颜色，后续再添加画笔画实心的颜色
         //默认圆上面的进度弧度
         progressPaint = new Paint();
         progressPaint.setAntiAlias(true);
@@ -156,7 +156,7 @@ public class CountDownView extends View {
         canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, backgroundPaint);
 
         //画默认圆
-        canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCriclePaint);
+        canvas.drawCircle(defaultCircleRadius, defaultCircleRadius, defaultCircleRadius, defaultCirclePaint);
         //画进度圆弧
         //currentAngle = getProgress()*1.0f/getMax()*360;recf适用于划出一块绘制的区域mStartSweepValue是开始的位置
         canvas.drawArc(new RectF(0, 0, defaultCircleRadius * 2, defaultCircleRadius * 2), mStartSweepValue, 360 * currentAngle, false, progressPaint);

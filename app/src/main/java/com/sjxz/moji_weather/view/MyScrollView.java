@@ -13,7 +13,7 @@ import android.widget.ScrollView;
 public class MyScrollView extends ScrollView {
 
 
-    private ScrollViewLisenter scrollViewLisenter;
+    private ScrollViewListener scrollViewListener;
 
 
     public MyScrollView(Context context) {
@@ -29,15 +29,15 @@ public class MyScrollView extends ScrollView {
     }
 
 
-    public void setScrollViewLisenter(ScrollViewLisenter scrollViewLisenter) {
-        this.scrollViewLisenter = scrollViewLisenter;
+    public void setScrollViewListener(ScrollViewListener scrollViewListener) {
+        this.scrollViewListener = scrollViewListener;
     }
 
     @Override
     protected void onScrollChanged(int x, int y, int oldx, int oldy) {
         super.onScrollChanged(x, y, oldx, oldy);
-        if (scrollViewLisenter != null) {
-            scrollViewLisenter.onScrollChanged(this, x, y, oldx, oldy);
+        if (scrollViewListener != null) {
+            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);
         }
 
     }
