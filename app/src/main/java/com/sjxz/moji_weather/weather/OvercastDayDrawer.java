@@ -2,16 +2,10 @@ package com.sjxz.moji_weather.weather;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
-
-import com.sjxz.moji_weather.R;
-
-import java.util.ArrayList;
 
 /**
  * @author WYH_Healer
@@ -19,42 +13,35 @@ import java.util.ArrayList;
  * Created by xz on 2017/2/13.
  * Role:
  */
-public class OvercastDayDrawer extends BaseDrawer {
-    private ArrayList<OvercastDayHolder> holders = new ArrayList<OvercastDayHolder>();
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Context context;
-    Bitmap bg;
+public class OvercastDayDrawer extends BaseDrawer<OvercastDayDrawer.OvercastDayHolder> {
 
-
-    public OvercastDayDrawer(Context context, boolean isNight) {
-        super(context, false);
-        this.context = context;
-        if (bg == null) {
-            bg = BitmapFactory.decodeResource(context.getResources(), R.mipmap.bg_overcast_day);
-        }
+    public OvercastDayDrawer(Context context, int bgResId) {
+        super(context, bgResId);
     }
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if (alpha != 1) {
-            paint.setAlpha((int) (alpha * 255));
-        } else {
-            paint.setAlpha(255);
+        mPaint.setAlpha(alpha != 1 ? (int) (alpha * 255) : 255);
+        canvas.drawBitmap(
+                mBg,
+                mSrcRect,
+                mDstRect,
+                mPaint
+        );
+        for (OvercastDayHolder holder : mHolders) {
+            holder.updateRandom(canvas, holder.matrix, mPaint, alpha);
         }
-        canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
-        for (OvercastDayHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint, alpha);
-        }
+
         return true;
     }
 
     @Override
     protected void setSize(int width, int height) {
         super.setSize(width, height);
-        if (this.holders.size() == 0) {
-            for (int i = 0; i < 0; i++) {
-                OvercastDayHolder holder = new OvercastDayHolder(context, width, height, new Matrix(), i);
-                holders.add(holder);
+        if (this.mHolders.size() == 0) {
+            for (int i = 0; i < 5; i++) {
+                OvercastDayHolder holder = new OvercastDayHolder(mContext, width, height, new Matrix(), i);
+                mHolders.add(holder);
             }
         }
     }
@@ -80,7 +67,7 @@ public class OvercastDayDrawer extends BaseDrawer {
 
         }
 
-        public void updateRandom(Canvas canvas, Matrix matrix, Paint paint, float alpha) {
+        public void updateRandom(Canvas canvas, Matrix matrix, Paint mPaint, float alpha) {
 
         }
     }

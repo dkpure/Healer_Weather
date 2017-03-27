@@ -19,21 +19,19 @@ import android.view.animation.AnimationUtils;
 public class DynamicWeatherView extends SurfaceView implements SurfaceHolder.Callback {
 
     private final DrawThread mDrawThread;
+    private BaseDrawer mPreDrawer, mCurDrawer;
+    private float mCurDrawerAlpha;
+    private DrawerType mCurType;
+    private int mWidth, mHeight;
 
     public DynamicWeatherView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
         mDrawThread = new DrawThread();
-        init(context);
+        init();
     }
 
-    private BaseDrawer preDrawer, curDrawer;
-    private float curDrawerAlpha = 0f;
-    private BaseDrawer.Type curType = null;
-    private int mWidth, mHeight;
-
-    private void init(Context context) {
-        curDrawerAlpha = 0f;
+    private void init() {
+        mCurDrawerAlpha = 0f;
         final SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.RGBA_8888);
@@ -41,26 +39,20 @@ public class DynamicWeatherView extends SurfaceView implements SurfaceHolder.Cal
     }
 
     private void setDrawer(BaseDrawer baseDrawer) {
-        if (baseDrawer == null) {
+        if (baseDrawer == null)
             return;
-        }
 
-        curDrawerAlpha = 0f;
-        if (this.curDrawer != null) {
-            this.preDrawer = curDrawer;
+        mCurDrawerAlpha = 0f;
+        if (mCurDrawer != null) {
+            mPreDrawer = mCurDrawer;
         }
-        this.curDrawer = baseDrawer;
+        mCurDrawer = baseDrawer;
     }
 
-    public void setDrawerType(BaseDrawer.Type type) {
-        if (type == null) {
-
-            return;
-        }
-
-        if (type != curType) {
-            curType = type;
-            setDrawer(BaseDrawer.makeDrawerByType(getContext(), curType));
+    public void setDrawerType(DrawerType type) {
+        if (type != null && type != mCurType) {
+            mCurType = type;
+            setDrawer(DrawerFactory.makeDrawerByType(getContext(), mCurType));
         }
     }
 
@@ -80,23 +72,23 @@ public class DynamicWeatherView extends SurfaceView implements SurfaceHolder.Cal
         }
 
         boolean needDrawNextFrame = false;
-        if (curDrawer != null) {
-            curDrawer.setSize(w, h);
+        if (mCurDrawer != null) {
+            mCurDrawer.setSize(w, h);
             //curDrawerAlpha渐变切入，顺应界面和谐，切换后之前的界面渐变
-            needDrawNextFrame = curDrawer.draw(canvas, 1);
+            needDrawNextFrame = mCurDrawer.draw(canvas, 1);
         }
 
-        if (preDrawer != null && curDrawerAlpha < 1f) {
+        if (mPreDrawer != null && mCurDrawerAlpha < 1f) {
             needDrawNextFrame = true;
-            preDrawer.setSize(w, h);
-            preDrawer.draw(canvas, 1f - curDrawerAlpha);
+            mPreDrawer.setSize(w, h);
+            mPreDrawer.draw(canvas, 1f - mCurDrawerAlpha);
         }
 
-        if (curDrawerAlpha < 1f) {
-            curDrawerAlpha += 0.04f;
-            if (curDrawerAlpha > 1) {
-                curDrawerAlpha = 1f;
-                preDrawer = null;
+        if (mCurDrawerAlpha < 1f) {
+            mCurDrawerAlpha += 0.04f;
+            if (mCurDrawerAlpha > 1) {
+                mCurDrawerAlpha = 1f;
+                mPreDrawer = null;
             }
         }
 

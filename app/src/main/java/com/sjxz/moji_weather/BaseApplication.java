@@ -1,8 +1,6 @@
 package com.sjxz.moji_weather;
 
 import android.app.Application;
-import android.app.Service;
-import android.os.Vibrator;
 
 import com.squareup.leakcanary.LeakCanary;
 
@@ -14,17 +12,13 @@ import com.squareup.leakcanary.LeakCanary;
  */
 public class BaseApplication extends Application {
 
-    private static BaseApplication context;
-
-    public Vibrator mVibrator;
+    private static BaseApplication INSTANCE;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        this.context = this;
-//        ImageLoader.getInstance().init(ImageLoaderHelper.getInstance(this).getImageLoaderConfiguration("/SimplifyReader/Images/"));
-        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        INSTANCE = this;
 
         if (LeakCanary.isInAnalyzerProcess(this)) {
             return;
@@ -33,7 +27,7 @@ public class BaseApplication extends Application {
     }
 
     public static BaseApplication getApplication() {
-        return context;
+        return INSTANCE;
     }
 }
 

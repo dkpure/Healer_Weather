@@ -6,14 +6,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Handler;
 import android.os.Message;
 
 import com.sjxz.moji_weather.R;
-
-import java.util.ArrayList;
 
 /**
  * @author WYH_Healer
@@ -21,44 +18,45 @@ import java.util.ArrayList;
  * Created by xz on 2017/2/13.
  * Role:
  */
-public class SunnyNightDrawer extends BaseDrawer {
+public class SunnyNightDrawer extends BaseDrawer<SunnyNightDrawer.SunnyNightHolder> {
 
-    private ArrayList<SunnyNightHolder> holders = new ArrayList<SunnyNightHolder>();
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Context context;
-    Bitmap bg;
-
-
-    public SunnyNightDrawer(Context context, boolean isNight) {
-        super(context, false);
-        this.context = context;
-        if (bg == null) {
-            bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_sunny_night);
-        }
+    public SunnyNightDrawer(Context context, int bgResId) {
+        super(context, bgResId);
     }
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if (alpha != 1) {
-            paint.setAlpha((int) (alpha * 255));
-        } else {
-            paint.setAlpha(255);
+        mPaint.setAlpha(alpha != 1 ? (int) (alpha * 255) : 255);
+        canvas.drawBitmap(
+                mBg,
+                mSrcRect,
+                mDstRect,
+                mPaint
+        );
+
+        for (final SunnyNightHolder holder : mHolders) {
+            holder.updateRandom(canvas, holder.matrix, mPaint, alpha);
         }
-        canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
-        for (final SunnyNightHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint, alpha);
-        }
+
         return true;
     }
 
     @Override
     protected void setSize(int width, int height) {
         super.setSize(width, height);
-        if (this.holders.size() == 0) {
+        if (mHolders.isEmpty()) {
             for (int i = 0; i < 4; i++) {
-                SunnyNightHolder holder = new SunnyNightHolder(context, width, height, new Matrix(), new Matrix(), new Paint(Paint.ANTI_ALIAS_FLAG)
-                        , new Paint(Paint.ANTI_ALIAS_FLAG), i);
-                holders.add(holder);
+                SunnyNightHolder holder = new SunnyNightHolder(
+                        mContext,
+                        width,
+                        height,
+                        new Matrix(),
+                        new Matrix(),
+                        new Paint(Paint.ANTI_ALIAS_FLAG),
+                        new Paint(Paint.ANTI_ALIAS_FLAG),
+                        i
+                );
+                mHolders.add(holder);
             }
         }
     }
@@ -241,7 +239,7 @@ public class SunnyNightDrawer extends BaseDrawer {
                 }
 
                 //渐变透明
-                //获取移动的距离---宽度---width*2/3
+                //获取移动的距离---宽度---mWidth*2/3
                 //前1/3从模糊到清晰，后1/3从清晰到消失
                 if (targetBox.right > 0 && targetBox.right < (width * 2 / 3 - 120)) {
 

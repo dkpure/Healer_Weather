@@ -39,7 +39,7 @@ import com.sjxz.moji_weather.util.Utils;
 import com.sjxz.moji_weather.view.MyScrollView;
 import com.sjxz.moji_weather.view.PullRefreshLayout;
 import com.sjxz.moji_weather.view.ScrollViewListener;
-import com.sjxz.moji_weather.weather.BaseDrawer;
+import com.sjxz.moji_weather.weather.DrawerType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -198,7 +198,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
     private Animation hideAnim = null;
     private boolean isZeroOne = false;
 
-    private BaseDrawer.Type mDrawerType = BaseDrawer.Type.DEFAULT;
+    private DrawerType mDrawerType = DrawerType.DEFAULT;
 
     private int heightWindow;
 
@@ -227,7 +227,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
 
         heightWindow = Utils.getScreenHeight(getActivity());
         alpha = (heightWindow / 255);
-        MainActivity.instance.view_bg.getBackground().setAlpha(0);
+//        MainActivity.instance.mViewBg.getBackground().setAlpha(0);
         initView();
         initAnim();
         initData();
@@ -297,7 +297,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
     /**
      * 网络请求刷新数据
      */
-    public void postRefresh(BaseDrawer.Type type) {
+    public void postRefresh(DrawerType type) {
         changeBgAlpha();
         if (!isInitData) {
             if (pullRefreshLayout != null) {
@@ -331,7 +331,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
     /**
      * 保存当前的天气情况
      */
-    public void setWeatherSave(BaseDrawer.Type mDrawerType) {
+    public void setWeatherSave(DrawerType mDrawerType) {
         this.mDrawerType = mDrawerType;
     }
 
@@ -439,15 +439,15 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
         switch (v.getId()) {
             case R.id.switch_weather:
                 //弹出dialog显示天气样式选择
-                final BaseDrawer.Type tempDrawer = mDrawerType;
+                final DrawerType tempDrawer = mDrawerType;
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 ArrayList<String> strs = new ArrayList<String>();
-                for (BaseDrawer.Type t : BaseDrawer.Type.values()) {
+                for (DrawerType t : DrawerType.values()) {
                     strs.add(t.toString());
                 }
                 int index = 0;
-                for (int i = 0; i < BaseDrawer.Type.values().length; i++) {
-                    if (BaseDrawer.Type.values()[i] == mDrawerType) {
+                for (int i = 0; i < DrawerType.values().length; i++) {
+                    if (DrawerType.values()[i] == mDrawerType) {
                         index = i;
                         break;
                     }
@@ -456,7 +456,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mDrawerType = BaseDrawer.Type.values()[which];
+                                mDrawerType = DrawerType.values()[which];
                                 if (tempDrawer != mDrawerType) {
                                     EventBus.getDefault().post(new EventCenter(Constants.EVENTBUS_CHECK, mDrawerType));
                                 }
@@ -484,7 +484,7 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
         //重绘的时候定义背景颜色
         //背景渐变,向下滑动
         if (MainActivity.instance != null && alpha != 0) {
-            MainActivity.instance.view_bg.getBackground().setAlpha(scrollYTemp / alpha < 0 ? 0 : scrollYTemp / alpha);
+            MainActivity.instance.mViewBg.getBackground().setAlpha(scrollYTemp / alpha < 0 ? 0 : scrollYTemp / alpha);
         }
 
     }
@@ -506,11 +506,11 @@ public class WeatherFragment extends BaseLFragment implements RxWeatherView, Vie
         //随着滚动距离将屏幕渐变
         if (scrollY < heightWindow && oldScrollY - scrollY < 0) {
             //背景渐变,向下滑动
-            MainActivity.instance.view_bg.getBackground().setAlpha(scrollY / alpha < 0 ? 0 : scrollY / alpha);
+            MainActivity.instance.mViewBg.getBackground().setAlpha(scrollY / alpha < 0 ? 0 : scrollY / alpha);
 
         } else if (oldScrollY - scrollY > 0 && scrollY < heightWindow) {
             //向上滑动,背景渐变
-            MainActivity.instance.view_bg.getBackground().setAlpha(scrollY / alpha < 0 ? 0 : scrollY / alpha);
+            MainActivity.instance.mViewBg.getBackground().setAlpha(scrollY / alpha < 0 ? 0 : scrollY / alpha);
 
         }
 

@@ -25,10 +25,10 @@ public class CountDownView extends View {
 
     private static int defaultCircleSolidColor = Color.BLUE;
     private static int defaultCircleStrokeColor = Color.WHITE;//最底层的颜色
-    private static int defaultCircleStrokeWidth = 10;
+    private static int DEFAULT_CIRCLE_STROKE_WIDTH = 10;
     private static int defaultCircleRadius = 60;
     private static int progressColor = Color.GRAY;//进度条的颜色
-    private static int progressWidth = 11;//>defaultCircleStrokeWidth
+    private static int progressWidth = 11;//>DEFAULT_CIRCLE_STROKE_WIDTH
     private static int smallCircleSolidColor = Color.BLACK;
     private static int smallCircleStrokeColor = Color.WHITE;
     private static float smallCircleStrokeWidth = 8;
@@ -77,7 +77,7 @@ public class CountDownView extends View {
                     defaultCircleStrokeColor = typedArray.getColor(attr, defaultCircleStrokeColor);
                     break;
                 case R.styleable.CountDownProgress_default_circle_stroke_width:
-                    defaultCircleStrokeWidth = (int) typedArray.getDimension(attr, defaultCircleStrokeWidth);
+                    DEFAULT_CIRCLE_STROKE_WIDTH = (int) typedArray.getDimension(attr, DEFAULT_CIRCLE_STROKE_WIDTH);
                     break;
                 case R.styleable.CountDownProgress_default_circle_radius:
                     defaultCircleRadius = (int) typedArray.getDimension(attr, defaultCircleRadius);
@@ -118,7 +118,7 @@ public class CountDownView extends View {
         defaultCirclePaint.setAntiAlias(true);//抗锯齿
         defaultCirclePaint.setDither(true);//防抖动
         defaultCirclePaint.setStyle(Paint.Style.STROKE);
-        defaultCirclePaint.setStrokeWidth(defaultCircleStrokeWidth);
+        defaultCirclePaint.setStrokeWidth(DEFAULT_CIRCLE_STROKE_WIDTH);
         defaultCirclePaint.setColor(defaultCircleStrokeColor);//这里先画边框的颜色，后续再添加画笔画实心的颜色
         //默认圆上面的进度弧度
         progressPaint = new Paint();
@@ -141,7 +141,7 @@ public class CountDownView extends View {
         backgroundPaint.setAntiAlias(true);//抗锯齿
         backgroundPaint.setDither(true);//防抖动
         backgroundPaint.setStyle(Paint.Style.FILL);
-        backgroundPaint.setStrokeWidth(defaultCircleStrokeWidth);
+        backgroundPaint.setStrokeWidth(DEFAULT_CIRCLE_STROKE_WIDTH);
         backgroundPaint.setColor(progressColor);//这里先画边框的颜色，后续再添加画笔画实心的颜色
 
     }
@@ -183,7 +183,7 @@ public class CountDownView extends View {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int widthSize;
         int heightSize;
-        int strokeWidth = Math.max(defaultCircleStrokeWidth, progressWidth);
+        int strokeWidth = Math.max(DEFAULT_CIRCLE_STROKE_WIDTH, progressWidth);
         //精确指定宽高
         if (widthMode != MeasureSpec.EXACTLY) {
             widthSize = getPaddingLeft() + defaultCircleRadius * 2 + strokeWidth + getPaddingRight();

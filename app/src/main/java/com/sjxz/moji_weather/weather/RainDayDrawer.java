@@ -6,12 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.RectF;
 
 import com.sjxz.moji_weather.R;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -20,36 +18,24 @@ import java.util.Random;
  * Created by xz on 2017/2/13.
  * Role:
  */
-public class RainDayDrawer extends BaseDrawer {
+public class RainDayDrawer extends BaseDrawer<RainDayDrawer.RainDayHolder> {
 
-    private ArrayList<RainDayHolder> holders = new ArrayList<RainDayHolder>();
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private Context context;
-    Bitmap bg;
-
-
-    public RainDayDrawer(Context context, boolean isNight) {
-        super(context, false);
-        this.context = context;
-        if (bg == null) {
-            bg = BitmapFactory.decodeResource(context.getResources(), R.drawable.bg_moderate_rain_day);
-        }
+    public RainDayDrawer(Context context, int bgResId) {
+        super(context, bgResId);
     }
 
     @Override
     public boolean drawWeather(Canvas canvas, float alpha) {
-        if (alpha != 1) {
-            paint.setAlpha((int) (alpha * 255));
-        } else {
-            paint.setAlpha(255);
+        mPaint.setAlpha(alpha != 1 ? (int) (alpha * 255) : 255);
+        canvas.drawBitmap(
+                mBg,
+                mSrcRect,
+                mDstRect,
+                mPaint
+        );
+        for (RainDayHolder holder : mHolders) {
+            holder.updateRandom(canvas, holder.matrix, mPaint, alpha);
         }
-        canvas.drawBitmap(bg, new Rect(0, 0, bg.getWidth(), bg.getHeight()), new Rect(0, 0, width, height), paint);
-        for (RainDayHolder holder : holders) {
-            holder.updateRandom(canvas, holder.matrix, paint, alpha);
-        }
-
-        //渐变实现,取消渐变功能
-
 
         return true;
     }
@@ -57,10 +43,10 @@ public class RainDayDrawer extends BaseDrawer {
     @Override
     protected void setSize(int width, int height) {
         super.setSize(width, height);
-        if (this.holders.size() == 0) {
+        if (mHolders.size() == 0) {
             for (int i = 0; i < 82; i++) {
-                RainDayHolder holder = new RainDayHolder(context, width, height, new Matrix(), i);
-                holders.add(holder);
+                RainDayHolder holder = new RainDayHolder(mContext, width, height, new Matrix(), i);
+                mHolders.add(holder);
             }
         }
     }
@@ -93,7 +79,7 @@ public class RainDayDrawer extends BaseDrawer {
                 R.drawable.raindrop_xl,
         };
 
-        public RainDayHolder(Context context, int width, int height, Matrix matrix, int i) {
+        public RainDayHolder(Context mContext, int width, int height, Matrix matrix, int i) {
             super();
             this.position = i;
             this.width = width;
@@ -104,16 +90,16 @@ public class RainDayDrawer extends BaseDrawer {
             if (i == 0) {
                 initPositionX = width * 0.039F;
                 initPositionY = height * 0.11F;
-                frame = BitmapFactory.decodeResource(context.getResources(), R.mipmap.moderate_rain_cloud1);
+                frame = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.moderate_rain_cloud1);
             } else if (i == 1) {
                 initPositionX = width * 0.758F;
                 initPositionY = height * 0.11F;
-                frame = BitmapFactory.decodeResource(context.getResources(), R.mipmap.moderate_rain_cloud1);
+                frame = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.moderate_rain_cloud1);
             } else {
                 randomInt = random.nextInt(80);
                 initPositionX = width * 0.15F * (position % 12 == 0 ? 1 : position % 12);
                 initPositionY = height * 1.0F * 0.05f * (randomInt % 20 == 0 ? 1 : randomInt % 20);
-                frame = BitmapFactory.decodeResource(context.getResources(), bitmaps[randomInt % 12]);
+                frame = BitmapFactory.decodeResource(mContext.getResources(), bitmaps[randomInt % 12]);
             }
 
             box.set(0, 0, frame.getWidth(), frame.getHeight());
@@ -130,7 +116,7 @@ public class RainDayDrawer extends BaseDrawer {
 
         }
 
-        public void updateRandom(Canvas canvas, Matrix matrix, Paint paint, float alpha) {
+        public void updateRandom(Canvas canvas, Matrix matrix, Paint mPaint, float alpha) {
 
             if (position == 0 || position == 1) {
                 matrix.postTranslate(1.5F, 0);
@@ -154,15 +140,15 @@ public class RainDayDrawer extends BaseDrawer {
             //绘制
             if (alpha < 1) {
                 //说明是还在渐变
-                paint.setAlpha((int) (alpha * 255));
+                mPaint.setAlpha((int) (alpha * 255));
             } else if (alpha == 1) {
                 //不做任何操作'
-                if (paint.getAlpha() != 255) {
-                    paint.setAlpha(255);
+                if (mPaint.getAlpha() != 255) {
+                    mPaint.setAlpha(255);
                 }
             }
 
-            canvas.drawBitmap(frame, matrix, paint);
+            canvas.drawBitmap(frame, matrix, mPaint);
         }
     }
 }

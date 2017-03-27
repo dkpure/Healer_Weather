@@ -24,7 +24,7 @@ import com.sjxz.moji_weather.mvp.presenter.impl.MainPresenterImpl;
 import com.sjxz.moji_weather.mvp.view.MainView;
 import com.sjxz.moji_weather.util.Constants;
 import com.sjxz.moji_weather.util.UiBenchMark;
-import com.sjxz.moji_weather.weather.BaseDrawer;
+import com.sjxz.moji_weather.weather.DrawerType;
 import com.sjxz.moji_weather.weather.DynamicWeatherView;
 
 import java.util.Calendar;
@@ -38,74 +38,66 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     public static MainActivity instance = null;
 
     @Bind(R.id.main_viewpager)
-    MxxViewPager viewPager;
+    MxxViewPager mViewPager;
 
     @Bind(R.id.main_dynamicweatherview)
-    DynamicWeatherView weatherView;
+    DynamicWeatherView mWeatherView;
 
     @Bind(R.id.manual_location)
-    ImageView manual_location;
+    ImageView mIvLocation;
 
     @Bind(R.id.tv_date)
-    TextView tv_date;
+    TextView mTvDate;
 
     @Bind(R.id.view_bg)
-    public View view_bg;
+    public View mViewBg;
 
-    private MainPresenterImpl mainPresenter;
+    private MainPresenterImpl mPresenter;
 
-    private String nowWeather = "晴";
+    private String mWeather = "晴";
 
     private Long mExitTime = 0L;
 
-    private NotifyBean notifyBean;
-
-    private WeatherService weatherService;
+    private WeatherService mWeatherService;
     /**
      * 默认的天气情况
      */
-    private BaseDrawer.Type mDrawerType = BaseDrawer.Type.CLEAR_D;
-    private WeatherFragment fragment;//当前界面fragment
-    private BaseLFragment[] fragments;
-    private int tempPosition = 0;
-
-    //标识前台展示
-    private boolean isForeground = true;
+    private DrawerType mDrawerType = DrawerType.CLEAR_D;
+    private WeatherFragment mCurFragment;//当前界面fragment
+    private BaseLFragment[] mAllFragments;
+    private int mTempPosition = 0;
 
     public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-
                 case 1:
-
                     break;
                 case 2:
                     break;
-
                 case 3:
                     //天气定位
                     Calendar calendar = Calendar.getInstance();
                     int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    switch (nowWeather) {
+                    switch (mWeather) {
 
                         case "晴":
 
                             if (hour >= 6 && hour <= 18) {
-                                mDrawerType = BaseDrawer.Type.CLEAR_D;
+                                mDrawerType = DrawerType.CLEAR_D;
                                 switchWeatherView(mDrawerType);
                             } else {
-                                mDrawerType = BaseDrawer.Type.CLEAR_N;
+                                mDrawerType = DrawerType.CLEAR_N;
                                 switchWeatherView(mDrawerType);
                             }
 
                             break;
                         case "阴":
                             if (hour >= 6 && hour <= 18) {
-                                mDrawerType = BaseDrawer.Type.OVERCAST;
+                                mDrawerType = DrawerType.OVERCAST;
                                 switchWeatherView(mDrawerType);
                             } else {
-                                mDrawerType = BaseDrawer.Type.OVERCAST_N;
+                                mDrawerType = DrawerType.OVERCAST_N;
                                 switchWeatherView(mDrawerType);
                             }
 
@@ -122,7 +114,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                         case "雨夹雪":
                         case "冻雨":
                         case "雨":
-                            mDrawerType = BaseDrawer.Type.RAIN_D;
+                            mDrawerType = DrawerType.RAIN_D;
                             switchWeatherView(mDrawerType);
                             break;
                         case "雪":
@@ -135,10 +127,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                         case "暴雪":
                         case "冰雹":
                             if (hour >= 6 && hour <= 18) {
-                                mDrawerType = BaseDrawer.Type.SNOW_D;
+                                mDrawerType = DrawerType.SNOW_D;
                                 switchWeatherView(mDrawerType);
                             } else {
-                                mDrawerType = BaseDrawer.Type.SNOW_N;
+                                mDrawerType = DrawerType.SNOW_N;
                                 switchWeatherView(mDrawerType);
                             }
 
@@ -146,10 +138,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                         case "少云":
                         case "多云":
                             if (hour >= 6 && hour <= 18) {
-                                mDrawerType = BaseDrawer.Type.CLOUDY_D;
+                                mDrawerType = DrawerType.CLOUDY_D;
                                 switchWeatherView(mDrawerType);
                             } else {
-                                mDrawerType = BaseDrawer.Type.CLOUDY_N;
+                                mDrawerType = DrawerType.CLOUDY_N;
                                 switchWeatherView(mDrawerType);
                             }
 
@@ -161,12 +153,11 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                         case "扬沙":
                         case "强沙尘暴":
                         case "沙尘暴":
-                            mDrawerType = BaseDrawer.Type.FOG_D;
+                            mDrawerType = DrawerType.FOG_D;
                             switchWeatherView(mDrawerType);
                             break;
                     }
                     break;
-
             }
         }
     };
@@ -177,8 +168,8 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
         switch (eventCode) {
             case Constants.EVENTBUS_CHANGE_WEATHER:
                 if (eventCenter.getData() != null) {
-                    notifyBean = (NotifyBean) eventCenter.getData();
-                    nowWeather = notifyBean.getNow_state();
+                    NotifyBean notifyBean = (NotifyBean) eventCenter.getData();
+                    mWeather = notifyBean.getNow_state();
                     initNotifyData(notifyBean);
                 }
                 handler.sendEmptyMessage(3);
@@ -188,27 +179,27 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        fragment = (WeatherFragment) fragments[tempPosition];
-                        fragment.postRefresh(mDrawerType);
+                        mCurFragment = (WeatherFragment) mAllFragments[mTempPosition];
+                        mCurFragment.postRefresh(mDrawerType);
                     }
                 }, 200);
                 break;
             case Constants.EVENTBUS_SECOND:
                 //通知surfaceView层更新动画
-                if (fragment.nowWeather != null) {
-                    nowWeather = fragment.nowWeather;
+                if (mCurFragment.nowWeather != null) {
+                    mWeather = mCurFragment.nowWeather;
                 }
                 handler.sendEmptyMessage(3);
                 break;
             case Constants.EVENTBUS_CHECK:
-                weatherView.setDrawerType((BaseDrawer.Type) eventCenter.getData());
+                mWeatherView.setDrawerType((DrawerType) eventCenter.getData());
                 break;
             case Constants.EVENTBUS_DELETE_CITY_MAIN:
-                mainPresenter.initialMain();
+                mPresenter.initialMain();
                 break;
             case Constants.EVENTBUS_CHANGE_NOTIFY:
-                if (fragment.notifyBeanBundle != null) {
-                    initNotifyData(fragment.notifyBeanBundle);
+                if (mCurFragment.notifyBeanBundle != null) {
+                    initNotifyData(mCurFragment.notifyBeanBundle);
                 }
                 break;
         }
@@ -250,12 +241,12 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
 //        SpUtils.setListObj(this,list,Constants.CITY_NAME);
 
         instance = this;
-        mainPresenter = new MainPresenterImpl(this, this);
-        mainPresenter.initialMain();
+        mPresenter = new MainPresenterImpl(this, this);
+        mPresenter.initialMain();
 
-        manual_location.setOnClickListener(this);
-        mDrawerType = BaseDrawer.Type.CLEAR_D;
-        weatherView.setDrawerType(mDrawerType);
+        mIvLocation.setOnClickListener(this);
+        mDrawerType = DrawerType.CLEAR_D;
+        mWeatherView.setDrawerType(mDrawerType);
     }
 
     @Override
@@ -271,10 +262,10 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     /**
      * 切换当前界面动画效果
      */
-    public void switchWeatherView(BaseDrawer.Type mDrawerType) {
-        if (weatherView != null) {
-            weatherView.setDrawerType(mDrawerType);
-            fragment.setWeatherSave(mDrawerType);
+    public void switchWeatherView(DrawerType mDrawerType) {
+        if (mWeatherView != null) {
+            mWeatherView.setDrawerType(mDrawerType);
+            mCurFragment.setWeatherSave(mDrawerType);
         }
     }
 
@@ -283,7 +274,7 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
      */
     @Override
     public void animAlpha(AlphaAnimation alphaAnimation) {
-        viewPager.setAnimation(alphaAnimation);
+        mViewPager.setAnimation(alphaAnimation);
     }
 
     /**
@@ -291,16 +282,16 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
      */
     @Override
     public void intialCityName(List<String> cityNames) {
-        fragments = new BaseLFragment[cityNames.size()];
+        mAllFragments = new BaseLFragment[cityNames.size()];
         for (int i = 0; i < cityNames.size(); i++) {
             final String area = cityNames.get(i);
             Bundle bundle = new Bundle();
             bundle.putString(Constants.CITY, area);
-            fragments[i] = WeatherFragment.getInstance(bundle);
+            mAllFragments[i] = WeatherFragment.getInstance(bundle);
         }
-        viewPager.setOffscreenPageLimit(cityNames.size());
-        viewPager.setAdapter(new MxxFragmentsAdapter(getSupportFragmentManager(), fragments));
-        viewPager.setOnPageChangeListener(new MxxViewPager.SimpleOnPageChangeListener() {
+        mViewPager.setOffscreenPageLimit(cityNames.size());
+        mViewPager.setAdapter(new MxxFragmentsAdapter(getSupportFragmentManager(), mAllFragments));
+        mViewPager.setOnPageChangeListener(new MxxViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
@@ -310,32 +301,32 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
 
-                tempPosition = position;
-                fragment = (WeatherFragment) fragments[position];
-                fragment.postRefresh(mDrawerType);
+                mTempPosition = position;
+                mCurFragment = (WeatherFragment) mAllFragments[position];
+                mCurFragment.postRefresh(mDrawerType);
             }
         });
 
         if (cityNames != null && cityNames.size() > 0) {
-            fragment = (WeatherFragment) fragments[0];
-            fragment.postRefresh(mDrawerType);
+            mCurFragment = (WeatherFragment) mAllFragments[0];
+            mCurFragment.postRefresh(mDrawerType);
         }
     }
 
     @Override
     public void initialTime(String time) {
-        tv_date.setText(time);
+        mTvDate.setText(time);
     }
 
     //每次切换都进行重绘
     @Override
     public void initNotify(WeatherService weatherService) {
         //获取传递的数据
-        this.weatherService = weatherService;
+        this.mWeatherService = weatherService;
     }
 
     private void initNotifyData(NotifyBean notifyBean) {
-        weatherService.showNotification(this.getApplicationContext(), notifyBean.getNow_tmp(), notifyBean.getNow_range(), notifyBean.getNow_state()
+        mWeatherService.showNotification(this.getApplicationContext(), notifyBean.getNow_tmp(), notifyBean.getNow_range(), notifyBean.getNow_state()
                 , notifyBean.getCity(), notifyBean.getDrawableId());
     }
 
@@ -352,25 +343,25 @@ public class MainActivity extends BaseActivity implements MainView, View.OnClick
     @Override
     protected void onResume() {
         super.onResume();
-        weatherView.onResume();
+        mWeatherView.onResume();
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        UiBenchMark.mark("weatherView.onPause");
-        weatherView.onPause();
-        UiBenchMark.dump("weatherView.onPause");
+        UiBenchMark.mark("mWeatherView.onPause");
+        mWeatherView.onPause();
+        UiBenchMark.dump("mWeatherView.onPause");
     }
 
     @Override
     protected void onDestroy() {
-        mainPresenter.unbindPlaybackService();
+        mPresenter.unbindPlaybackService();
         instance = null;
-        UiBenchMark.mark("weatherView.onDestroy");
-        weatherView.onDestroy();
-        UiBenchMark.dump("weatherView.onDestroy");
+        UiBenchMark.mark("mWeatherView.onDestroy");
+        mWeatherView.onDestroy();
+        UiBenchMark.dump("mWeatherView.onDestroy");
         super.onDestroy();
     }
 
