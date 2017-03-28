@@ -20,23 +20,21 @@ import butterknife.Bind;
 public class SplashActivity extends BaseActivity implements SplashView {
 
     @Bind(R.id.splash_logodiscribe)
-    TextView splash_logodiscribe;
+    TextView mTvDescription;
 
     @Bind(R.id.splash_version_name)
-    TextView splash_version_name;
+    TextView mTvVersion;
 
     @Bind(R.id.splash_copyright)
-    TextView splash_copyright;
+    TextView mTvCopyRight;
 
     @Bind(R.id.splash_image)
-    ImageView splash_image;
+    ImageView mIvSplash;
 
     @Bind(R.id.countdwonview)
-    CountDownView countdwonview;
-
+    CountDownView mCountDownView;
 
     private Presenter mSplashPresenterImpl;
-
 
     @Override
     protected boolean isApplyKitKatTranslucency() {
@@ -86,42 +84,33 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
     @Override
     public void animateBackgroundImage(Animation animation) {
-        countdwonview.setCountdownTime(4 * 1000);
-        countdwonview.setOnClickListener(new View.OnClickListener() {
+        mCountDownView.setCountdownTime(4 * 1000);
+        mCountDownView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (countdwonview.timer != null) {
-                    if (countdwonview.animator != null) {
-                        countdwonview.animator.cancel();
-                        splash_image.clearAnimation();
-                    }
-                    countdwonview.timer.cancel();
+                if (!mCountDownView.isCountDownCancelled()) {
+                    mCountDownView.cancelCountDown();
+                    mIvSplash.clearAnimation();
                 }
-//                readyGoThenKill(MainActivity.class);
             }
         });
-        countdwonview.startCountDownTime(new CountDownView.OnCountdownFinishListener() {
-            @Override
-            public void countdownFinished() {
-                //动画结束后的操作
-            }
-        });
+        mCountDownView.startCountDownTime(null);
 
-        splash_image.startAnimation(animation);
+        mIvSplash.startAnimation(animation);
     }
 
     @Override
-    public void initialzationViews(String versionName, String copyright, int backgroundResId) {
-        splash_version_name.setText(versionName);
+    public void initializeViews(String versionName, String copyright, int backgroundResId) {
+        mTvVersion.setText(versionName);
         if (backgroundResId == R.mipmap.morning) {
-            splash_logodiscribe.setText(getString(R.string.splash_logodiscribe_morning));
+            mTvDescription.setText(getString(R.string.splash_logodiscribe_morning));
         } else if (backgroundResId == R.mipmap.afternoon) {
-            splash_logodiscribe.setText(getString(R.string.splash_logodiscribe_afternoon));
+            mTvDescription.setText(getString(R.string.splash_logodiscribe_afternoon));
         } else if (backgroundResId == R.mipmap.night) {
-            splash_logodiscribe.setText(getString(R.string.splash_logodiscribe_night));
+            mTvDescription.setText(getString(R.string.splash_logodiscribe_night));
         }
-        splash_copyright.setText(copyright);
-        splash_image.setImageResource(backgroundResId);
+        mTvCopyRight.setText(copyright);
+        mIvSplash.setImageResource(backgroundResId);
     }
 
     @Override
@@ -141,6 +130,11 @@ public class SplashActivity extends BaseActivity implements SplashView {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (mCountDownView != null && !mCountDownView.isCountDownCancelled()) {
+            mCountDownView.cancelCountDown();
+            mIvSplash.clearAnimation();
+        }
     }
 
 }

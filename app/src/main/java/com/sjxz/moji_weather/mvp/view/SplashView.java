@@ -12,7 +12,7 @@ public interface SplashView {
 
     void animateBackgroundImage(Animation animation);
 
-    void initialzationViews(String versionName, String copyright, int backgroundResId);
+    void initializeViews(String versionName, String copyright, int backgroundResId);
 
     void readToMain();
 }

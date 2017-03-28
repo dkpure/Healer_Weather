@@ -26,198 +26,199 @@ import java.util.List;
  */
 public class DailyForecastView extends View {
 
-    private int width, height;//宽度，高度
-    private float percent = 0f;
-    ;//当前的百分比
-    private float density;
+    private int mWidth, mHeight;
+    private float mPercent;
+    private float mDensity;
+    private Path mMaxTempPath = new Path();
+    private Path mMinTempPath = new Path();
+    private final TextPaint mPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaintOrange = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private List<DailyForecastBean> mForecastList;
+    private Bitmap[] mWeatherIcons;
+    private Data[] mDatas;
+    private float[] mXPos;
+    private float[] mYMax;
+    private float[] mYMin;
+    private static final int[] mImageResIds =
+            {
+                    R.drawable.w0, R.drawable.w2, R.drawable.w1,
+                    R.drawable.w7, R.drawable.w8, R.drawable.w6,
+                    R.drawable.w45, R.drawable.w14, R.drawable.w13,
+                    R.drawable.w30, R.drawable.w31, R.drawable.w34,
+            };
 
-    private Path tmpMaxPath = new Path();//绘制路线
-    private Path tmpMinPath = new Path();
+    private static class Data {
+        float minOffsetPercent, maxOffsetPercent;// 差值%
+        int tmp_max, tmp_min;
+        String date;
+        String wind_sc;
+        String cond_txt_d;
 
-    private final TextPaint paint = new TextPaint(Paint.ANTI_ALIAS_FLAG);//text的画笔,抗锯齿
-    private final Paint paintBlue = new Paint(Paint.ANTI_ALIAS_FLAG);//抗锯齿
-    private final Paint paintOrange = new Paint(Paint.ANTI_ALIAS_FLAG);//抗锯齿
-
-
-    private List<DailyForecastBean> forecastList;
-
-    private Bitmap[] mImgsBitmap;//图片预加载,减少延迟
-    private Data[] datas;
-    /**
-     * 对应的图片
-     */
-    private int[] mImgs = new int[]{R.drawable.w0, R.drawable.w2,
-            R.drawable.w1, R.drawable.w7, R.drawable.w8,
-            R.drawable.w6, R.drawable.w45, R.drawable.w14, R.drawable.w13,
-
-            R.drawable.w30,
-            R.drawable.w31, R.drawable.w34,
-
-    };
-
-    public class Data {
-        public float minOffsetPercent, maxOffsetPercent;// 差值%
-        public int tmp_max, tmp_min;
-        public String date;
-        public String wind_sc;
-        public String cond_txt_d;
-
-        public String monthandday;//几月几号
-        public String day_weather;//早上的天气
-        public String night_weather;//晚上的天气
-        public String cloud_power;//风速
+        String monthandday;//几月几号
+        String day_weather;//早上的天气
+        String night_weather;//晚上的天气
+        String cloud_power;//风速
     }
 
     public DailyForecastView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        density = context.getResources().getDisplayMetrics().density;
-        mImgsBitmap = new Bitmap[12];//---添加天气之后要再加常数
-        for (int i = 0; i < mImgsBitmap.length; i++) {
-            mImgsBitmap[i] = BitmapFactory.decodeResource(getResources(), mImgs[i]);
+
+        mDensity = context.getResources().getDisplayMetrics().density;
+        mWeatherIcons = new Bitmap[mImageResIds.length];
+        for (int i = 0; i < mWeatherIcons.length; i++) {
+            mWeatherIcons[i] = BitmapFactory.decodeResource(getResources(), mImageResIds[i]);
         }
-        if (isInEditMode()) {
+
+        if (isInEditMode())
             return;
-        }
-        init(context);
+
+        init();
     }
 
-    private void init(Context context) {
-        paint.setColor(Color.WHITE);
-        paint.setStrokeWidth(1f * density);
-        paint.setTextSize(12f * density);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setTextAlign(Paint.Align.CENTER);
-//        paint.setTypeface(MainActivity.getTypeface(context));
-        paintBlue.setColor(getResources().getColor(R.color.material_deep_teal_20));
-        paintBlue.setStrokeWidth(1f * density);
-        paintBlue.setTextSize(12f * density);
-        paintBlue.setStyle(Paint.Style.STROKE);
-        paintBlue.setTextAlign(Paint.Align.CENTER);
+    private void init() {
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStrokeWidth(1f * mDensity);
+        mPaint.setTextSize(12f * mDensity);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setTextAlign(Paint.Align.CENTER);
 
-        paintOrange.setColor(getResources().getColor(R.color.orange_light));
-        paintOrange.setStrokeWidth(1f * density);
-        paintOrange.setTextSize(12f * density);
-        paintOrange.setStyle(Paint.Style.STROKE);
-        paintOrange.setTextAlign(Paint.Align.CENTER);
+        mPaintBlue.setColor(getResources().getColor(R.color.material_deep_teal_20));
+        mPaintBlue.setStrokeWidth(1f * mDensity);
+        mPaintBlue.setTextSize(12f * mDensity);
+        mPaintBlue.setStyle(Paint.Style.STROKE);
+        mPaintBlue.setTextAlign(Paint.Align.CENTER);
+
+        mPaintOrange.setColor(getResources().getColor(R.color.orange_light));
+        mPaintOrange.setStrokeWidth(1f * mDensity);
+        mPaintOrange.setTextSize(12f * mDensity);
+        mPaintOrange.setStyle(Paint.Style.STROKE);
+        mPaintOrange.setTextAlign(Paint.Align.CENTER);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
 //        super.onDraw(canvas);
-        if (isInEditMode()) {
+        if (isInEditMode())
             return;
-        }
-        paint.setStyle(Paint.Style.FILL);//设置字体风格
+
+        mPaint.setStyle(Paint.Style.FILL);//设置字体风格
         //一共需要 顶部文字2(+图占8行)+底部文字2 + 【间距1 + 日期1 + 间距0.5 +　晴1 + 间距0.5f + 微风1 + 底部边距1f 】 = 18行  +[同字]
         //                                  12     13       14      14.5    15.5      16      17       18
-        final float textSize = this.height / 30f;
-        paint.setTextSize(textSize);
-        final float textOffset = getTextPaintOffset(paint);
+        final float textSize = mHeight / 30f;
+        mPaint.setTextSize(textSize);
+        final float textOffset = getTextPaintOffset(mPaint);
         final float dH = textSize * 8f;
         final float dCenterY = textSize * 14f;
-        if (datas == null || datas.length <= 1) {
-            canvas.drawLine(0, dCenterY, this.width, dCenterY, paint);//没有数据的情况下只画一条线
+
+        if (mDatas == null || mDatas.length <= 1) {
+            canvas.drawLine(0, dCenterY, mWidth, dCenterY, mPaint);//没有数据的情况下只画一条线
             return;
         }
-        final float dW = this.width * 1f / datas.length;
-        tmpMaxPath.reset();
-        tmpMinPath.reset();
-        final int length = datas.length;
-        float[] x = new float[length];
-        float[] yMax = new float[length];
-        float[] yMin = new float[length];
 
-        final float textPercent = (percent >= 0.6f) ? ((percent - 0.6f) / 0.4f) : 0f;
-        final float pathPercent = (percent >= 0.6f) ? 1f : (percent / 0.6f);
+        final float dW = (float) mWidth/ (float) mDatas.length;
+        mMaxTempPath.reset();
+        mMinTempPath.reset();
+        final int length = mDatas.length;
+        final float textPercent = (mPercent >= 0.6f) ? ((mPercent - 0.6f) / 0.4f) : 0f;
+        final float pathPercent = (mPercent >= 0.6f) ? 1f : (mPercent / 0.6f);
 
         //画底部的三行文字和标注最高最低温度
-        paint.setAlpha((int) (255 * textPercent));
+        mPaint.setAlpha((int) (255 * textPercent));
         for (int i = 0; i < length; i++) {
-            final Data d = datas[i];
-            x[i] = i * dW + dW / 2f;//画圆的中心点
-            yMax[i] = dCenterY - d.maxOffsetPercent * dH;
-            yMin[i] = dCenterY - d.minOffsetPercent * dH;
+            mXPos[i] = i * dW + dW / 2f;//画圆的中心点
+            mYMax[i] = dCenterY - mDatas[i].maxOffsetPercent * dH;
+            mYMin[i] = dCenterY - mDatas[i].minOffsetPercent * dH;
 
         }
-        paint.setAlpha(255);
+        mPaint.setAlpha(255);
 
+        mMaxTempPath.moveTo(0, mYMax[0]);
+        mMinTempPath.moveTo(0, mYMin[0]);
         for (int i = 0; i < (length - 1); i++) {
-            final float midX = (x[i] + x[i + 1]) / 2f;
-            final float midYMax = (yMax[i] + yMax[i + 1]) / 2f;
-            final float midYMin = (yMin[i] + yMin[i + 1]) / 2f;
-            if (i == 0) {
-                tmpMaxPath.moveTo(0, yMax[i]);
-                tmpMinPath.moveTo(0, yMin[i]);
-            }
-            tmpMaxPath.cubicTo(x[i] - 1, yMax[i], x[i], yMax[i], midX, midYMax);
-//			tmpMaxPath.quadTo(x[i], yMax[i], midX, midYMax);
-            tmpMinPath.cubicTo(x[i] - 1, yMin[i], x[i], yMin[i], midX, midYMin);
-//			tmpMinPath.quadTo(x[i], yMin[i], midX, midYMin);
+            final float midX = (mXPos[i] + mXPos[i + 1]) / 2f;
+            final float midYMax = (mYMax[i] + mYMax[i + 1]) / 2f;
+            final float midYMin = (mYMin[i] + mYMin[i + 1]) / 2f;
 
-            if (i == (length - 2)) {
-                tmpMaxPath.cubicTo(x[i + 1] - 1, yMax[i + 1], x[i + 1], yMax[i + 1], this.width, yMax[i + 1]);
-                tmpMinPath.cubicTo(x[i + 1] - 1, yMin[i + 1], x[i + 1], yMin[i + 1], this.width, yMin[i + 1]);
-            }
+            mMaxTempPath.cubicTo(mXPos[i] - 1, mYMax[i], mXPos[i], mYMax[i], midX, midYMax);
+//			mMaxTempPath.quadTo(mXPos[i], mYMax[i], midX, midYMax);
+            mMinTempPath.cubicTo(mXPos[i] - 1, mYMin[i], mXPos[i], mYMin[i], midX, midYMin);
+//			mMinTempPath.quadTo(mXPos[i], mYMin[i], midX, midYMin);
         }
+
+        final int lastPos = mXPos.length - 1;
+        mMaxTempPath.cubicTo(
+                mXPos[lastPos] - 1,
+                mYMax[lastPos],
+                mXPos[lastPos],
+                mYMax[lastPos],
+                mWidth,
+                mYMax[lastPos]
+        );
+        mMinTempPath.cubicTo(
+                mXPos[lastPos] - 1,
+                mYMin[lastPos],
+                mXPos[lastPos],
+                mYMin[lastPos],
+                mWidth,
+                mYMin[lastPos]
+        );
+
         //draw max_tmp and min_tmp path
-        paint.setStyle(Paint.Style.STROKE);
+        mPaint.setStyle(Paint.Style.STROKE);
         final boolean needClip = pathPercent < 1f;
         if (needClip) {
             canvas.save();
-            canvas.clipRect(0, 0, this.width * pathPercent, this.height);
-            //canvas.drawColor(0x66ffffff);
+            canvas.clipRect(0, 0, this.mWidth * pathPercent, this.mHeight);
         }
-        canvas.drawPath(tmpMaxPath, paintOrange);
-        canvas.drawPath(tmpMinPath, paintBlue);
+        canvas.drawPath(mMaxTempPath, mPaintOrange);
+        canvas.drawPath(mMinTempPath, mPaintBlue);
 
-        paint.setStyle(Paint.Style.FILL);//设置字体风格
+        mPaint.setStyle(Paint.Style.FILL);//设置字体风格
         for (int i = 0; i < length; i++) {
-            final Data d = datas[i];
+            final Data d = mDatas[i];
             int CircleMaxY = 0;
             int CircleMaxYPre = 0;
             if (length >= 2 && i >= 1) {
-                if ((datas[i - 1].tmp_max - d.tmp_max) > 3) {
-                    CircleMaxY = 7 * Math.abs(datas[i - 1].tmp_max - d.tmp_max) / 3;
-                } else if (-(datas[i - 1].tmp_max - d.tmp_max) > 3) {
-                    CircleMaxY = -7 * Math.abs(datas[i - 1].tmp_max - d.tmp_max) / 3;
+                if ((mDatas[i - 1].tmp_max - d.tmp_max) > 3) {
+                    CircleMaxY = 7 * Math.abs(mDatas[i - 1].tmp_max - d.tmp_max) / 3;
+                } else if (-(mDatas[i - 1].tmp_max - d.tmp_max) > 3) {
+                    CircleMaxY = -7 * Math.abs(mDatas[i - 1].tmp_max - d.tmp_max) / 3;
                 }
                 if (length > i + 1) {
-                    if ((d.tmp_max - datas[i + 1].tmp_max) > 3) {
-                        CircleMaxYPre = -4 * Math.abs(d.tmp_max - datas[i + 1].tmp_max) / 3;
-                    } else if (-(d.tmp_max - datas[i + 1].tmp_max) > 3) {
-                        CircleMaxYPre = 4 * Math.abs(d.tmp_max - datas[i + 1].tmp_max) / 3;
+                    if ((d.tmp_max - mDatas[i + 1].tmp_max) > 3) {
+                        CircleMaxYPre = -4 * Math.abs(d.tmp_max - mDatas[i + 1].tmp_max) / 3;
+                    } else if (-(d.tmp_max - mDatas[i + 1].tmp_max) > 3) {
+                        CircleMaxYPre = 4 * Math.abs(d.tmp_max - mDatas[i + 1].tmp_max) / 3;
                     }
                 }
             }
 
             //上方地址
-            canvas.drawText(d.tmp_max + "°", x[i], yMax[i] - textSize + textOffset + (CircleMaxY > 0 || CircleMaxYPre > 0 ? -16 : 0), paint);// - textSize
-            canvas.drawText(Utils.prettyDate(d.date) + "", x[i], textSize + textOffset, paint);//日期d.date.substring(5)
-            canvas.drawText(d.monthandday + "", x[i], textSize * 2.5f + textOffset, paint);//“晴"
-            canvas.drawText(d.day_weather + "", x[i], textSize * 4f + textOffset, paint);//微风
-            canvas.drawBitmap(Utils.big(checkDayWeather(d.day_weather), 80, 80), x[i] - 40, textSize * 5f + textOffset, paint);
-
+            canvas.drawText(d.tmp_max + "°", mXPos[i], mYMax[i] - textSize + textOffset + (CircleMaxY > 0 || CircleMaxYPre > 0 ? -16 : 0), mPaint);// - textSize
+            canvas.drawText(Utils.prettyDate(d.date) + "", mXPos[i], textSize + textOffset, mPaint);//日期d.date.substring(5)
+            canvas.drawText(d.monthandday + "", mXPos[i], textSize * 2.5f + textOffset, mPaint);//“晴"
+            canvas.drawText(d.day_weather + "", mXPos[i], textSize * 4f + textOffset, mPaint);//微风
+            canvas.drawBitmap(Utils.big(checkDayWeather(d.day_weather), 80, 80), mXPos[i] - 40, textSize * 5f + textOffset, mPaint);
 
             //下方数据
-            canvas.drawText(d.tmp_min + "°", x[i], yMin[i] + textSize + textOffset, paint);
-            canvas.drawBitmap(Utils.big(checkNightWeather(d.night_weather), 80, 80), x[i] - 40, textSize * 20.5f + textOffset, paint);
-            canvas.drawText(d.night_weather + "", x[i], textSize * 24f + textOffset, paint);//日期d.date.substring(5)
-            canvas.drawText(d.wind_sc + "", x[i], textSize * 25.5f + textOffset, paint);//“晴"
-            canvas.drawText(d.cloud_power + "", x[i], textSize * 27f + textOffset, paint);//微风
+            canvas.drawText(d.tmp_min + "°", mXPos[i], mYMin[i] + textSize + textOffset, mPaint);
+            canvas.drawBitmap(Utils.big(checkNightWeather(d.night_weather), 80, 80), mXPos[i] - 40, textSize * 20.5f + textOffset, mPaint);
+            canvas.drawText(d.night_weather + "", mXPos[i], textSize * 24f + textOffset, mPaint);//日期d.date.substring(5)
+            canvas.drawText(d.wind_sc + "", mXPos[i], textSize * 25.5f + textOffset, mPaint);//“晴"
+            canvas.drawText(d.cloud_power + "", mXPos[i], textSize * 27f + textOffset, mPaint);//微风
 
             //圆点
-
-            canvas.drawCircle(x[i], yMax[i] - CircleMaxYPre - CircleMaxY, 10, paint);
-            canvas.drawCircle(x[i], yMin[i], 10, paint);
+            canvas.drawCircle(mXPos[i], mYMax[i] - CircleMaxYPre - CircleMaxY, 10, mPaint);
+            canvas.drawCircle(mXPos[i], mYMin[i], 10, mPaint);
         }
-
 
         if (needClip) {
             canvas.restore();
         }
-        if (percent < 1) {
-            percent += 0.025f;// 0.025f;
-            percent = Math.min(percent, 1f);
+        if (mPercent < 1) {
+            mPercent += 0.025f;// 0.025f;
+            mPercent = Math.min(mPercent, 1f);
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
@@ -234,23 +235,23 @@ public class DailyForecastView extends View {
 
         switch (weather) {
             case "晴":
-                return mImgsBitmap[0];
+                return mWeatherIcons[0];
             case "阴":
-                return mImgsBitmap[1];
+                return mWeatherIcons[1];
             case "多云":
-                return mImgsBitmap[2];
+                return mWeatherIcons[2];
             case "小雨":
-                return mImgsBitmap[3];
+                return mWeatherIcons[3];
             case "中雨":
-                return mImgsBitmap[4];
+                return mWeatherIcons[4];
             case "雨夹雪":
-                return mImgsBitmap[5];
+                return mWeatherIcons[5];
             case "霾":
-                return mImgsBitmap[6];
+                return mWeatherIcons[6];
             case "小雪":
-                return mImgsBitmap[7];
+                return mWeatherIcons[7];
             case "阵雪":
-                return mImgsBitmap[8];
+                return mWeatherIcons[8];
 
         }
         return BitmapFactory.decodeResource(getResources(), R.drawable.w0);
@@ -260,48 +261,50 @@ public class DailyForecastView extends View {
 
         switch (weather) {
             case "晴":
-                return mImgsBitmap[9];
+                return mWeatherIcons[9];
             case "阴":
-                return mImgsBitmap[1];
+                return mWeatherIcons[1];
             case "多云":
-                return mImgsBitmap[10];
+                return mWeatherIcons[10];
             case "小雨":
-                return mImgsBitmap[3];
+                return mWeatherIcons[3];
             case "中雨":
-                return mImgsBitmap[4];
+                return mWeatherIcons[4];
             case "雨夹雪":
-                return mImgsBitmap[5];
+                return mWeatherIcons[5];
             case "霾":
-                return mImgsBitmap[6];
+                return mWeatherIcons[6];
             case "小雪":
-                return mImgsBitmap[7];
+                return mWeatherIcons[7];
             case "阵雪":
-                return mImgsBitmap[11];
+                return mWeatherIcons[11];
         }
-        return mImgsBitmap[0];
+        return mWeatherIcons[0];
     }
 
 
     public void setData(List<DailyForecastBean> list) {
-        if (list == null || list.size() == 0) {
+        if (list == null || list.isEmpty()) {
             return;
         }
 
-        if (this.forecastList == list) {
-            percent = 0f;
+        if (mForecastList == list) {
+            mPercent = 0f;
             invalidate();
             return;
         }
 
-        this.forecastList = list;
-
-        datas = new Data[forecastList.size()];
+        mForecastList = list;
+        mDatas = new Data[mForecastList.size()];
+        mXPos = new float[mDatas.length];
+        mYMax = new float[mDatas.length];
+        mYMin = new float[mDatas.length];
 
         try {
             int all_max = Integer.MIN_VALUE;
             int all_min = Integer.MAX_VALUE;
-            for (int i = 0; i < forecastList.size(); i++) {
-                DailyForecastBean forecast = forecastList.get(i);
+            for (int i = 0, len = mForecastList.size(); i < len; i++) {
+                DailyForecastBean forecast = mForecastList.get(i);
                 int max = Integer.valueOf(forecast.getTemperature_max());
                 int min = Integer.valueOf(forecast.getTemperature_min());
                 if (all_max < max) {
@@ -320,12 +323,11 @@ public class DailyForecastView extends View {
                 data.day_weather = forecast.getDay_weather();
                 data.night_weather = forecast.getNight_weather();
                 data.cloud_power = forecast.getCloud_speed();
-                datas[i] = data;
+                mDatas[i] = data;
             }
             float all_distance = Math.abs(all_max - all_min);
             float average_distance = (all_max + all_min) / 2f;
-//		toast("all->" + all_distance + " aver->" + average_distance);
-            for (Data d : datas) {
+            for (Data d : mDatas) {
                 d.maxOffsetPercent = (d.tmp_max - average_distance) / all_distance;
                 d.minOffsetPercent = (d.tmp_min - average_distance) / all_distance;
             }
@@ -333,12 +335,8 @@ public class DailyForecastView extends View {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-//		getGlobalVisibleRect(rect);
-//		if(rect.isEmpty()){
-//			percent = 1f;
-//		}else{
-        percent = 0f;
-//		}
+
+        mPercent = 0f;
         invalidate();
     }
 
@@ -349,8 +347,8 @@ public class DailyForecastView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        width = w;
-        height = h;
+        mWidth = w;
+        mHeight = h;
     }
 
     public static float getTextPaintOffset(Paint paint) {

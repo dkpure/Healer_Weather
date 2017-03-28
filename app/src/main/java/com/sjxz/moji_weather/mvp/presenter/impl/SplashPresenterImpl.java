@@ -32,7 +32,7 @@ public class SplashPresenterImpl implements Presenter {
 
     @Override
     public void initialzation() {
-        splashView.initialzationViews(splashInteractor.getVersionName(context)
+        splashView.initializeViews(splashInteractor.getVersionName(context)
                 , splashInteractor.getCopyRight(context)
                 , splashInteractor.getBackgroundImageResId());
 

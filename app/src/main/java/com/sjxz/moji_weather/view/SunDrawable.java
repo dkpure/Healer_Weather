@@ -2,50 +2,57 @@ package com.sjxz.moji_weather.view;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.TypedValue;
 
 public class SunDrawable extends RefreshDrawable {
+    private static final float MAX_ANGLE = 180f;
+    private static final int LIGHT_COUNT = 8;
 
-    RectF mBounds;
-    float mWidth;
-    float mHeight;
-    float mCenterX;
-    float mCenterY;
-    float mPercent;
-    final float mMaxAngle = 180f; //wangbin change (float) (180f * .85);
-    final float mRadius;// = dp2px(6);// dp2px(12);
-    //    final float mLineLength = (float) (Math.PI / 180 * mMaxAngle * mRadius);
-//    final float mLineWidth = dp2px(2);// dp2px(3);
-//    final float mLightRadius = dp2px(11);
-    final Paint mPaint = new Paint();
-    int mOffset;
-    boolean mRunning;
-    float mDegrees;
+    private float mCenterX;
+    private float mCenterY;
+    private final float RADIUS;
+    private RectF mCircleBound;
+    private float mPercent;
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private int mOffset;
+    private boolean mRunning;
+    private float mRotationAngle;
 
     public SunDrawable(Context context, PullRefreshLayout layout) {
         super(context, layout);
 
-        mPaint.setAntiAlias(true);//抗锯齿
-        mPaint.setStrokeJoin(Paint.Join.ROUND);//线段连接处
-        mPaint.setStrokeCap(Paint.Cap.ROUND);//线段结束后多出的部分
-        mPaint.setStrokeWidth(dp2px(2));//宽度
-        mPaint.setStyle(Paint.Style.STROKE);//设置画笔样式
-        mPaint.setColor(0xffffffff);//设置画笔颜色
+        mPaint.setStrokeJoin(Paint.Join.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeWidth(dp2px(2));
+        mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setColor(Color.WHITE);
 
-        mRadius = dp2px(6);//设置半径
+        RADIUS = dp2px(6);
     }
 
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);
-        mHeight = getRefreshLayout().getFinalOffset();
-        mWidth = mHeight;
-        mBounds = new RectF(bounds.width() / 2 - mWidth / 2, bounds.top - mHeight / 2, bounds.width() / 2 + mWidth / 2, bounds.top + mHeight / 2);
-        mCenterX = mBounds.centerX();
-        mCenterY = mBounds.centerY();
+        float radius = getRefreshLayout().getFinalOffset() / 2;
+        RectF bound = new RectF(
+                bounds.width() / 2 - radius,
+                bounds.top - radius,
+                bounds.width() / 2 + radius,
+                bounds.top + radius
+        );
+        mCenterX = bound.centerX();
+        mCenterY = bound.centerY();
+        mCircleBound =
+                new RectF(
+                        mCenterX - RADIUS,
+                        mCenterY - RADIUS,
+                        mCenterX + RADIUS,
+                        mCenterY + RADIUS
+                );
     }
 
     @Override
@@ -70,7 +77,7 @@ public class SunDrawable extends RefreshDrawable {
     @Override
     public void start() {
         mRunning = true;
-        mDegrees = 0;
+        mRotationAngle = 0;
         invalidateSelf();
     }
 
@@ -86,93 +93,40 @@ public class SunDrawable extends RefreshDrawable {
 
     @Override
     public void draw(Canvas canvas) {
-
         canvas.save();
 
         canvas.translate(0, mOffset / 2);
-        //canvas.clipRect(mBounds);
-
-//        if (mOffset > mHeight && !isRunning()) {
-//            //canvas.rotate((mOffset - mHeight) / mHeight * 360, mCenterX, mCenterY);
-//        }
-
         if (isRunning()) {
-            canvas.rotate(mDegrees, mCenterX, mCenterY);//旋转画布用于实现动画效果
-            mDegrees = mDegrees < 360 ? mDegrees + 8 : 0;//旋转的角度
+            canvas.rotate(mRotationAngle, mCenterX, mCenterY);//旋转画布用于实现动画效果
+            mRotationAngle = mRotationAngle < 360 ? mRotationAngle + 8 : 0;//旋转的角度
             invalidateSelf();
         }
 
-//        if (mPercent <= .5f) {
-//
-//            float percent = mPercent / .5f;
-//
-//            // left
-//            float leftX = mCenterX - mRadius;
-//            float leftY = mCenterY + mLineLength - mLineLength * percent;
-//
-//            canvas.drawLine(leftX, leftY, leftX, leftY + mLineLength, mPaint);
-//
-//            // left arrow
-//            //canvas.drawLine(leftX, leftY, leftX - mArrowXSpace, leftY + mArrowYSpace, mPaint);
-//
-//            // right
-//            float rightX = mCenterX + mRadius;
-//            float rightY = mCenterY - mLineLength + mLineLength * percent;
-//
-//            canvas.drawLine(rightX, rightY, rightX, rightY - mLineLength, mPaint);
-//
-//            // right arrow
-//            //canvas.drawLine(rightX, rightY, rightX + mArrowXSpace, rightY - mArrowYSpace, mPaint);
-//
-//        } else {
-
-        float percent = mPercent;// (mPercent - .5f) / .5f;下拉距离百分比
-        // left
-//            float leftX = mCenterX - mRadius;
-//            float leftY = mCenterY;
-
-//            canvas.drawLine(leftX, leftY, leftX, leftY + mLineLength - mLineLength * percent, mPaint);
-        //float left, float top, float right, float bottom
-        RectF oval = new RectF(mCenterX - mRadius, mCenterY - mRadius, mCenterX + mRadius, mCenterY + mRadius);//画圆
-
-        canvas.drawArc(oval, 180, mMaxAngle * percent, false, mPaint);//画180-360的圆弧
-
-        // right
-//            float rightX = mCenterX + mRadius;
-//            float rightY = mCenterY;
-
-//            canvas.drawLine(rightX, rightY, rightX, rightY - mLineLength + mLineLength * percent, mPaint);
-
-        canvas.drawArc(oval, 0, mMaxAngle * percent, false, mPaint);//画0-180的圆弧 mMaxAngle * percent是扫过的角度
-        final int light_count = 8;
+        final float percent = mPercent;
+        final float sweepAngle = MAX_ANGLE * percent;
+        canvas.drawArc(mCircleBound, 180, sweepAngle, false, mPaint);//画180-360的圆弧
+        canvas.drawArc(mCircleBound, 0, sweepAngle, false, mPaint);//画0-180的圆弧 MAX_ANGLE * percent是扫过的角度
         mPaint.setAlpha((int) (255f * percent));//刻度和下拉百分比渐变功能
-        for (int i = 0; i < light_count; i++) {// 画刻度
-            double radians = Math.toRadians(i * (360 / light_count));
-            float x1 = (float) (Math.cos(radians) * mRadius * 1.6f);
-            float y1 = (float) (Math.sin(radians) * mRadius * 1.6f);
-            float x2 = x1 * (1f + 0.4f * percent);// 0.7*0.857=0.6 也就是说刻度盘占 0.6~0.7的部分
-            float y2 = y1 * (1f + 0.4f * percent);
+        final float divAngle = 360 / LIGHT_COUNT;
+        final float scaleFactor = 1f + 0.4f * percent;// 0.7*0.857=0.6 也就是说刻度盘占 0.6~0.7的部分
+        for (int i = 0; i < LIGHT_COUNT; i++) {// 画刻度
+            double radians = Math.toRadians(i * divAngle);
+            float x1 = (float) (Math.cos(radians) * RADIUS * 1.6f);
+            float y1 = (float) (Math.sin(radians) * RADIUS * 1.6f);
+            float x2 = x1 * scaleFactor;
+            float y2 = y1 * scaleFactor;
             canvas.drawLine(mCenterX + x1, y1, mCenterX + x2, y2, mPaint);
         }
         mPaint.setAlpha(255);
-        // arrow
-//            canvas.save();
-
-//            canvas.rotate(mMaxAngle * percent, mCenterX, mCenterY);
-
-        // left arrow
-//            canvas.drawLine(leftX, leftY, leftX - mArrowXSpace, leftY + mArrowYSpace, mPaint);
-
-        // right arrow
-//            canvas.drawLine(rightX, rightY, rightX + mArrowXSpace, rightY - mArrowYSpace, mPaint);
-
-//            canvas.restore();
-//        }
 
         canvas.restore();
     }
 
     private int dp2px(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getContext().getResources().getDisplayMetrics());
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getContext().getResources().getDisplayMetrics()
+        );
     }
 }

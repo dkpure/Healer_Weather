@@ -23,7 +23,7 @@ public abstract class BaseDrawer<T> {
     protected final Bitmap mBg;
     protected final Rect mSrcRect;
     protected Rect mDstRect;
-    protected int mWidth, mHeight;
+    private int mWidth, mHeight;
 
     public BaseDrawer(Context context, int bgResId) {
         mContext = context;
